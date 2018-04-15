@@ -17,6 +17,7 @@ author: Mustafa Onur Eken
 title: Mustafa Onur Eken
 header_pages: [blog.md, about.md, contact.md]
 email: m.onureken@gmail.com
+google_analytics: UA-117585780-1
 
 # description: >- # this means to ignore newlines until "baseurl:"
 #   Write an awesome description for your new site here. You can edit this
