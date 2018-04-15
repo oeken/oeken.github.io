@@ -29,10 +29,10 @@ Important observations about this problem are:
 
 Now we know what to do to check if it is possible or `IMPOSSIBLE` to protect earth given an attack sequence:
 
-- If number of `S` \\(\leq\\) `D` then *possible*
+- If number of `S` is less than to equal to`D` then *possible*
 - Otherwise `IMPOSSIBLE`
 
-Then... what should we we do if it's *possible* to protect the earth? How do we find the minimal number of hacks?
+Then... what should we do if it's *possible* to protect the earth? How do we find the minimal number of hacks?
 
 We notice that a greedy algorithm could be used for finding it. Say, that the current damage dealt in the current state of the sequence is `V`, then we would like to reduce this attack damage by `GAP = V - D` in order to protect earth. If we shift the **right-most** `S` in the sequence, we are making progress at the greatest rate. Making progress at the greatest rate implies minimal number of *hacks*.
 
