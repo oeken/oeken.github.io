@@ -29,7 +29,7 @@ Important observations about this problem are:
 
 Now we know what to do to check if it is possible or `IMPOSSIBLE` to protect earth given an attack sequence:
 
-- If number of `S` is less than to equal to`D` then *possible*
+- If number of `S` is less than or equal to `D` then *possible*
 - Otherwise `IMPOSSIBLE`
 
 Then... what should we do if it's *possible* to protect the earth? How do we find the minimal number of hacks?
