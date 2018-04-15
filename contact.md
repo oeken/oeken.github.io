@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Contact
+permalink: contact
 ---
 
 Don't hesitate get in touch. I'd love to hear from you. You can contact me by doing any one of the following:

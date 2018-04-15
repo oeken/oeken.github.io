@@ -1,7 +1,7 @@
 ---
 layout: default
 title: About
-permalink: /about/
+permalink: about
 ---
 
 <div style="text-align:center; margin-top: 10px; margin-bottom: 25px"><img id="pp" src ="/assets/pp-small.jpg"/></div>
