@@ -5,12 +5,7 @@
     var disqus_config = function () {
       this.page.url = '{{ page.url | absolute_url }}';
       this.page.identifier = '{{ page.url | absolute_url }}';
-    };
-
-    console.log('https://{{ site.disqus.shortname }}.disqus.com/embed.js');
-    console.log('{{ page.url | absolute_url }}');
-    console.log('{{ page.url }}');
-    console.log('{{ absolute_url }}');
+    };    
 
     (function() {
       var d = document, s = d.createElement('script');
