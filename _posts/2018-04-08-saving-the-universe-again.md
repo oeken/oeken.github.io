@@ -2,6 +2,7 @@
 layout: post
 title:  "Code Jam 2018: Saving the Universe Again"
 date:   2018-04-08
+comments: true
 description: A greedy approach to protect earth from aliens.
 permalink: saving-the-universe-again
 ---
@@ -104,3 +105,6 @@ int countHacks(vint &pos, vlong& val, long gap){
 }
 ```
 
+# Remarks
+
+Saving the Universe Again is a relatively simple problem. Once one sees the critical observations, the solution path is clear. Nevertheless, in this particular problem there are various ways to perform sub-tasks and thus implementation details are an important factor on the runtime.

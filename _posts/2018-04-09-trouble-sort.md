@@ -2,6 +2,7 @@
 layout: post
 title:  "Code Jam 2018: Trouble Sort"
 date:   2018-04-09
+comments: true
 description: "Bubble sort: done wrong."
 permalink: trouble-sort
 ---
@@ -103,8 +104,8 @@ void extract(Case &cs, vlong& even, vlong& odd){
 }
 ```
 
-# Improvement
+# Remarks and Improvements
 
-With this implementation, we require auxiliary space and a tedious alternating pass to detect anomaly. A more elegant way of performing this would be:
-- Instead of extracting *even* and *odd* arrays, use two custom iterators on original array that visits *even* and *odd* indices respectively to sort.
+With this implementation, we require auxiliary space and a tedious alternating pass to detect an anomaly. A more elegant way of performing this would be:
+- Instead of extracting *even* and *odd* arrays, use two custom iterators on the original array that visits *even* and *odd* indices respectively to sort.
 - By doing so, we require no auxiliary space and the anomaly detection would be a simpler procedure.
