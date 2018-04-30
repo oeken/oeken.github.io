@@ -8,6 +8,9 @@
     };
 
     console.log('https://{{ site.disqus.shortname }}.disqus.com/embed.js');
+    console.log('{{ page.url | absolute_url }}');
+    console.log('{{ page.url }}');
+    console.log('{{ absolute_url }}');
 
     (function() {
       var d = document, s = d.createElement('script');
