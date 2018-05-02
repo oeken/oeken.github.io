@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Stock trading using at most K transactions"
+title:  "Stock trading using at most T transactions"
 date:   2018-05-02
 comments: true
 description: A dynamic programming puzzle.
