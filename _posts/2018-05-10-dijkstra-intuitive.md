@@ -44,7 +44,7 @@ Let's demonstrate these 3 sets with a figure. Consider only the nodes in the gra
 - **<span style="color:#6C8EBF">Pale blue</span> nodes:** the set \\(L\\)
 
 <center><img width="{{ page.fig-size }}px" src="/assets/dijkstra.svg" style="margin-top:20px;margin-bottom:30px;"></center>
-<center><i>Figure 1</i></center>
+<center><b>Figure 1:</b> <i>An example graph with node sets K, T, L and the candidate paths for node C</i></center> 
 <br>
 
 To concretize better we have put 3 nodes in \\(T\\), namely \\(A\\), \\(B\\), and \\(C\\). Let's say you consider all possible paths going from \\(S\\) to \\(C\\). There are 3 different *groups of paths*:
