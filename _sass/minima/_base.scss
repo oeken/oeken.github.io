@@ -100,6 +100,7 @@ h1, h2, h3, h4, h5, h6 {
  * Links
  */
 a {
+
   color: $brand-color;
   text-decoration: none;
 
@@ -126,10 +127,11 @@ a {
  * Blockquotes
  */
 blockquote {
-  color: $grey-color;
-  border-left: 4px solid $grey-color-light;
+  color: lighten($text-color, 25%);
+  border-left: 6px solid lighten($text-color, 60%);
+  margin-left: $spacing-unit / 1.5;
   padding-left: $spacing-unit / 2;
-  @include relative-font-size(1.125);
+  @include relative-font-size(1.08);
   letter-spacing: -1px;
   font-style: italic;
 
