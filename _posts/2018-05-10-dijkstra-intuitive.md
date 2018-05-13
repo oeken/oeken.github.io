@@ -5,7 +5,7 @@ date:   2018-05-09
 description: Examining a recursive formulation to solve single-source shortest path problems.
 comments: true
 permalink: dijkstra-intuition
-fig-size: 300
+fig-size: 480
 ---
 
 **Prerequisite:** Familiarity with graph data structure and recursion/dynamic programming.
