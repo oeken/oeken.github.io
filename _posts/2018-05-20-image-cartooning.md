@@ -13,8 +13,6 @@ In this post, I will demonstrate a simple application of variational methods in 
 <center>
   <div style="margin-left:-20px;">
     <img width="{{ page.fig-size }}px" src="/assets/image-cartooning/original.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px">
-
-    <img width="{{ page.fig-size }}px" src="/assets/image-cartooning/final.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px">
   </div>  
 </center>
 
@@ -55,11 +53,11 @@ $$
 
 What do \\(U\\), \\(F\\) and \\(k\\) represent?
 
-According to our formulation, every pixel in the cartoonified image is one of \\(k\\) colors. Here \\(k\\) is a rather small number (e.g. 5) because in general cartoon images contain only a handful of colors. Let \\(C\\) be set of cartoon colors. What colors are reasonable to have in C? There is no absolute way to answer this, though it makes sense to put some *dominant colors from the input image*. We will get back to this later.
+According to our formulation, every pixel in the cartoonified image is one of \\(k\\) colors. Here \\(k\\) is a rather small number (e.g. 5) because in general cartoon images contain only a handful of colors. Let \\(C\\) be set of cartoon colors. What colors are reasonable to have in \\(U\\)? There is no absolute way to answer this, though it makes sense to put some *dominant colors from the input image*. We will get back to this later.
 
 **\\(F\\) Matrix**
 
-Once we decide on \\(C\\), we can construct the matrix \\(F\\) where \\(F_{ij}\\) measures dissimilarity between the color of the \\(j\\)th pixel and the \\(i\\)th color in \\(C\\). For a demonstration let's say we picked \\(C = \\{red, green, blue, white, black\\}\\)  and constructed \\(F\\) accordingly. The first row of F will be a measure of distance of the original image from the color red, the second row of F for green, so on and so forth. See the following figure for a visualization of each row of F for this situation.
+Once we decide on \\(C\\), we can construct the matrix \\(F\\) where \\(F_{ij}\\) measures dissimilarity between the color of the \\(j\\)th pixel and the \\(i\\)th color in \\(C\\). For a demonstration let's say we picked \\(C = \\{red, green, blue, white, black\\}\\)  and constructed \\(F\\) accordingly. The first row of \\(F\\) will be a measure of distance of the original image from the color red, the second row of \\(F\\) for green, so on and so forth. See the following figure for a visualization of each row of \\(F\\) for this situation.
 
 <center>
   <div style="margin-top:20px;margin-bottom:10px;">
@@ -94,18 +92,18 @@ Once we decide on \\(C\\), we can construct the matrix \\(F\\) where \\(F_{ij}\\
 
 **\\(U\\) Matrix**
 
-In our problem, U matrix is the hidden variables we are going to optimize for. It is not a cartoon image though, but a voting table. In our formulation, every pixel will vote for colors in C to be converted to. For instance, if C contains 3 colors and pixel 1 votes:
+In our problem, \\(U\\) matrix is the hidden variables we are going to optimize for. It is not a cartoon image though, but a voting table. In our formulation, every pixel will vote for colors in \\(C\\) to be converted to. For instance, if \\(C\\) contains 3 colors and pixel 1 votes:
 
-- 20% for \\(c_1\\) (color 1 in C)
-- 70% for \\(c_2\\) (color 2 in C)
-- 10% for \\(c_3\\) (color 3 in C)  
+- 20% for \\(c_1\\) (color 1 in \\(C\\))
+- 70% for \\(c_2\\) (color 2 in \\(C\\))
+- 10% for \\(c_3\\) (color 3 in \\(C\\))  
 
-then we pick \\(C_2\\) to be the color for pixel 1 in the cartoonified image. Therefore, once we decide on U, we construct the cartoonified image with the "elected" colors for each pixel. Note that we have the following constraints for U:
+then we pick \\(C_2\\) to be the color for pixel 1 in the cartoonified image. Therefore, once we decide on \\(U\\), we construct the cartoonified image with the "elected" colors for each pixel. Note that we have the following constraints for \\(U\\):
 
 > - \\(0 \leq U_{ij} \leq 1\\),  for \\(1 \leq i \leq k\\) and \\(1 \leq j \leq n\\)
 > - \\( \|\| U_{:i} \|\|_1 = 1\\),  for \\(1 \leq i \leq n\\)
 > 
-> Where \\(\|\|.\|\|\\) is the L1-norm and \\( U_{:i} \\) is the i'th column of U.
+> Where \\(\|\|.\|\|\\) is the L1-norm and \\( U_{:i} \\) is the \\(i\\)th column of \\(U\\).
 
 
 #### Regularizing Term
@@ -129,7 +127,7 @@ $$
 E = tr(U^T F) + \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2_2
 $$
 
-We will optimize the error function using gradient descent. The catch here is that we do not want to violate the constraints laid out for columns of U. They must stay in the set of k-dimensional [**simplex**](https://en.wikipedia.org/wiki/Simplex){:target="_blank"}. Therefore after update step, we use a sub-procedure described in [1] to project each row back to k-dimensional simplex. The details of this algorithm are again beyond the intention of this post.
+We will optimize the error function using gradient descent. The catch here is that we do not want to violate the constraints laid out for columns of \\(U\\). They must stay in the set of \\(k\\)-dimensional [**simplex**](https://en.wikipedia.org/wiki/Simplex){:target="_blank"}. Therefore after update step, we use a sub-procedure described in [1] to project each row back to \\(k\\)-dimensional simplex. The details of this algorithm are again beyond the intention of this post.
 
 
 #### Gradient Calculation
@@ -231,10 +229,10 @@ end
 There is one thing that we did not elaborate on: selection of color set. How do we decide which colors to use in the cartoon image?
 Again there is no single answer to this. Some approaches could be:
 
-1. Hand-pick C
-2. Cluster the colors in the image and pick k of them
+1. Hand-pick \\(C\\)
+2. Cluster the colors in the image and pick \\(k\\) of them
 
-In my implementation, I picked C as the cluster centers resulting from the output of k-means algorithm on image colors. The colors are as following when k = 5
+In my implementation, I picked \\(C\\) as the cluster centers resulting from the output of \\(k\\)-means algorithm on image colors. The colors are as following when \\(k = 5\\)
 
 <center>
   <div style="margin-top:20px;margin-bottom:10px;">
