@@ -12,8 +12,14 @@ In this post, I will demonstrate a simple application of variational methods in 
 
 <center>
   <div style="margin-left:-20px;">
-    <img width="{{ page.fig-size }}px" src="/assets/image-cartooning/original.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px">
-  </div>  
+    <figure style="display:inline-block;">
+      <img width="{{ page.fig-size }}px" src="/assets/image-cartooning/original.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px">
+    </figure>
+
+    <figure style="display:inline-block;">
+      <img width="{{ page.fig-size }}px" src="/assets/image-cartooning/final.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px">
+    </figure>
+  </div>
 </center>
 
 **Variational methods?** In these approaches, one typically specifies a probability distribution over the hidden variables that are conditioned upon observed variables and optionally a prior distribution on the hidden variables. This is the model definition phase, then one either performs an inference to uncover properties of the distribution or seeks a particular solution. A solution is just an instantiation of hidden variables, i.e. an assignment of values. Often, one looks for the mode of the distribution. A typical workflow in this approach is as follows:
