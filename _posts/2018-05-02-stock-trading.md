@@ -23,7 +23,7 @@ In this particular instance of this problem, the optimal strategy would be:
 - Buy on day 4
 - Sell on day 6 (profit: 3)
 - Buy on day 7
-- Buy on day 8 (profit: 3)
+- Sell on day 8 (profit: 3)
 Thus the total profit would be 6. 
 
 #### Example Case 2
