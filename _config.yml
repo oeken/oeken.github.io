@@ -13,8 +13,8 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-author: Mustafa Onur Eken
-title: Mustafa Onur Eken
+author: Onur Eken
+title: Onur Eken
 header_pages: [blog.md, about.md, contact.md]
 email: m.onureken@gmail.com
 google_analytics: UA-117585780-1
@@ -36,9 +36,11 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
-
 disqus:
   shortname: oeken-github-io
+
+gems:
+  - jekyll-redirect-from
   
 
 # Exclude from processing.

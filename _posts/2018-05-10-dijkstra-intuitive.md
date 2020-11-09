@@ -43,7 +43,7 @@ Let's demonstrate these 3 sets with a figure. Consider only the nodes in the gra
 - **<span style="color:#D79B00">Orange</span> nodes:** the set \\(T\\)
 - **<span style="color:#6C8EBF">Pale blue</span> nodes:** the set \\(L\\)
 
-<center><img width="{{ page.fig-size }}px" src="/assets/dijkstra.svg" style="margin-top:20px;margin-bottom:30px;"></center>
+<center><img width="{{ page.fig-size }}px" src="/assets/dijsktra-intuitive/dijkstra.svg" style="margin-top:20px;margin-bottom:30px;"></center>
 <center><b>Figure 1:</b> <i>An example graph with node sets K, T, L and the candidate paths for node C</i></center> 
 <br>
 

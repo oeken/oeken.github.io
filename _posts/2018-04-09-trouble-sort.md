@@ -85,7 +85,7 @@ Ans solveCase(Case &cs){
 
 Notice that the odd array could be 1 element shorter then the even array. When they are of equal length, we have an irregularity in the comparison pattern. See the following figure, for the demonstration of what the for loop does in this code.
 
-<center><img src="/assets/trouble-sort-arrays.svg"></center>
+<center><img src="/assets/trouble-sort/trouble-sort-arrays.svg"></center>
 <br>
 
 The last piece of this implementation is the following straightforward function to extract the *even* and *odd* arrays.

@@ -87,7 +87,7 @@ See the image below which demonstrates the dynamic programming table and the dep
 	- The one with the green spot is the sub-problem when *no-action* is considered.
 
 
-<center><img width="500px" style="margin-top:20px;margin-bottom:30px;" src="/assets/dp-table.svg"></center>
+<center><img width="500px" style="margin-top:20px;margin-bottom:30px;" src="/assets/stock-trading/dp-table.svg"></center>
 
 # Implementation Trick
 
