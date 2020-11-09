@@ -3,6 +3,7 @@ GEM
   specs:
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    bigdecimal (1.4.2)
     colorator (1.1.0)
     ffi (1.9.23)
     forwardable-extended (2.6.0)
@@ -19,6 +20,8 @@ GEM
       safe_yaml (~> 1.0)
     jekyll-feed (0.9.3)
       jekyll (~> 3.3)
+    jekyll-redirect-from (0.16.0)
+      jekyll (>= 3.3, < 5.0)
     jekyll-sass-converter (1.5.2)
       sass (~> 3.4)
     jekyll-seo-tag (2.4.0)
@@ -57,11 +60,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bigdecimal (= 1.4.2)
   jekyll (~> 3.6.2)
   jekyll-feed (~> 0.6)
+  jekyll-redirect-from
   jekyll-sitemap
   minima (~> 2.0)
   tzinfo-data
 
 BUNDLED WITH
-   1.15.4
+   2.1.4

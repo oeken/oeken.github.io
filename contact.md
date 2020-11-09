@@ -4,7 +4,7 @@ title: Contact
 permalink: contact
 ---
 
-Don't hesitate get in touch. I'd love to hear from you. You can contact me by doing any one of the following:
+Don't hesitate to get in touch. I'd like to hear from you. You can contact me by doing any one of the following:
 
 - Send an <a href="mailto:{{ site.email }}" onclick="ga('send', 'event', 'link-click', 'email');">E-mail</a>
 - Find on <a href="https://www.github.com/{{ site.github_username }}" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');">GitHub</a>
