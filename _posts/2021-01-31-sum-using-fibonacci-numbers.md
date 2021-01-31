@@ -5,10 +5,13 @@ date:   2021-01-31
 description: Also known as Zeckendorf's theorem.
 comments: true
 permalink: not-darkest-dungeon
+wiki-link: https://www.wikiwand.com/en/Zeckendorf%27s_theorem
 ---
 
-This is also known as **Zeckendorf's theorem** and 
-[**Wikipedia**](https://en.wikipedia.org/wiki/Zeckendorf%27s_theorem){:target="_blank"} already explains it in 
+{% linkpreview wiki-page %}
+
+This is a part of **Zeckendorf's theorem** and 
+[**Wikipedia**]({{ wiki-link }}){:target="_blank"} explains it in 
 the mathematical notation but this post is for those who want a verbal explanation.
 
 > **The Problem** <br>
