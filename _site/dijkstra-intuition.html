@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Intuition Behind Dijkstra’s SPA | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Intuition Behind Dijkstra’s SPA" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examining a recursive formulation to solve single-source shortest path problems." />
+<meta property="og:description" content="Examining a recursive formulation to solve single-source shortest path problems." />
+<link rel="canonical" href="http://localhost:4000/dijkstra-intuition" />
+<meta property="og:url" content="http://localhost:4000/dijkstra-intuition" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-09T00:00:00+02:00" />
+<script type="application/ld+json">
+{"datePublished":"2018-05-09T00:00:00+02:00","description":"Examining a recursive formulation to solve single-source shortest path problems.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/dijkstra-intuition"},"url":"http://localhost:4000/dijkstra-intuition","@type":"BlogPosting","dateModified":"2018-05-09T00:00:00+02:00","author":{"@type":"Person","name":"Onur Eken"},"headline":"Intuition Behind Dijkstra’s SPA","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Intuition Behind Dijkstra&#39;s SPA</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-09T00:00:00+02:00" itemprop="datePublished">May, 2018
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><strong>Prerequisite:</strong> Familiarity with graph data structure and recursion/dynamic programming.</p>
+
+<h1 id="motivation">Motivation</h1>
+
+<p><a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm" target="_blank"><strong>Dijkstra’s Shortest Path Algorithm</strong></a> is one of the fundamental algorithms on graph data structures. It has many application areas thus used very frequently. There are numerous resources (textbooks, lectures etc.) from which one can learn how it works. The problem with those resources is that the following classic recipe is used to explain this algorithm:</p>
+
+<ol>
+  <li>List the instructions in pseudocode</li>
+  <li>Elaborate on the idea of each instruction</li>
+</ol>
+
+<p>In general, this is a nice strategy to teach algorithms but in the case of Dijkstra’s algorithm, it does not work well. When I was an undergrad student I learned it this way as well, but the algorithm faded in my mind in a relatively short time when I did not go over it. I think the main reason is it was not possible to state the idea of Dijkstra’s algorithm in simple terms.</p>
+
+<p>It turns out that there is a more intuitive and simpler explanation for this algorithm. It is unraveled when the solution to the problem is formulated recursively. The Dijkstra’s algorithm essentially:</p>
+<ul>
+  <li>Solves the recursive formulation through tabulation</li>
+  <li>Includes some implementation tricks to reduce the runtime</li>
+</ul>
+
+<p>For the better understanding of what exactly Dijkstra’s SPA does, in this post, we will elaborate on the recursive formulation to solve this problem.</p>
+
+<h1 id="idea">Idea</h1>
+
+<p><strong>Problem:</strong> Given a source node \(S\), for each node \(N_i\) in the graph we would like to find a path (a sequence of nodes) from \(S\) to \(N_i\) whose cost is minimal. The cost of a path is the sum of the weights of the edges observed in the path. This problem is known as <em>single-source shortest path problem</em> (SSSP). Let us only consider the graphs with non-negative edge weights.</p>
+
+<p>To show the recursive relation, as always, we assume that we already have the solution to a smaller version of the problem. In this case:</p>
+<ul>
+  <li>Let \(K\) denote the set of nodes in which we know the shortest paths to and the costs associated with them.
+    <ul>
+      <li>Includes \(S\) too.</li>
+      <li>None of the paths follow a node that is not in \(K\).</li>
+    </ul>
+  </li>
+  <li>Let \(T\) be the set of nodes that have an immediate connection to \(K\).
+    <ul>
+      <li>In other words, the nodes that have an edge to at least one of the nodes in \(K\).</li>
+    </ul>
+  </li>
+  <li>Furthermore, let \(L\) be the set of nodes that are not in \(K\) or \(T\).</li>
+</ul>
+
+<p>Let’s demonstrate these 3 sets with a figure. Consider only the nodes in the graph in Figure 1 where:</p>
+<ul>
+  <li><strong><span style="color:#9673A6">Purple</span> \(S\) node:</strong> the source node</li>
+  <li><strong>Nodes in <span style="color:#FF6666">red area</span>:</strong> the set \(K\)</li>
+  <li><strong><span style="color:#D79B00">Orange</span> nodes:</strong> the set \(T\)</li>
+  <li><strong><span style="color:#6C8EBF">Pale blue</span> nodes:</strong> the set \(L\)</li>
+</ul>
+
+<center><img width="480px" src="/assets/dijsktra-intuitive/dijkstra.svg" style="margin-top:20px;margin-bottom:30px;" /></center>
+<center><b>Figure 1:</b> <i>An example graph with node sets K, T, L and the candidate paths for node C</i></center>
+<p><br /></p>
+
+<p>To concretize better we have put 3 nodes in \(T\), namely \(A\), \(B\), and \(C\). Let’s say you consider all possible paths going from \(S\) to \(C\). There are 3 different <em>groups of paths</em>:</p>
+<ul>
+  <li><strong>1st group:</strong> the paths that go to \(C\) without visiting \(A\) or B</li>
+  <li><strong>2nd group:</strong> the paths that go to \(C\) by visiting \(A\)</li>
+  <li><strong>3rd group:</strong> the paths that go to \(C\) by visiting \(B\)</li>
+</ul>
+
+<p>Although 2nd and 3rd group are not disjoint, this is not a problem for us. Keep in mind that union of these 3 groups cover all paths going from \(S\) to \(C\).</p>
+
+<blockquote>
+  <p>We will use the following notation in the remaining parts of this post:</p>
+  <ul>
+    <li>\(w(U,V)\) denoting the weight of the edge between the nodes \(U\) and \(V\).</li>
+    <li>\(sp(U,V)\) denoting the cost of the shortest path from the node \(U\) to the node \(V\).</li>
+  </ul>
+</blockquote>
+
+<p>Furthermore, let \(M_C\) be the node in \(K\) that \(C\) is connected to and the following sum  is minimal: \(sp(S,M_C) + w(M_C,C)\)<br />
+Let us call this sum <strong>d</strong>irect <strong>s</strong>hortest <strong>p</strong>ath to \(C\), denoted with \(dsp(S,C)\).</p>
+
+<p>Note that \(dsp(S,.)\) is not only defined for \(C\) but also for the other nodes in \(T\).</p>
+
+<p>For the node \(C\), We see that <strong>the shortest path in each group</strong> (let’s call it candidate path) would have the following costs:</p>
+
+<ul>
+  <li>1st candidate cost: <span style="color:#009900">\(dsp(S,C)\)</span></li>
+  <li>2nd candidate cost: <span style="color:#004C99">\(dsp(S,A)\)</span> \(+\) <span style="color:#007FFF">\(sp(A,C)\)</span></li>
+  <li>3rd candidate cost: <span style="color:#CC0000">\(dsp(S,B)\)</span> \(+\) <span style="color:#FF0000;">\(sp(B,C)\)</span></li>
+</ul>
+
+<p>Here the \(sp\) terms are unknown to us, we only know that they are non-negative. Other terms are available. Each term is color-coded and their correspondent paths are shown in Figure 1 with arrows.</p>
+
+<p>Just like the node \(C\), we can define the same groups for \(A\) and \(B\) as well. And the costs of the candidate paths in those groups would be as following.</p>
+
+<p>For \(A\):</p>
+<ul>
+  <li>1st candidate cost: \(dsp(S,A)\)</li>
+  <li>2nd candidate cost: \(dsp(S,B) + sp(B,A)\)</li>
+  <li>3rd candidate cost: \(dsp(S,C) + sp(C,A)\)</li>
+</ul>
+
+<p>For \(B\):</p>
+<ul>
+  <li>1st candidate cost: \(dsp(S,B)\)</li>
+  <li>2nd candidate cost: \(dsp(S,A) + sp(A,B)\)</li>
+  <li>3rd candidate cost: \(dsp(S,C) + sp(C,B)\)</li>
+</ul>
+
+<h4 id="key-observation">Key Observation</h4>
+
+<p>So, for each of \(A\), \(B\), \(C\) there are 3 candidate shortest paths. Without loss of generality, lets say \(dsp(S,C) \leq dsp(S,A) \leq dsp(S,B)\). This comparison enables us to give a guarantee.</p>
+
+<p>As soon as we know this inequality <strong>we can guarantee that the 1st candidate path of \(C\) has smaller (or equal) cost than other two candidate paths of \(C\)!</strong> This works only given the fact that no term (e.g. \(w\), \(dsp\), \(sp\)) is negative. Which essentially means no edges with negative weights. For other two nodes \(A\) and \(B\) we cannot give guarantees. That is not a problem though, we have just discovered a new shortest path from \(S\) which goes to \(C\). We now include \(C\) in the set \(K\), repeat the same procedure with the enlarged set \(K\). As for the base case, we would have only one node in \(K\) that is the source node \(S\).</p>
+
+<p>In plain English, the guarantee we found says that:</p>
+
+<blockquote>
+  <p>Among the paths that go from \(S\) to the nodes in the immediate neighbourhood of set \(K\) using only the nodes in \(K\), the one with the smallest cost is the shortest path from \(S\) to the node where the path ends.</p>
+</blockquote>
+
+<p>Notice that we did not mention if the edges are directed or undirected. That is because it does not matter, undirected edges can be represented with directed edges. The recurrence relation takes only 2 things into consideration: given a node what other nodes are reachable are and at what cost is. Directed weighted edges contain this information.</p>
+
+<h1 id="procedure-and-optimization">Procedure and Optimization</h1>
+
+<p>This recursive relation is easiest implemented by tabulation. Starting from the base case we grow the set \(K\) one node at a time. The following is the inefficient pseudocode describing the procedure.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input:  N, number of nodes
+	E, set of edges with weights
+	s, source node
+Output: cost, shortest path cost to each node
+
+procedure dijkstraSSSP
+  // base case
+  cost[s] = 0
+  K = {s}
+
+  // tabulate N-1 times
+  for i = 2 ... N
+    T = getImmediateNodes(K)    
+    shortestNode = -1
+    shortestCost = Inf
+    for each node in T
+      for each (source,node,weight) in E
+        if cost[source] + weight &lt; shortestCost
+          shortestCost = cost[source] + weight
+          shortestNode = node
+        end
+      end
+    end
+
+    cost[shortestNode] = shortestCost
+    K.add(shortestNode)
+  end
+end
+</code></pre></div></div>
+
+<p><strong>Optimization Idea:</strong> Essentially we have a set of costs (of paths that go to nodes in \(T\) from \(S\)) in which sometimes we add and remove elements (caused by moving node from set \(T\) to \(K\)). We are interested in the minimum element in this set. This is the perfect scenario for <a href="https://en.wikipedia.org/wiki/Heap_(data_structure)">heaps</a>.</p>
+
+<h1 id="remarks">Remarks</h1>
+
+<p>Once one notices the above-mentioned guarantee, the idea is very simple to implement. What makes the regular explanation of Dijkstra’s algorithm hard is:</p>
+<ul>
+  <li>No explanation for the guarantee/observation</li>
+  <li>Optimized code with implementation details</li>
+</ul>
+
+
+  </div><a class="u-url" href="/dijkstra-intuition" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>

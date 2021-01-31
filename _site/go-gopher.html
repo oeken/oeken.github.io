@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Code Jam 2018: Go Gopher | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Code Jam 2018: Go Gopher" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An interactive problem with stochastic process." />
+<meta property="og:description" content="An interactive problem with stochastic process." />
+<link rel="canonical" href="http://localhost:4000/go-gopher" />
+<meta property="og:url" content="http://localhost:4000/go-gopher" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-10T00:00:00+02:00" />
+<script type="application/ld+json">
+{"datePublished":"2018-04-10T00:00:00+02:00","description":"An interactive problem with stochastic process.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/go-gopher"},"url":"http://localhost:4000/go-gopher","@type":"BlogPosting","dateModified":"2018-04-10T00:00:00+02:00","author":{"@type":"Person","name":"Onur Eken"},"headline":"Code Jam 2018: Go Gopher","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Code Jam 2018: Go Gopher</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-10T00:00:00+02:00" itemprop="datePublished">Apr, 2018
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p class="info">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</p>
+
+<p>I have checked the problems and proposed some solutions to those.</p>
+
+<p><strong>Disclaimer</strong>: Proposed ideas and implementations are not official, ideal, nor coded optimally. Instead, this is only one way to tackle the problem. Feel free to contact me to feedback possible optimizations!</p>
+
+<p><strong>Prerequisite</strong>: This explanation assumes that you are familiar with the terms, variables and the problem itself as defined on the official Code Jam <a href="https://codejam.withgoogle.com/2018/" target="_blank"><strong>page</strong></a>. If you have not read the problem description, please take your time and go through all of it.</p>
+
+<h1 id="observations">Observations</h1>
+
+<p>This is an interactive problem. I.e. submitted program exchanges information with judge server more than 1 time for each test case.</p>
+
+<p>In this particular problem, what conditions would cause a submission to fail?</p>
+<ul>
+  <li>When Gopher is deployed 1000 times, yet a solution is not found.</li>
+  <li>It takes more than 20 seconds to deploy the Gopher 1000 times.</li>
+</ul>
+
+<p>Therefore, our <em>hypothetical ideal approach</em> should:</p>
+<ol>
+  <li>Not need to deploy Gopher more than 1000 times to construct the rectangle.</li>
+  <li>Have a <em>fast</em> procedure to decide where to deploy the Gopher.</li>
+</ol>
+
+<p>The first condition depends on <code class="highlighter-rouge">A</code>, the size of the rectangle to construct. For instance when <code class="highlighter-rouge">A</code> \(&gt;1000\), it is not possible to construct the rectangle at all. Since the process is stochastic, probability of successfully constructing a rectangle of size <code class="highlighter-rouge">A</code> raises as <code class="highlighter-rouge">A</code> gets smaller.</p>
+
+<p>Luckily, <code class="highlighter-rouge">A = 20</code> and <code class="highlighter-rouge">A = 200</code> in the visible and hidden test sets respectively. Not too demanding and tolerating for <em>algorithms that follow non-optimal strategies</em>.</p>
+
+<h1 id="approach">Approach</h1>
+
+<p>Although there are many possible strategies to tackle this problem, for simplicity and the ease of imlementation, let’s consider an approach where we:</p>
+<ul>
+  <li>Choose to construct a rectangle of size \(RxC\), whose top left cell is located at \((1,1)\) and \(RxC \geq A \)</li>
+  <li>\(R\) denoting the number of rows</li>
+  <li>\(C\) denoting the number of columns</li>
+  <li>Define <em>inner</em> cell as the non-border cells of our rectangle.</li>
+  <li>Deploy the Gopher <strong>only</strong> in the <em>inner</em> cells. In other words, do not risk to prepare any cell landing outside of our rectangle.
+    <ul>
+      <li>In this case, we do not need to worry about bulges.</li>
+      <li>Downside of this is, it gets more likely to prepare a cell that is already prepared. Which means a <em>wasted deployment</em>. Recall that we have only 1000 of them.</li>
+    </ul>
+  </li>
+  <li>To mitigate the problem of <em>wasted deployment</em>, we would like to deploy the Gopher to a cell, where the neighbourhood of the cell (surrounding 9 cells) has the largest number of <em>unprepared cells</em>. Increasing the chance of preparing an <em>unprepared</em> cell.</li>
+  <li>In addition, we would like the size of our rectangle \(RxC\) as close as possible to <code class="highlighter-rouge">A</code>. Otherwise Gopher would be doing extra <em>unnecessary work</em>, that would require more deployments.</li>
+</ul>
+
+<p>Notice that with this approach we need to store:</p>
+
+<ol>
+  <li>Which of the cells are prepared</li>
+  <li>Number of unprepared cells in the neighbourhood of each <em>inner</em> cell</li>
+</ol>
+
+<p>When it is time to deploy the Gopher, simply search through the <em>inner</em> cells, and find the best candidate. One might notice another optimization here to decrease search time (this is about the 2nd constraint mentioned in <strong>Observations</strong>). We could decrease search time by reducing the number of inner cells to search through.</p>
+
+<p>Is there a way to minimize the number of <em>inner</em> cells?<br />
+<strong>Yes</strong>. Given three positive real numbers \(x,y,z\) and the equality \(xy=z\), \( x+y \) is minimal when \(x=1\) and \(y=z\) or vice versa.</p>
+
+<p>In our case, \(R\) (or \(C\)) can not be smaller than 3. Therefore, fix \(R = 3\) and let \(C = \lceil \frac{A}{3} \rceil  \). One benefit of this choice is that the number of <em>unnecessary</em> cells in our rectangle could be at most 2.</p>
+
+<p>So basically, our rectangle will be an horizontal strip. One more thing to consider is:<br />
+Will this strip fit in the 1000x1000 garden?<br />
+We are lucky about this. If <code class="highlighter-rouge">A</code> would exceed 3000 then the strip would be too long, but that is not that case in any of the test sets.</p>
+
+<p>See below, the illustration of this approach. Green is the target rectangle and the dots represent <em>inner cells</em> to deploy the Gopher to. We will have \(C-2\) of them  according to our approach.</p>
+
+<center><img src="/assets/go-gopher/go-gopher-approach.svg" style="margin-right:80px" /></center>
+<p><br /></p>
+
+<p>On the high level, the method works as the following:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>R = 3
+C = ceil(A/3)
+unprepared = 2d array of size [R,C], with values 1
+unpreparedCount = array of size [C-2], with values 9
+outputCell(unpreparedCount)
+answerCell = receiveAnswer()
+while(rectangle not completed AND answerCell is not fail){
+    update(unprepared, unpreparedCount, answerCell)
+    outputCell(unpreparedCount)
+    answerCell = receiveAnswer()
+}
+</code></pre></div></div>
+
+<h1 id="implementation">Implementation</h1>
+
+<p>The following is a C++ implementation of the approach mentioned.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">vint</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">vvint</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vint</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">solveCase</span><span class="p">(){</span>
+    <span class="kt">int</span> <span class="n">A</span><span class="p">;</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">A</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">A</span><span class="o">/</span><span class="mi">3</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">A</span><span class="o">%</span><span class="mi">3</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="n">cols</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">vint</span> <span class="n">freeCount</span><span class="p">(</span><span class="n">cols</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">);</span>
+    <span class="n">vvint</span> <span class="n">free</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">vint</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+
+    <span class="n">Pos</span> <span class="n">p</span><span class="p">;</span> <span class="c1">// pos we send
+</span>    <span class="n">Pos</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// pos we receive
+</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">getNext</span><span class="p">(</span><span class="n">freeCount</span><span class="p">);</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">send</span><span class="p">();</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Pos</span><span class="o">::</span><span class="n">receive</span><span class="p">();</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">legit</span><span class="p">()){</span>
+        <span class="n">updateFree</span><span class="p">(</span><span class="n">freeCount</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">getNext</span><span class="p">(</span><span class="n">freeCount</span><span class="p">);</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">send</span><span class="p">();</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">Pos</span><span class="o">::</span><span class="n">receive</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The functionality of <code class="highlighter-rouge">getNext()</code> and <code class="highlighter-rouge">updateFree()</code> could be also implemented using a heap equipped with a custom comparator and a custom <code class="highlighter-rouge">decreaseKey()</code> operation, but again, under the given constraints, it makes sense to go with this easier to implement but slower, pair of functions.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Pos</span> <span class="n">getNext</span><span class="p">(</span><span class="n">vint</span><span class="o">&amp;</span> <span class="n">freeCount</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">maxFree</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">maxI</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">freeCount</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">freeCount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="n">maxFree</span><span class="p">){</span>
+            <span class="n">maxFree</span> <span class="o">=</span> <span class="n">freeCount</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">maxI</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">Pos</span> <span class="n">p</span><span class="p">;</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">maxI</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>When implementing the following function some of the things to pay attention are:</p>
+<ul>
+  <li>Update arrays only if prepared a previously <em>unprepared cell</em></li>
+  <li>Neighbourhoods will share some of it’s cells with other neighbourhoods
+    <ul>
+      <li>Decrement counts taking this into consideration</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">updateFree</span><span class="p">(</span><span class="n">vint</span><span class="o">&amp;</span> <span class="n">freeCount</span><span class="p">,</span> <span class="n">vvint</span><span class="o">&amp;</span> <span class="n">free</span><span class="p">,</span> <span class="n">Pos</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">free</span><span class="p">[</span><span class="n">a</span><span class="p">.</span><span class="n">r</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">a</span><span class="p">.</span><span class="n">c</span><span class="o">-</span><span class="mi">1</span><span class="p">]){</span>
+        <span class="n">free</span><span class="p">[</span><span class="n">a</span><span class="p">.</span><span class="n">r</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">a</span><span class="p">.</span><span class="n">c</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// not free anymore
+</span>        <span class="kt">int</span> <span class="n">onMidOf</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">c</span><span class="o">-</span><span class="mi">2</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">onRightOf</span> <span class="o">=</span> <span class="n">onMidOf</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">onLeftOf</span> <span class="o">=</span> <span class="n">onMidOf</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">onMidOf</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onMidOf</span> <span class="o">&lt;</span> <span class="n">freeCount</span><span class="p">.</span><span class="n">size</span><span class="p">()){</span>
+            <span class="n">freeCount</span><span class="p">[</span><span class="n">onMidOf</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">onRightOf</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onRightOf</span> <span class="o">&lt;</span> <span class="n">freeCount</span><span class="p">.</span><span class="n">size</span><span class="p">()){</span>
+            <span class="n">freeCount</span><span class="p">[</span><span class="n">onRightOf</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">onLeftOf</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">onLeftOf</span> <span class="o">&lt;</span> <span class="n">freeCount</span><span class="p">.</span><span class="n">size</span><span class="p">()){</span>
+            <span class="n">freeCount</span><span class="p">[</span><span class="n">onLeftOf</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The class used to represent a position (a.k.a. cell) is implemented as follows:</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Pos</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="n">send</span><span class="p">(){</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">r</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">flush</span> <span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">static</span> <span class="n">Pos</span> <span class="n">receive</span><span class="p">(){</span>
+        <span class="n">Pos</span> <span class="n">p</span><span class="p">;</span>
+        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">r</span> <span class="o">&gt;&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">c</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">p</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">bool</span> <span class="n">legit</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="n">r</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">r</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h1 id="remarks">Remarks</h1>
+
+<p>This is an interesting and an unconventional problem in this kind of contests. We had to be able to compute rough expectations under a stochastic process and minimize it. In addition, we had to find a way to generate an answer in each turn in a reasonable time which is an implementation-wise concern. The code we provided is not very concise but rather modular and intuitive.</p>
+
+  </div><a class="u-url" href="/go-gopher" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>

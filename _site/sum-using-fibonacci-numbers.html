@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Sum to any number using Fibonacci numbers | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Sum to any number using Fibonacci numbers" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Also known as Zeckendorf’s theorem." />
+<meta property="og:description" content="Also known as Zeckendorf’s theorem." />
+<link rel="canonical" href="http://localhost:4000/sum-using-fibonacci-numbers" />
+<meta property="og:url" content="http://localhost:4000/sum-using-fibonacci-numbers" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-31T00:00:00+01:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-01-31T00:00:00+01:00","description":"Also known as Zeckendorf’s theorem.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/sum-using-fibonacci-numbers"},"url":"http://localhost:4000/sum-using-fibonacci-numbers","@type":"BlogPosting","dateModified":"2021-01-31T00:00:00+01:00","author":{"@type":"Person","name":"Onur Eken"},"headline":"Sum to any number using Fibonacci numbers","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Sum to any number using Fibonacci numbers</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-01-31T00:00:00+01:00" itemprop="datePublished">Jan, 2021
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+<div class="jekyll-linkpreview-wrapper">
+    <div class="jekyll-linkpreview-wrapper-inner">
+        <div class="jekyll-linkpreview-content">
+            <div class="jekyll-linkpreview-image">
+                <a href="https://www.wikiwand.com/en/Zeckendorf%27s_theorem" target="_blank">
+                    <img src="/assets/link.png" />
+                </a>
+            </div>
+            <div class="jekyll-linkpreview-body">
+                <h4 class="jekyll-linkpreview-title">
+                    <a href="https://www.wikiwand.com/en/Zeckendorf%27s_theorem" target="_blank"> Zeckendorf's theorem | Wikiwand</a>
+                </h4>
+                <div class="jekyll-linkpreview-description"> In mathematics, Zeckendorf's theorem, named after Belgian mathematician Edouard Zeckendorf, is a theorem about the representation of integers as sums of Fibonacci numbers.</div>
+            </div>
+        </div>
+        <div class="jekyll-linkpreview-footer">
+            <a href="http://www.wikiwand.com" target="_blank"> www.wikiwand.com</a>
+        </div>
+    </div>
+</div>
+
+<p>This is a part of <strong>Zeckendorf’s theorem</strong> and 
+<a href="https://www.wikiwand.com/en/Zeckendorf%27s_theorem" target="_blank"><strong>Wikipedia</strong></a> explains it in 
+the mathematical notation but this post is for those who want a verbal explanation.</p>
+
+<blockquote>
+  <p><strong>The Problem</strong> <br /></p>
+  <ul>
+    <li>Can you sum to an arbitrary positive integer \(K\) using the numbers \(f_i\) from the Fibonacci series?</li>
+    <li>If so, can you do that using as few \(f_i\) as possible?</li>
+  </ul>
+</blockquote>
+
+<p>It turns out that the following observation answers both of these questions:</p>
+
+<p><strong>If \(K\) is a Fibonacci number,</strong> then we know that yes, we can sum to \(K\) using Fibonacci number \(K\) 
+and that would be the minimal set of \(\{K\}\).</p>
+
+<p><strong>Otherwise, \(K\) lands between two Fibonacci numbers,</strong> say \(f_i\) and \(f_{i+1}\) so that \(f_i &lt; K &lt; f_{i+1}\).
+Greedily, we can reduce this problem to a smaller problem of the same kind: Can we sum to \(K-f_i\) using the minimum number of 
+Fibonacci numbers? If we would have the answer to that, then we can construct an answer to the original problem by 
+simply adding \(f_i\) to the summation list. By induction, our problem shrinks down to the initial numbers in the Fibonacci series
+\(\{1, 1, 2, 3, 5, …\}\). It’s easy to spot the minimal summation list when \(K &lt; 4\). Since the base case holds 
+our induction holds.</p>
+
+<p>Therefore, we can always construct a list with a minimum number of Fibonacci numbers summing to an arbitrary positive 
+integer \(K\), by greedily adding the preceding Fibonacci number \(f_i\) to the list and iterating the problem with 
+\(K-f_i\).</p>
+
+<h1 id="the-code">The Code</h1>
+
+<p>An important remark is that <code class="highlighter-rouge">binary_search</code> in the code below returns the Fibonacci number itself (i.e. \(f_i \leq K\)) 
+instead of its index. Also, <code class="highlighter-rouge">generate_fibonacci_numbers(k)</code>, creates a list with Fibonacci numbers up to \(K\). This 
+code apparently returns the size of the summation list instead of the list itself, however, it’s trivial to alter the 
+code to output the actual list.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">sum_with_fibonacci_numbers</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span> <span class="o">=</span> <span class="n">generate_fibonacci_numbers</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+    <span class="n">k</span> <span class="o">-=</span> <span class="n">binary_search</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">num_count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">k</span> <span class="o">-=</span> <span class="n">binary_search</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+        <span class="n">num_count</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">num_count</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/sum-using-fibonacci-numbers" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>

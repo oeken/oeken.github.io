@@ -4,11 +4,11 @@ title:  "Sum to any number using Fibonacci numbers"
 date:   2021-01-31
 description: Also known as Zeckendorf's theorem.
 comments: true
-permalink: not-darkest-dungeon
-wiki-link: https://www.wikiwand.com/en/Zeckendorf%27s_theorem
+permalink: sum-using-fibonacci-numbers
 ---
 
-{% linkpreview wiki-page %}
+{% assign wiki-link = "https://www.wikiwand.com/en/Zeckendorf%27s_theorem" %}
+{% linkpreview wiki-link %}
 
 This is a part of **Zeckendorf's theorem** and 
 [**Wikipedia**]({{ wiki-link }}){:target="_blank"} explains it in 

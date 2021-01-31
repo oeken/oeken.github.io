@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Not Darkest Dungeon | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Not Darkest Dungeon" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Finding the way out for your flawed heroes." />
+<meta property="og:description" content="Finding the way out for your flawed heroes." />
+<link rel="canonical" href="http://localhost:4000/not-darkest-dungeon" />
+<meta property="og:url" content="http://localhost:4000/not-darkest-dungeon" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-04-27T00:00:00+02:00" />
+<script type="application/ld+json">
+{"datePublished":"2019-04-27T00:00:00+02:00","description":"Finding the way out for your flawed heroes.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/not-darkest-dungeon"},"url":"http://localhost:4000/not-darkest-dungeon","@type":"BlogPosting","dateModified":"2019-04-27T00:00:00+02:00","author":{"@type":"Person","name":"Onur Eken"},"headline":"Not Darkest Dungeon","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Not Darkest Dungeon</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-04-27T00:00:00+02:00" itemprop="datePublished">Apr, 2019
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- intro -->
+<p>Recently I have been playing this game called <em>Darkest Dungeon.</em> It is a rogue-like turn-based RPG game. The player gathers a gang of fighters with various characteristics and skills and goes onto exploration of dungeons with various properties. Every dungeon campaign has a goal, and the player suffers a big penalty when returned back from the dungeon without achieving the goal. I really enjoy playing this game as in it’s essence, it pushes the player to develop efficient combat, exploration and team formation strategies under numerous constraints introduced by game dynamics.</p>
+
+<!-- motivation -->
+<h3 id="motivation">Motivation</h3>
+<p>One of the common goals in dungeons is, namely, <strong>Explore 90% of the rooms</strong>. Dungeon maps are designed as a network of <strong>rooms</strong>. Every room is connected to one or more other rooms with <strong>corridors</strong>. The connections, and therefore the structure of the dungeon map, could be quite arbitrary. See an example dungeon map below. Visiting rooms or corridors is always a costly decision in the game by design. Fighters suffer stress penalty, traps deal HP damage, and resources such as light deplete with each step team takes. Such events in rooms and corridors are marked on the dungeon maps.
+For this reason, in this kind of dungeon campaigns, it is almost always a good idea to explore only 90% of the rooms and not more than that. In addition, for the same reason player should rather avoid redundant room visits as they do not contribute to the progress towards the goal.</p>
+
+<center>  
+    <div style="margin-top:40px;margin-bottom:40px;">
+        <figure style="display:inline-block;">
+          <img width="600px" src="/assets/not-darkest-dungeon/dd-map-1.jpg" />
+        </figure>
+
+        <p><i>An example map with various event annotations. The large boxes are <b>rooms</b> whereas the sequences of small boxes represent the <b>corridors</b>.</i></p>
+    </div>
+</center>
+
+<!-- formulation -->
+<h3 id="problem">Problem</h3>
+<p>This kind of dungeon goal and map posed as an attributed graph, motivated me to come up with an algorithm that calculates the optimal path for the team. To facilitate algorithm’s presentation let’s now make some assumptions, simplifications, and definitions.</p>
+
+<p>Denote the set of all rooms with \(V\) and set of all corridors with \(E\). Furthermore, denote the <strong>cost</strong> of visiting a room \(v \in V \) with \(C(v)\). Similarly, let the <strong>cost</strong> of visiting a corridor \([u,v] \in E \) be \(C([u,v])\). If we start our dungeon campaign in room \(s\), then we want to come up with a sequence of rooms \( P = [s, v_1, v_2, …] \) where the total cost, \( \sum_{i = 2}^{|P|} C(p_i) + C([p_{i-1},p_{i}]) \), is minimal while every room \(v \in V \) is present in \( P \).</p>
+
+<p>For the sake of simplicity, the algorithm presented addresses the constrained version of this problem, although it is easily generalizable. Specifically, let’s assume:</p>
+<ul>
+  <li>We have to visit not only 90% of the rooms but <strong>all</strong>.</li>
+  <li>Cost of visiting any <strong>room</strong> is <strong>1</strong>.</li>
+  <li>Cost of visiting any <strong>corridor</strong> is <strong>0</strong>.</li>
+</ul>
+
+<p>With this set of assumptions, our algorithm will attempt to find a path that contains all rooms but with as few repetitions as possible.</p>
+
+<!-- algorithm -->
+<h3 id="algorithm">Algorithm</h3>
+<p>Following a recursive formulation, one can notice that two factors are important to be considered:</p>
+<ul>
+  <li>Current room, \(r\)</li>
+  <li>Map exploration state, \(S\)</li>
+</ul>
+
+<p>Here \(S\) is a bitset that maps rooms to \(\{0,1\}\). In other words,  it stores the visited status of the rooms.</p>
+
+<p>Let \(f(r, S)\) be the function computing the cost of the optimal path on a given map starting from room \(r\) with the given exploration state \(S\). We can define it recursively as:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(r,S) = 
+    \begin{cases} 
+        0 & S = 1 \\
+        \min_{k \in \mathcal{N}(r)} \{ f(k, S_k) \} & otherwise
+    \end{cases} %]]></script>
+
+<p>And notation clarifications…</p>
+<blockquote>
+  <ul>
+    <li>\(S = 1\) indicates a set \(S\) where all rooms are mapped to 1s.</li>
+    <li>\(\mathcal{N}(r)\) denotes the neighbours of room \(r\).</li>
+    <li>\(S_k\) denotes the transformed version of set \(S\) where room \(k\) is mapped to 1.</li>
+  </ul>
+</blockquote>
+
+<p>Note that, in contrast to the graph traversal algorithms such as DFS, we may want to visit rooms that are already visited. See the example map below where we start exploring from room 1.</p>
+
+<center>
+  <div style="margin-top:40px;margin-bottom:40px;">
+        <figure style="margin-top:40px;margin-bottom:40px;">
+          <img display="block" width="400.0px" src="/assets/not-darkest-dungeon/graph1.svg" />
+          <figcaption style="margin-top:10px"><i>Example map with starting room #1</i></figcaption>
+        </figure>
+
+        <figure style="margin-top:40px;margin-bottom:40px;">
+          <img display="block" width="400.0px" src="/assets/not-darkest-dungeon/graph1-1.svg" />    
+          <figcaption style="margin-top:10px"><i>Optimal solution #1</i></figcaption>
+        </figure>
+
+        <figure style="margin-top:40px;margin-bottom:40px;">
+          <img display="block" width="400.0px" src="/assets/not-darkest-dungeon/graph1-2.svg" />
+          <figcaption style="margin-top:10px"><i>Optimal solution #2</i></figcaption>
+        </figure>
+    </div>
+</center>
+
+<p>With the given recursive formulation, we do not prevent revisiting of rooms but introduce another problem: <strong>infinite recursion</strong>. Let’s unfold the recursion tree for this toy case.</p>
+
+<center>
+  <div style="margin-top:40px;margin-bottom:40px;">
+        <figure style="margin-top:40px;margin-bottom:40px;">
+          <img display="block" width="600px" src="/assets/not-darkest-dungeon/recursion-tree1.svg" />    
+          <figcaption style="margin-top:10px"><i>Recursion tree for the toy example. Nodes that cause an infinite loop are marked in red.</i></figcaption>
+        </figure>
+    </div>
+</center>
+
+<!-- implementation tricks -->
+<!-- complexity -->
+<p>Following edges that lead to <strong>red</strong> nodes would always add redundant costs to the solutions (assuming positive costs) to be explored in the recursion tree. Therefore with an implementation trick, we can detect the loop inducing nodes and never visit those. We have a total of \(N * 2^N\) nodes, therefore worst-case time complexity of this approach would be \(O(N * 2^N)\), where \(N\) represents the total number of rooms in the map. Furthermore, the function we defined calculates the optimal cost but not the path itself. To reconstruct the optimal path, a tailored implementation is needed. See below the critical parts from the full implementation to get an overview of the algorithm.</p>
+
+<!-- code -->
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Graph</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>      <span class="c1">// number of nodes
+</span>    <span class="kt">int</span> <span class="n">e</span><span class="p">;</span>      <span class="c1">// number of edges
+</span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">adjList</span><span class="p">;</span>    <span class="c1">// adj list
+</span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">adjMat</span><span class="p">;</span>    <span class="c1">// adj matrix
+</span><span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">DDPath</span> <span class="p">{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">seq</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cost</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DDPath</span> <span class="n">searchDDPath</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">G</span><span class="p">,</span> <span class="kt">int</span> <span class="n">node</span><span class="p">){</span>
+    <span class="c1">// initialize
+</span>    <span class="n">DDPath</span> <span class="n">path</span><span class="p">;</span>
+    <span class="n">uint</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">setBit</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">uint</span><span class="o">&gt;&gt;</span> <span class="n">inQuery</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="n">uint</span><span class="o">&gt;&gt;</span> <span class="n">dpCost</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">dpNext</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">);</span>
+
+    <span class="c1">// run recursive algorithm
+</span>    <span class="n">searchDDPathUtil</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dpCost</span><span class="p">,</span> <span class="n">dpNext</span><span class="p">,</span> <span class="n">inQuery</span><span class="p">);</span>
+
+    <span class="c1">// save and return
+</span>    <span class="n">path</span><span class="p">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="n">v</span><span class="p">];</span>
+    <span class="n">path</span><span class="p">.</span><span class="n">seq</span> <span class="o">=</span> <span class="n">reconstructSequence</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">dpNext</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">path</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">searchDDPathUtil</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">uint</span> <span class="n">v</span><span class="p">,</span> <span class="n">Graph</span><span class="o">&amp;</span> <span class="n">G</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="n">uint</span><span class="o">&gt;&gt;&amp;</span> <span class="n">dpCost</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">dpNext</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">uint</span><span class="o">&gt;&gt;&amp;</span> <span class="n">inQuery</span><span class="p">){</span>
+    <span class="c1">// base case
+</span>    <span class="k">if</span><span class="p">(</span><span class="n">isFull</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">)){</span> <span class="c1">// search completed
+</span>        <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span> <span class="c1">// cost of the path
+</span>        <span class="n">dpNext</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span> <span class="c1">// end of the path
+</span>        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">()){</span> <span class="c1">// loop detected
+</span>        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">()){</span> <span class="c1">// already calculated
+</span>        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// recurse
+</span>    <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="c1">// mark this node as in query
+</span>
+    <span class="kt">int</span> <span class="n">bestTrg</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">bestTrgCost</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">trg</span><span class="o">:</span> <span class="n">G</span><span class="p">.</span><span class="n">adjList</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+        <span class="kt">int</span> <span class="n">trgV</span> <span class="o">=</span> <span class="n">setBit</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">trg</span><span class="p">);</span>
+        <span class="n">searchDDPathUtil</span><span class="p">(</span><span class="n">trg</span><span class="p">,</span> <span class="n">trgV</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dpCost</span><span class="p">,</span> <span class="n">dpNext</span><span class="p">,</span> <span class="n">inQuery</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">dpCost</span><span class="p">[</span><span class="n">trg</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="n">trgV</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">trg</span><span class="p">].</span><span class="n">end</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">trg</span><span class="p">][</span><span class="n">trgV</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">bestTrgCost</span><span class="p">){</span>
+            <span class="n">bestTrgCost</span> <span class="o">=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">trg</span><span class="p">][</span><span class="n">trgV</span><span class="p">];</span>
+            <span class="n">bestTrg</span> <span class="o">=</span> <span class="n">trg</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">bestTrgCost</span> <span class="o">+</span> <span class="n">G</span><span class="p">.</span><span class="n">adjMat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">bestTrg</span><span class="p">];</span>
+    <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">cost</span><span class="p">));</span>
+    <span class="n">dpNext</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">bestTrg</span><span class="p">));</span>
+
+    <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">erase</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="c1">// unmark this node as in query
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<!-- extensions -->
+<h3 id="extensions">Extensions</h3>
+<p>In order to generalize this approach to the problem definition given earlier, one can simply change the recursion termination condition from <strong>all rooms visited</strong> to <strong>X% of the rooms visited</strong>. To deal with varying room and corridor costs, one can simply add those values at each recursion step followed.</p>
+
+
+  </div><a class="u-url" href="/not-darkest-dungeon" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>

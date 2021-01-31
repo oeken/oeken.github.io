@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Cartooning Images | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Cartooning Images" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A variational approach to cartoonify RGB images." />
+<meta property="og:description" content="A variational approach to cartoonify RGB images." />
+<link rel="canonical" href="http://localhost:4000/image-cartooning" />
+<meta property="og:url" content="http://localhost:4000/image-cartooning" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-20T00:00:00+02:00" />
+<script type="application/ld+json">
+{"datePublished":"2018-05-20T00:00:00+02:00","description":"A variational approach to cartoonify RGB images.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/image-cartooning"},"url":"http://localhost:4000/image-cartooning","@type":"BlogPosting","dateModified":"2018-05-20T00:00:00+02:00","author":{"@type":"Person","name":"Onur Eken"},"headline":"Cartooning Images","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Cartooning Images</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-20T00:00:00+02:00" itemprop="datePublished">May, 2018
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this post, I will demonstrate a simple application of variational methods in computer vision. We receive an RGB image of any size as input and want to give it a cartoonish looking style.</p>
+
+<center>
+  <div style="margin-left:-20px;">
+    <figure style="display:inline-block;">
+      <img width="280px" src="/assets/image-cartooning/original.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px" />
+    </figure>
+
+    <figure style="display:inline-block;">
+      <img width="280px" src="/assets/image-cartooning/final.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px" />
+    </figure>
+  </div>
+</center>
+
+<p><strong>Variational methods?</strong> In these approaches, one typically specifies a probability distribution over the hidden variables that are conditioned upon observed variables and optionally a prior distribution on the hidden variables. This is the model definition phase, then one either performs an inference to uncover properties of the distribution or seeks a particular solution. A solution is just an instantiation of hidden variables, i.e. an assignment of values. Often, one looks for the mode of the distribution. A typical workflow in this approach is as follows:</p>
+<ol>
+  <li>Specify a probabilistic model that captures the problem well</li>
+  <li>Convert it to an error/energy function</li>
+  <li>Optimize the error function</li>
+</ol>
+
+<blockquote>
+  <p>Throughout this post we use the following notation</p>
+  <ul>
+    <li>\(A \in \mathbb{R}^{kxn}\)</li>
+    <li>\(A_{i:}\) is \(i\)th row of \(A\)</li>
+    <li>\(A_{:i}\) is \(i\)th column of \(A\)</li>
+  </ul>
+</blockquote>
+
+<h1 id="model">Model</h1>
+
+<p>For our problem, we will follow the above-mentioned steps as well. In fact, we are going to skip the first step and directly specify a convex error function and optimize it using projected gradient descent. In our case, the observed variables are the RGB values of the pixels and the hidden variables are the cartoonified RGB values of the pixels. Typically, error functions consist of multiple terms enforcing different characteristics for the hidden variables. For this problem, we will use two terms, a <strong>data term</strong> and a <strong>regularizer term</strong>.</p>
+
+<script type="math/tex; mode=display">E =  E_{Data} + E_{Reg}</script>
+
+<h4 id="data-term">Data Term</h4>
+
+<p>This term usually measures a dissimilarity between the input/observed-variables and the output/hidden-variables, thus enforcing a similarity between. In our case, it implies that <em>the cartoonified image should to look similar to the input image</em>. We define it as the following:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+E_{Data} &=  tr(U^T F) \\
+         &=  u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}
+\end{align} %]]></script>
+
+<blockquote>
+  <ul>
+    <li>\(tr(.)\) is trace operator</li>
+    <li>\(U \in \mathbb{R}^{k x n}\)</li>
+    <li>\(F \in \mathbb{R}^{k x n}\)</li>
+    <li>\(n\) is the number of pixels in input image</li>
+  </ul>
+</blockquote>
+
+<p>What do \(U\), \(F\) and \(k\) represent?</p>
+
+<p>According to our formulation, every pixel in the cartoonified image is one of \(k\) colors. Here \(k\) is a rather small number (e.g. 5) because in general cartoon images contain only a handful of colors. Let \(C\) be set of cartoon colors. What colors are reasonable to have in \(U\)? There is no absolute way to answer this, though it makes sense to put some <em>dominant colors from the input image</em>. We will get back to this later.</p>
+
+<p><strong>\(F\) Matrix</strong></p>
+
+<p>Once we decide on \(C\), we can construct the matrix \(F\) where \(F_{ij}\) measures dissimilarity between the color of the \(j\)th pixel and the \(i\)th color in \(C\). For a demonstration let’s say we picked \(C = \{red, green, blue, white, black\}\)  and constructed \(F\) accordingly. The first row of \(F\) will be a measure of distance of the original image from the color red, the second row of \(F\) for green, so on and so forth. See the following figure for a visualization of each row of \(F\) for this situation.</p>
+
+<center>
+  <div style="margin-top:20px;margin-bottom:10px;">
+
+    <figure style="display:inline-block;">
+      <img display="block" width="186.66666666666666px" src="/assets/image-cartooning/red.svg" />    
+      <figcaption><i>Distances to Red</i></figcaption>
+    </figure>
+
+    <figure style="display:inline-block;">
+      <img width="186.66666666666666px" src="/assets/image-cartooning/green.svg" />
+      <figcaption><i>Distances to Green</i></figcaption>
+    </figure>
+
+    <figure style="display:inline-block;">
+      <img width="186.66666666666666px" src="/assets/image-cartooning/blue.svg" />
+      <figcaption><i>Distances to Blue</i></figcaption>
+    </figure>
+
+    <figure style="display:inline-block;">
+      <img width="186.66666666666666px" src="/assets/image-cartooning/white.svg" />
+      <figcaption><i>Distances to White</i></figcaption>
+    </figure>
+
+    <figure style="display:inline-block;">
+      <img width="186.66666666666666px" src="/assets/image-cartooning/black.svg" />
+      <figcaption><i>Distances to Black</i></figcaption>
+    </figure>
+  </div>  
+</center>
+
+<p><strong>\(U\) Matrix</strong></p>
+
+<p>In our problem, \(U\) matrix is the hidden variables we are going to optimize for. It is not a cartoon image though, but a voting table. In our formulation, every pixel will vote for colors in \(C\) to be converted to. For instance, if \(C\) contains 3 colors and pixel 1 votes:</p>
+
+<ul>
+  <li>20% for \(c_1\) (color 1 in \(C\))</li>
+  <li>70% for \(c_2\) (color 2 in \(C\))</li>
+  <li>10% for \(c_3\) (color 3 in \(C\))</li>
+</ul>
+
+<p>then we pick \(C_2\) to be the color for pixel 1 in the cartoonified image. Therefore, once we decide on \(U\), we construct the cartoonified image with the “elected” colors for each pixel. Note that we have the following constraints for \(U\):</p>
+
+<blockquote>
+  <ul>
+    <li>\(0 \leq U_{ij} \leq 1\),  for \(1 \leq i \leq k\) and \(1 \leq j \leq n\)</li>
+    <li>\( || U_{:i} ||_1 = 1\),  for \(1 \leq i \leq n\)</li>
+  </ul>
+
+  <p>Where \(||.||\) is the L1-norm and \( U_{:i} \) is the \(i\)th column of \(U\).</p>
+</blockquote>
+
+<h4 id="regularizing-term">Regularizing Term</h4>
+
+<p>This term usually measures the variance or extremity of output/hidden-variables, thus enforcing a smoothness. In our case, it implies that <em>the cartoonified image should consist of large intact regions</em>. We define it as the following:</p>
+
+<script type="math/tex; mode=display">E_{Reg} =  \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2</script>
+
+<blockquote>
+  <ul>
+    <li>\(||.||\) is the L2-norm operator</li>
+    <li>\(D \in \mathbb{R}^{2n x n}\) is a gradient computing matrix both in x-direction and y-direction</li>
+    <li>\(\alpha\) is a hyper-parameter adjusting the relative importance of smoothness</li>
+  </ul>
+</blockquote>
+
+<p>Construction of matrix D is beyond the scope of this post, therefore, we will assume that it is available to us.</p>
+
+<h1 id="approach">Approach</h1>
+
+<script type="math/tex; mode=display">E = tr(U^T F) + \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2_2</script>
+
+<p>We will optimize the error function using gradient descent. The catch here is that we do not want to violate the constraints laid out for columns of \(U\). They must stay in the set of \(k\)-dimensional <a href="https://en.wikipedia.org/wiki/Simplex" target="_blank"><strong>simplex</strong></a>. Therefore after update step, we use a sub-procedure described in [1] to project each row back to \(k\)-dimensional simplex. The details of this algorithm are again beyond the intention of this post.</p>
+
+<h4 id="gradient-calculation">Gradient Calculation</h4>
+
+<p><strong>Data term:</strong> The gradient due to this term is very straightforward:</p>
+
+<script type="math/tex; mode=display">E_{Data} = u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}</script>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\frac{dE_{Data}}{dU} = \begin{bmatrix} 
+                          \frac{\partial E_{Data}}{\partial u_{11}} & \frac{\partial E_{Data}}{\partial u_{12}} & \dots \\
+                          \vdots & \ddots & \\
+                          \frac{\partial E_{Data}}{\partial u_{k1}} &   & \frac{\partial E_{Data}}{\partial u_{kn}}
+                        \end{bmatrix}
+
+                      = \begin{bmatrix} 
+                          f_{11} & f_{12} & \dots \\
+                          \vdots & \ddots & \\
+                          f_{k1} &   & f_{kn}
+                        \end{bmatrix}
+
+                      = F %]]></script>
+
+<p><strong>Regularizer term:</strong> Before computing this, let’s declare two well known derivating rules when we deal with vectors and matrices.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Gradient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(x \in \mathbb{R}^{n}\)</td>
+      <td>\(\frac{d (||x||)}{d x} = \frac{x^T}{||x||}  \)</td>
+    </tr>
+    <tr>
+      <td>\(x \in \mathbb{R}^{n}\), \(A \in \mathbb{R}^{kxn}\)</td>
+      <td>\(\frac{d Ax}{d x} = A  \)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s unfold the summation in the regularizer term:</p>
+
+<script type="math/tex; mode=display">E_{Reg} = \frac{\alpha}{2} [\|DU_{:1}\|^2 + \|DU_{:2}\|^2 + ... + \|DU_{:k}\|^2]</script>
+
+<p>We know that \(\frac{d E_{Reg}}{d U} \in \mathbb{R}^{kxn} \). Consider the first term in this series and notice that it is contributing only to the first row of \(\frac{d E_{Reg}}{d U}\). The same is true for other terms, every term is contributing only to their correspondent row. Therefore we can compute each row independently, for example, consider the gradient of the first term.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+D \in \mathbb{R}^{2nxn} \text{ and } U_{:i} \in \mathbb{R}^{n} \\
+
+\begin{align}
+\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &=  \alpha \|DU_{:1}\| \frac{d(\|DU_{:1}|\|)}{U_{:1}} \\
+
+\frac{d(\|DU_{:1}|\|)}{U_{:1}} &= \frac{d (\|DU_{:1}\|)}{d (DU_{:1})}  \frac{d (DU_{:1})}{d U_{:1}} \textit{ (chain rule)} \\
+
+                               &= \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \textit{ (plug-in)} \\
+
+\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &=  \alpha \|DU_{:1}\| \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \\
+                                                   &= \alpha U_{:1}^T D^T D  
+
+ 
+\end{align} %]]></script>
+
+<p>Applying same operations to the other terms, we get the following equality:</p>
+
+<script type="math/tex; mode=display">\frac{dE_{Reg}}{dU} = \alpha \begin{bmatrix} 
+                                U_{1:}^T D^T D\\
+                                U_{2:}^T D^T D\\
+                                \vdots\\
+                                U_{k:}^T D^T D\\
+                               \end{bmatrix}</script>
+
+<p>Combining the gradient of the data-term and the of regularizer term, we get the complete gradient.</p>
+
+<script type="math/tex; mode=display">\frac{dE}{dU} = F + \alpha \begin{bmatrix} 
+    U_{1:}^T D^T D\\
+    U_{2:}^T D^T D\\
+    \vdots\\
+    U_{k:}^T D^T D\\
+ \end{bmatrix}</script>
+
+<p>The following code computes the gradient as described:</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">grad</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="nb">alpha</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">grad1</span> <span class="o">=</span> <span class="n">F</span><span class="p">;</span>    
+    <span class="n">grad2</span> <span class="o">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">for</span> <span class="nb">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span>
+        <span class="n">Du</span> <span class="o">=</span> <span class="n">D</span><span class="o">*</span><span class="n">U</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span><span class="o">'</span><span class="p">;</span>        
+        <span class="n">grad2</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span> <span class="o">=</span> <span class="n">Du</span><span class="o">'</span> <span class="o">*</span> <span class="n">D</span><span class="p">;</span>
+    <span class="k">end</span>    
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">grad1</span> <span class="o">+</span> <span class="nb">alpha</span> <span class="o">*</span> <span class="n">grad2</span><span class="p">;</span>
+<span class="k">end</span>
+
+</code></pre></div></div>
+
+<h1 id="implementation">Implementation</h1>
+
+<p>There is one thing that we did not elaborate on: selection of color set. How do we decide which colors to use in the cartoon image?
+Again there is no single answer to this. Some approaches could be:</p>
+
+<ol>
+  <li>Hand-pick \(C\)</li>
+  <li>Cluster the colors in the image and pick \(k\) of them</li>
+</ol>
+
+<p>In my implementation, I picked \(C\) as the cluster centers resulting from the output of \(k\)-means algorithm on image colors. The colors are as following when \(k = 5\)</p>
+
+<center>
+  <div style="margin-top:20px;margin-bottom:10px;">
+    <figure style="display:inline-block;">
+      <img display="block" width="560px" src="/assets/image-cartooning/colors.png" />    
+    </figure>
+  </div>  
+</center>
+
+<p>The MATLAB script to perform projected gradient descent is as follows:</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% input</span>
+<span class="n">I</span> <span class="o">=</span> <span class="nb">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">);</span>
+
+<span class="c1">% init derivators</span>
+<span class="n">Dx</span> <span class="o">=</span> <span class="n">get_derivator_x</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
+<span class="n">Dy</span> <span class="o">=</span> <span class="n">get_derivator_y</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
+<span class="n">D</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dx</span><span class="p">;</span> <span class="n">Dy</span><span class="p">];</span>
+
+<span class="c1">% parameters</span>
+<span class="nb">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span> <span class="c1">% step size</span>
+<span class="n">tolerance</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">;</span> 
+<span class="n">max_iter</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+
+<span class="c1">% init problem</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">build_F</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">);</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">random_init_u</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+
+<span class="c1">% update until convergence</span>
+<span class="k">for</span> <span class="nb">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">max_iter</span>
+    <span class="n">U_prev</span> <span class="o">=</span> <span class="n">U</span><span class="p">;</span>    
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="nb">alpha</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">U</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">;</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">project_to_simplex</span><span class="p">(</span><span class="n">U</span><span class="p">);</span>
+            
+    <span class="nb">diff</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">U</span><span class="p">(:)</span> <span class="o">-</span> <span class="n">U_prev</span><span class="p">(:)))</span> <span class="p">/</span> <span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">k</span><span class="p">);</span>    
+    <span class="k">if</span> <span class="nb">diff</span><span class="o">&lt;</span><span class="n">tolerance</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="k">end</span>  
+<span class="k">end</span>
+
+<span class="c1">% build image from U</span>
+<span class="n">Ic</span> <span class="o">=</span> <span class="n">build_image</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>See an example evolution of the dog image starting from a random initialization:</p>
+
+<center>
+  <div style="margin-top:20px;margin-bottom:10px;">
+    <figure style="display:inline-block;">
+      <img display="block" width="280px" src="/assets/image-cartooning/anim.gif" />    
+    </figure>    
+  </div>  
+</center>
+
+<p>Results of some experiments with different selections of hyper-parameters:</p>
+
+<center>
+  <div style="margin-top:20px;margin-bottom:30px;">
+    <figure style="display:inline-block;">
+      <img display="block" width="233.33333333333334px" src="/assets/image-cartooning/a-0.0-k-05.png" />    
+      <figcaption><i>Alpha: 0.0, k: 5</i></figcaption>
+    </figure>
+    
+    <figure style="display:inline-block;">
+      <img display="block" width="233.33333333333334px" src="/assets/image-cartooning/a-1.0-k-05.png" />    
+      <figcaption><i>Alpha: 1.0, k: 5</i></figcaption>
+    </figure>
+
+    <figure style="display:inline-block;">
+      <img display="block" width="233.33333333333334px" src="/assets/image-cartooning/a-0.5-k-10.png" />    
+      <figcaption><i>Alpha: 0.5, k: 10</i></figcaption>
+    </figure>  
+  </div>  
+</center>
+
+<h1 id="references">References</h1>
+
+<p>[1] Chen, Yunmei, and Xiaojing Ye. “Projection onto a simplex.” arXiv preprint arXiv:1101.6081 (2011).</p>
+
+
+  </div><a class="u-url" href="/image-cartooning" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>

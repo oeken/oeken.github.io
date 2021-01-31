@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Stock trading using at most T transactions | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Stock trading using at most T transactions" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A dynamic programming puzzle." />
+<meta property="og:description" content="A dynamic programming puzzle." />
+<link rel="canonical" href="http://localhost:4000/stock-trading" />
+<meta property="og:url" content="http://localhost:4000/stock-trading" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-02T00:00:00+02:00" />
+<script type="application/ld+json">
+{"datePublished":"2018-05-02T00:00:00+02:00","description":"A dynamic programming puzzle.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/stock-trading"},"url":"http://localhost:4000/stock-trading","@type":"BlogPosting","dateModified":"2018-05-02T00:00:00+02:00","author":{"@type":"Person","name":"Onur Eken"},"headline":"Stock trading using at most T transactions","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Stock trading using at most T transactions</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-02T00:00:00+02:00" itemprop="datePublished">May, 2018
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><strong>Prerequisite</strong>: This explanation assumes that you are familiar with the concept of <a href="https://en.wikipedia.org/wiki/Dynamic_programming" target="_blank">dynamic programming</a>.</p>
+
+<p>Say that we are a bunch of smart people who want to make money by stock trading. We cannot predict the future, but at least we would like to know how much money we could have made maximally if we knew the stock prices in future days. In the minimalistic world we live in, there is only one company offered to the public. We are given an array of integers <code class="highlighter-rouge">A</code> representing the stock prices of the company every day. In addition, we are given a number <code class="highlighter-rouge">T</code> representing the maximum number of transactions we could perform. A transaction is buying a stock and selling it later. Let us assume one more rule: we cannot do transactions concurrently. I.e. if we bought a stock on a day we have to sell it before we would like to buy another one. Imagine as if only a single stock exists. But also we are not concerned that whether this single stock is unavailable or not when we do not possess it. It is reserved for the interaction of ours only.</p>
+
+<p>Let’s see some example cases to get a better grasp of what we are dealing with.</p>
+
+<h4 id="example-case-1">Example Case 1</h4>
+
+<p><code class="highlighter-rouge">A</code>: \( [3,3,5,0,0,3,1,4] \)<br />
+<code class="highlighter-rouge">T</code>: \(2\)</p>
+
+<p>In this particular instance of this problem, the optimal strategy would be:</p>
+<ul>
+  <li>Buy on day 4</li>
+  <li>Sell on day 6 (profit: 3)</li>
+  <li>Buy on day 7</li>
+  <li>Sell on day 8 (profit: 3)
+Thus the total profit would be 6.</li>
+</ul>
+
+<h4 id="example-case-2">Example Case 2</h4>
+
+<p><code class="highlighter-rouge">A</code>: \( [7,6,4,3,1] \)<br />
+<code class="highlighter-rouge">T</code>: \(2\)</p>
+
+<p>In this instance, there is no way to make a profit by performing a transaction. So we rather do not bother at all and the total profit would be 0. Recall that we are <strong>not</strong> obliged to use <code class="highlighter-rouge">T</code> transactions. Rather, we could use at most <code class="highlighter-rouge">T</code> transactions.</p>
+
+<h1 id="approach">Approach</h1>
+
+<p>We want to come up with a computer program that figures out the optimal strategy for us. For simplicity reasons our program is going to output only the <em>maximum profit</em> rather than the history of transactions. We follow a dynamic programming approach. Let’s begin by defining the Bellman equation:</p>
+
+<p>Let \(f[i][t]\) be the maximal profit that can be made using the first \(i\) items of the array by using at most \(t\) transactions.</p>
+
+<p>According to this definition we observe that the base case is:</p>
+<ul>
+  <li>\(f[i][0] = 0\), for any \(i \geq 0\)</li>
+  <li>\(f[0][t] = 0\), for any \(t \geq 0\)</li>
+</ul>
+
+<p>Assume that array \(A\) is 0-based and size of \(N\). We define the recursive case as the following:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f[i][t] = max
+\left \{
+\begin{align} 	
+	&f[i-1][t],\\ 
+	&f[i-1][t-1] + (A[i-1] - A[i-2]),\\
+	&f[i-2][t-1] + (A[i-1] - A[i-3]),\\
+	&f[i-3][t-1] + (A[i-1] - A[i-4]),\\
+	&.\\
+	&.\\
+	&f[1][t-1] + (A[i-1] - A[0])\\
+\end{align}
+\right \} %]]></script>
+
+<p><strong>Explanation</strong>: Consider the problem \(f[i][t]\), that is when we are taking first \(i\) stock prices into account and there are \(t\) transactions available to us. For this problem there exists an optimal list of transactions which maximizes profit. Consider the very last transaction in this optimal list:</p>
+<ul>
+  <li>It takes place after all others in the list.</li>
+  <li>We would like to figure out when this last transaction takes place (time it’s bought and time it’s sold), but it is not obvious.</li>
+  <li>If we make a guess for when it takes place (e.g. bought at \((i-3)\) and sold at \((i-1)\)) then by solving a smaller version of this problem (a sub-problem) we can give an answer to the current problem.
+    <ul>
+      <li>In that sub-problem, we would have 1 less transaction available, and would consider the array of prices that come before the purchase we guessed.</li>
+    </ul>
+  </li>
+  <li>Assume that we already have the answers to the sub-problems.</li>
+  <li>So the idea is to consider all such guesses and take the one that yields the maximum profit.</li>
+</ul>
+
+<p>To concretize let us explain what each line in the equation above means. Recall, we are considering the problem \(f[i][t]\).</p>
+
+<ul>
+  <li>\(f[i-1][t]\), no action at time \(i-1\)</li>
+  <li>\(f[i-1][t-1] + (A[i-1] - A[i-2])\), sell your stock at time \(i-1\) and guess that it was bought at time \(i-2\)</li>
+  <li>\(f[i-2][t-1] + (A[i-1] - A[i-3])\), sell your stock at time \(i-1\) and guess that it was bought at time \(i-3\)</li>
+  <li>\(f[i-3][t-1] + (A[i-1] - A[i-4])\), sell your stock at time \(i-1\) and guess that it was bought at time \(i-4\)</li>
+  <li>So on until to the last possibility…</li>
+  <li>\(f[1][t-1] + (A[i-1] - A[0])\), sell your stock at time \(i-1\) and guess that it was bought at time \(0\)</li>
+</ul>
+
+<p>Notice that with this recursive definition (thanks to the first equation i.e. \(f[i-1][t]\)) we do not need to search for selling time of the last stock. Algorithm intrinsically considers all <em>selling time choices</em> by being able to skip a timestep.</p>
+
+<p>See the image below which demonstrates the dynamic programming table and the dependencies originating from our recursive definition.</p>
+<ul>
+  <li>The purple box is the current problem \(f[i][t]\).</li>
+  <li>Blue boxes are its dependencies.
+    <ul>
+      <li>Boxes with red spots are the sub-problems when we consider selling at time \(i-1\).</li>
+      <li>The one with the green spot is the sub-problem when <em>no-action</em> is considered.</li>
+    </ul>
+  </li>
+</ul>
+
+<center><img width="500px" style="margin-top:20px;margin-bottom:30px;" src="/assets/stock-trading/dp-table.svg" /></center>
+
+<h1 id="implementation-trick">Implementation Trick</h1>
+
+<p>It looks all good except for one fatal failure. Dynamic programming is useful only when constructing a solution to a problem from the solutions of sub-problems is easy/efficient. In the recursive definition we gave above, for each cell of the table we need to iterate over solutions to many other sub-problems, rendering this approach \(O(N^2 T)\) in terms of time and \(O(N T)\) in terms of space. Where \(N\) is the size of the array and \(T\) is the number of transactions allowed.</p>
+
+<p><strong>Observation</strong>: Luckily with an implementation trick we can reduce the time complexity to \(O(N T)\). Below, compare what is needed to compute \(f[i][t]\) and \(f[i+1][t]\) and see if we can simplify computation of \(f[i+1][t]\).</p>
+
+<script type="math/tex; mode=display">\scriptsize
+f[i][t] = max
+\left \{
+\begin{matrix} 	
+f[i-1][t],\\ 
+f[i-1][t-1] + (A[i-1] - A[i-2]),\\
+f[i-2][t-1] + (A[i-1] - A[i-3]),\\
+f[i-3][t-1] + (A[i-1] - A[i-4]),\\
+.\\
+.\\
+f[1][t-1] + (A[i-1] - A[0])\\
+\end{matrix}
+\right \}
+\hspace{5mm}
+
+f[i+1][t] = max
+\left \{
+\begin{matrix} 	
+f[i][t],\\ 
+f[i][t-1] + (A[i] - A[i-1]),\\
+f[i-1][t-1] + (A[i] - A[i-2]),\\
+f[i-2][t-1] + (A[i] - A[i-3]),\\
+.\\
+.\\
+f[1][t-1] + (A[i] - A[0])\\
+\end{matrix}
+\right \}</script>
+
+<p>Noticed a pattern?</p>
+
+<script type="math/tex; mode=display">\scriptsize
+max
+\left \{
+\begin{matrix} 	
+f[i-1][t-1] + (A[i-1] - A[i-2]),\\
+f[i-2][t-1] + (A[i-1] - A[i-3]),\\
+f[i-3][t-1] + (A[i-1] - A[i-4]),\\
+.\\
+.\\
+f[1][t-1] + (A[i-1] - A[0])\\
+\end{matrix}
+\right \}
+
++(A[i]-A[i-1])
+
+= 
+
+\left \{
+\begin{matrix}
+f[i-1][t-1] + (A[i] - A[i-2]),\\
+f[i-2][t-1] + (A[i] - A[i-3]),\\
+f[i-3][t-1] + (A[i] - A[i-4]),\\
+.\\
+.\\
+f[1][t-1] + (A[i] - A[0])\\
+\end{matrix}
+\right \}</script>
+
+<p>From the expression above we can draw the following observation:<br />
+If we keep track of maximum of last \(i-1\) elements used in the computation of \(f[i][t]\) (let us call it <code class="highlighter-rouge">runningMax</code>) then we can construct an answer to \(f[i+1][t]\) in \(O(1)\) by:</p>
+<ul>
+  <li>Converting <code class="highlighter-rouge">runningMax</code> by adding <code class="highlighter-rouge">(A[i]-A[i-1])</code></li>
+  <li>Computing <code class="highlighter-rouge">max(runningMax, f[i][t], f[i][t-1] + (A[i]-A[i-1]))</code> as the answer
+    <ul>
+      <li>The latter two are the first two dependencies needed for the computation of \(f[i+1][t]\)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For the computation of following problems (e.g. \(f[i+2][t]\), \(f[i+3][t]\), …) we also need to keep <code class="highlighter-rouge">runningMax</code> updated by doing the following:<br />
+<code class="highlighter-rouge">runningMax = max(runningMax, f[i][t-1] + (A[i]-A[i-1]))</code></p>
+
+<h1 id="implementation">Implementation</h1>
+
+<p>Below is the implementation in C++.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">vint</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">vvint</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vint</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">maxProfit</span><span class="p">(</span><span class="n">vint</span> <span class="o">&amp;</span><span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">T</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">vvint</span> <span class="n">f</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">vint</span><span class="p">(</span><span class="n">T</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">t</span><span class="o">&lt;=</span><span class="n">T</span><span class="p">;</span> <span class="o">++</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">runningMax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+	    <span class="kt">int</span> <span class="n">change</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+            <span class="n">runningMax</span> <span class="o">+=</span> <span class="n">change</span><span class="p">;</span> <span class="c1">// convert running max
+</span>            <span class="n">runningMax</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">runningMax</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">change</span><span class="p">);</span> <span class="c1">// update running max
+</span>            <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">t</span><span class="p">],</span> <span class="n">runningMax</span><span class="p">);</span> <span class="c1">// the answer
+</span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="n">N</span><span class="p">][</span><span class="n">T</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="remarks">Remarks</h1>
+
+<p>This is one of the not very obvious dynamic programming problems and in this particular formulation the implementation trick plays a very important part since otherwise time complexity is simply too expensive.</p>
+
+  </div><a class="u-url" href="/stock-trading" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>

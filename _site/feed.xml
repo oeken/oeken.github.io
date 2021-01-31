@@ -1,0 +1,1469 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-31T16:18:30+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Onur Eken</title><author><name>Onur Eken</name></author><entry><title type="html">Sum to any number using Fibonacci numbers</title><link href="http://localhost:4000/sum-using-fibonacci-numbers" rel="alternate" type="text/html" title="Sum to any number using Fibonacci numbers" /><published>2021-01-31T00:00:00+01:00</published><updated>2021-01-31T00:00:00+01:00</updated><id>http://localhost:4000/sum-using-fibonacci-numbers</id><content type="html" xml:base="http://localhost:4000/sum-using-fibonacci-numbers">&lt;div class=&quot;jekyll-linkpreview-wrapper&quot;&gt;
+    &lt;div class=&quot;jekyll-linkpreview-wrapper-inner&quot;&gt;
+        &lt;div class=&quot;jekyll-linkpreview-content&quot;&gt;
+            &lt;div class=&quot;jekyll-linkpreview-image&quot;&gt;
+                &lt;a href=&quot;https://www.wikiwand.com/en/Zeckendorf%27s_theorem&quot; target=&quot;_blank&quot;&gt;
+                    &lt;img src=&quot;/assets/link.png&quot; /&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;jekyll-linkpreview-body&quot;&gt;
+                &lt;h4 class=&quot;jekyll-linkpreview-title&quot;&gt;
+                    &lt;a href=&quot;https://www.wikiwand.com/en/Zeckendorf%27s_theorem&quot; target=&quot;_blank&quot;&gt; Zeckendorf's theorem | Wikiwand&lt;/a&gt;
+                &lt;/h4&gt;
+                &lt;div class=&quot;jekyll-linkpreview-description&quot;&gt; In mathematics, Zeckendorf's theorem, named after Belgian mathematician Edouard Zeckendorf, is a theorem about the representation of integers as sums of Fibonacci numbers.&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;jekyll-linkpreview-footer&quot;&gt;
+            &lt;a href=&quot;http://www.wikiwand.com&quot; target=&quot;_blank&quot;&gt; www.wikiwand.com&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is a part of &lt;strong&gt;Zeckendorf’s theorem&lt;/strong&gt; and 
+&lt;a href=&quot;https://www.wikiwand.com/en/Zeckendorf%27s_theorem&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Wikipedia&lt;/strong&gt;&lt;/a&gt; explains it in 
+the mathematical notation but this post is for those who want a verbal explanation.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;The Problem&lt;/strong&gt; &lt;br /&gt;&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Can you sum to an arbitrary positive integer \(K\) using the numbers \(f_i\) from the Fibonacci series?&lt;/li&gt;
+    &lt;li&gt;If so, can you do that using as few \(f_i\) as possible?&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It turns out that the following observation answers both of these questions:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;If \(K\) is a Fibonacci number,&lt;/strong&gt; then we know that yes, we can sum to \(K\) using Fibonacci number \(K\) 
+and that would be the minimal set of \(\{K\}\).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Otherwise, \(K\) lands between two Fibonacci numbers,&lt;/strong&gt; say \(f_i\) and \(f_{i+1}\) so that \(f_i &amp;lt; K &amp;lt; f_{i+1}\).
+Greedily, we can reduce this problem to a smaller problem of the same kind: Can we sum to \(K-f_i\) using the minimum number of 
+Fibonacci numbers? If we would have the answer to that, then we can construct an answer to the original problem by 
+simply adding \(f_i\) to the summation list. By induction, our problem shrinks down to the initial numbers in the Fibonacci series
+\(\{1, 1, 2, 3, 5, …\}\). It’s easy to spot the minimal summation list when \(K &amp;lt; 4\). Since the base case holds 
+our induction holds.&lt;/p&gt;
+
+&lt;p&gt;Therefore, we can always construct a list with a minimum number of Fibonacci numbers summing to an arbitrary positive 
+integer \(K\), by greedily adding the preceding Fibonacci number \(f_i\) to the list and iterating the problem with 
+\(K-f_i\).&lt;/p&gt;
+
+&lt;h1 id=&quot;the-code&quot;&gt;The Code&lt;/h1&gt;
+
+&lt;p&gt;An important remark is that &lt;code class=&quot;highlighter-rouge&quot;&gt;binary_search&lt;/code&gt; in the code below returns the Fibonacci number itself (i.e. \(f_i \leq K\)) 
+instead of its index. Also, &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_fibonacci_numbers(k)&lt;/code&gt;, creates a list with Fibonacci numbers up to \(K\). This 
+code apparently returns the size of the summation list instead of the list itself, however, it’s trivial to alter the 
+code to output the actual list.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sum_with_fibonacci_numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generate_fibonacci_numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;binary_search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;binary_search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;num_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Onur Eken</name></author><summary type="html">Zeckendorf's theorem | Wikiwand In mathematics, Zeckendorf's theorem, named after Belgian mathematician Edouard Zeckendorf, is a theorem about the representation of integers as sums of Fibonacci numbers. www.wikiwand.com</summary></entry><entry><title type="html">Not Darkest Dungeon</title><link href="http://localhost:4000/not-darkest-dungeon" rel="alternate" type="text/html" title="Not Darkest Dungeon" /><published>2019-04-27T00:00:00+02:00</published><updated>2019-04-27T00:00:00+02:00</updated><id>http://localhost:4000/not-darkest-dungeon</id><content type="html" xml:base="http://localhost:4000/not-darkest-dungeon">&lt;!-- intro --&gt;
+&lt;p&gt;Recently I have been playing this game called &lt;em&gt;Darkest Dungeon.&lt;/em&gt; It is a rogue-like turn-based RPG game. The player gathers a gang of fighters with various characteristics and skills and goes onto exploration of dungeons with various properties. Every dungeon campaign has a goal, and the player suffers a big penalty when returned back from the dungeon without achieving the goal. I really enjoy playing this game as in it’s essence, it pushes the player to develop efficient combat, exploration and team formation strategies under numerous constraints introduced by game dynamics.&lt;/p&gt;
+
+&lt;!-- motivation --&gt;
+&lt;h3 id=&quot;motivation&quot;&gt;Motivation&lt;/h3&gt;
+&lt;p&gt;One of the common goals in dungeons is, namely, &lt;strong&gt;Explore 90% of the rooms&lt;/strong&gt;. Dungeon maps are designed as a network of &lt;strong&gt;rooms&lt;/strong&gt;. Every room is connected to one or more other rooms with &lt;strong&gt;corridors&lt;/strong&gt;. The connections, and therefore the structure of the dungeon map, could be quite arbitrary. See an example dungeon map below. Visiting rooms or corridors is always a costly decision in the game by design. Fighters suffer stress penalty, traps deal HP damage, and resources such as light deplete with each step team takes. Such events in rooms and corridors are marked on the dungeon maps.
+For this reason, in this kind of dungeon campaigns, it is almost always a good idea to explore only 90% of the rooms and not more than that. In addition, for the same reason player should rather avoid redundant room visits as they do not contribute to the progress towards the goal.&lt;/p&gt;
+
+&lt;center&gt;  
+    &lt;div style=&quot;margin-top:40px;margin-bottom:40px;&quot;&gt;
+        &lt;figure style=&quot;display:inline-block;&quot;&gt;
+          &lt;img width=&quot;600px&quot; src=&quot;/assets/not-darkest-dungeon/dd-map-1.jpg&quot; /&gt;
+        &lt;/figure&gt;
+
+        &lt;p&gt;&lt;i&gt;An example map with various event annotations. The large boxes are &lt;b&gt;rooms&lt;/b&gt; whereas the sequences of small boxes represent the &lt;b&gt;corridors&lt;/b&gt;.&lt;/i&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;!-- formulation --&gt;
+&lt;h3 id=&quot;problem&quot;&gt;Problem&lt;/h3&gt;
+&lt;p&gt;This kind of dungeon goal and map posed as an attributed graph, motivated me to come up with an algorithm that calculates the optimal path for the team. To facilitate algorithm’s presentation let’s now make some assumptions, simplifications, and definitions.&lt;/p&gt;
+
+&lt;p&gt;Denote the set of all rooms with \(V\) and set of all corridors with \(E\). Furthermore, denote the &lt;strong&gt;cost&lt;/strong&gt; of visiting a room \(v \in V \) with \(C(v)\). Similarly, let the &lt;strong&gt;cost&lt;/strong&gt; of visiting a corridor \([u,v] \in E \) be \(C([u,v])\). If we start our dungeon campaign in room \(s\), then we want to come up with a sequence of rooms \( P = [s, v_1, v_2, …] \) where the total cost, \( \sum_{i = 2}^{|P|} C(p_i) + C([p_{i-1},p_{i}]) \), is minimal while every room \(v \in V \) is present in \( P \).&lt;/p&gt;
+
+&lt;p&gt;For the sake of simplicity, the algorithm presented addresses the constrained version of this problem, although it is easily generalizable. Specifically, let’s assume:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;We have to visit not only 90% of the rooms but &lt;strong&gt;all&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Cost of visiting any &lt;strong&gt;room&lt;/strong&gt; is &lt;strong&gt;1&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Cost of visiting any &lt;strong&gt;corridor&lt;/strong&gt; is &lt;strong&gt;0&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With this set of assumptions, our algorithm will attempt to find a path that contains all rooms but with as few repetitions as possible.&lt;/p&gt;
+
+&lt;!-- algorithm --&gt;
+&lt;h3 id=&quot;algorithm&quot;&gt;Algorithm&lt;/h3&gt;
+&lt;p&gt;Following a recursive formulation, one can notice that two factors are important to be considered:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Current room, \(r\)&lt;/li&gt;
+  &lt;li&gt;Map exploration state, \(S\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here \(S\) is a bitset that maps rooms to \(\{0,1\}\). In other words,  it stores the visited status of the rooms.&lt;/p&gt;
+
+&lt;p&gt;Let \(f(r, S)\) be the function computing the cost of the optimal path on a given map starting from room \(r\) with the given exploration state \(S\). We can define it recursively as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+f(r,S) = 
+    \begin{cases} 
+        0 &amp; S = 1 \\
+        \min_{k \in \mathcal{N}(r)} \{ f(k, S_k) \} &amp; otherwise
+    \end{cases} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;And notation clarifications…&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;\(S = 1\) indicates a set \(S\) where all rooms are mapped to 1s.&lt;/li&gt;
+    &lt;li&gt;\(\mathcal{N}(r)\) denotes the neighbours of room \(r\).&lt;/li&gt;
+    &lt;li&gt;\(S_k\) denotes the transformed version of set \(S\) where room \(k\) is mapped to 1.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Note that, in contrast to the graph traversal algorithms such as DFS, we may want to visit rooms that are already visited. See the example map below where we start exploring from room 1.&lt;/p&gt;
+
+&lt;center&gt;
+  &lt;div style=&quot;margin-top:40px;margin-bottom:40px;&quot;&gt;
+        &lt;figure style=&quot;margin-top:40px;margin-bottom:40px;&quot;&gt;
+          &lt;img display=&quot;block&quot; width=&quot;400.0px&quot; src=&quot;/assets/not-darkest-dungeon/graph1.svg&quot; /&gt;
+          &lt;figcaption style=&quot;margin-top:10px&quot;&gt;&lt;i&gt;Example map with starting room #1&lt;/i&gt;&lt;/figcaption&gt;
+        &lt;/figure&gt;
+
+        &lt;figure style=&quot;margin-top:40px;margin-bottom:40px;&quot;&gt;
+          &lt;img display=&quot;block&quot; width=&quot;400.0px&quot; src=&quot;/assets/not-darkest-dungeon/graph1-1.svg&quot; /&gt;    
+          &lt;figcaption style=&quot;margin-top:10px&quot;&gt;&lt;i&gt;Optimal solution #1&lt;/i&gt;&lt;/figcaption&gt;
+        &lt;/figure&gt;
+
+        &lt;figure style=&quot;margin-top:40px;margin-bottom:40px;&quot;&gt;
+          &lt;img display=&quot;block&quot; width=&quot;400.0px&quot; src=&quot;/assets/not-darkest-dungeon/graph1-2.svg&quot; /&gt;
+          &lt;figcaption style=&quot;margin-top:10px&quot;&gt;&lt;i&gt;Optimal solution #2&lt;/i&gt;&lt;/figcaption&gt;
+        &lt;/figure&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;p&gt;With the given recursive formulation, we do not prevent revisiting of rooms but introduce another problem: &lt;strong&gt;infinite recursion&lt;/strong&gt;. Let’s unfold the recursion tree for this toy case.&lt;/p&gt;
+
+&lt;center&gt;
+  &lt;div style=&quot;margin-top:40px;margin-bottom:40px;&quot;&gt;
+        &lt;figure style=&quot;margin-top:40px;margin-bottom:40px;&quot;&gt;
+          &lt;img display=&quot;block&quot; width=&quot;600px&quot; src=&quot;/assets/not-darkest-dungeon/recursion-tree1.svg&quot; /&gt;    
+          &lt;figcaption style=&quot;margin-top:10px&quot;&gt;&lt;i&gt;Recursion tree for the toy example. Nodes that cause an infinite loop are marked in red.&lt;/i&gt;&lt;/figcaption&gt;
+        &lt;/figure&gt;
+    &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;!-- implementation tricks --&gt;
+&lt;!-- complexity --&gt;
+&lt;p&gt;Following edges that lead to &lt;strong&gt;red&lt;/strong&gt; nodes would always add redundant costs to the solutions (assuming positive costs) to be explored in the recursion tree. Therefore with an implementation trick, we can detect the loop inducing nodes and never visit those. We have a total of \(N * 2^N\) nodes, therefore worst-case time complexity of this approach would be \(O(N * 2^N)\), where \(N\) represents the total number of rooms in the map. Furthermore, the function we defined calculates the optimal cost but not the path itself. To reconstruct the optimal path, a tailored implementation is needed. See below the critical parts from the full implementation to get an overview of the algorithm.&lt;/p&gt;
+
+&lt;!-- code --&gt;
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;// number of nodes
+&lt;/span&gt;    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;// number of edges
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adjList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// adj list
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adjMat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// adj matrix
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DDPath&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;seq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;DDPath&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;searchDDPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// initialize
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;DDPath&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setBit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unordered_set&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unordered_map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unordered_map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// run recursive algorithm
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;searchDDPathUtil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// save and return
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cost&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reconstructSequence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;searchDDPathUtil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unordered_map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unordered_map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unordered_set&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// base case
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isFull&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// search completed
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;make_pair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// cost of the path
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;dpNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;make_pair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// end of the path
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// loop detected
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// already calculated
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// recurse
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// mark this node as in query
+&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bestTrg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bestTrgCost&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INT_MAX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adjList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trgV&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setBit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;searchDDPathUtil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trgV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trgV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trgV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bestTrgCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;bestTrgCost&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trgV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;bestTrg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cost&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bestTrgCost&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adjMat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bestTrg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dpCost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;make_pair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dpNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;make_pair&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bestTrg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;inQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;erase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// unmark this node as in query
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- extensions --&gt;
+&lt;h3 id=&quot;extensions&quot;&gt;Extensions&lt;/h3&gt;
+&lt;p&gt;In order to generalize this approach to the problem definition given earlier, one can simply change the recursion termination condition from &lt;strong&gt;all rooms visited&lt;/strong&gt; to &lt;strong&gt;X% of the rooms visited&lt;/strong&gt;. To deal with varying room and corridor costs, one can simply add those values at each recursion step followed.&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">Recently I have been playing this game called Darkest Dungeon. It is a rogue-like turn-based RPG game. The player gathers a gang of fighters with various characteristics and skills and goes onto exploration of dungeons with various properties. Every dungeon campaign has a goal, and the player suffers a big penalty when returned back from the dungeon without achieving the goal. I really enjoy playing this game as in it’s essence, it pushes the player to develop efficient combat, exploration and team formation strategies under numerous constraints introduced by game dynamics.</summary></entry><entry><title type="html">Cartooning Images</title><link href="http://localhost:4000/image-cartooning" rel="alternate" type="text/html" title="Cartooning Images" /><published>2018-05-20T00:00:00+02:00</published><updated>2018-05-20T00:00:00+02:00</updated><id>http://localhost:4000/image-cartooning</id><content type="html" xml:base="http://localhost:4000/image-cartooning">&lt;p&gt;In this post, I will demonstrate a simple application of variational methods in computer vision. We receive an RGB image of any size as input and want to give it a cartoonish looking style.&lt;/p&gt;
+
+&lt;center&gt;
+  &lt;div style=&quot;margin-left:-20px;&quot;&gt;
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img width=&quot;280px&quot; src=&quot;/assets/image-cartooning/original.png&quot; style=&quot;margin-top:20px;margin-bottom:30px;margin-right:10px&quot; /&gt;
+    &lt;/figure&gt;
+
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img width=&quot;280px&quot; src=&quot;/assets/image-cartooning/final.png&quot; style=&quot;margin-top:20px;margin-bottom:30px;margin-right:10px&quot; /&gt;
+    &lt;/figure&gt;
+  &lt;/div&gt;
+&lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;Variational methods?&lt;/strong&gt; In these approaches, one typically specifies a probability distribution over the hidden variables that are conditioned upon observed variables and optionally a prior distribution on the hidden variables. This is the model definition phase, then one either performs an inference to uncover properties of the distribution or seeks a particular solution. A solution is just an instantiation of hidden variables, i.e. an assignment of values. Often, one looks for the mode of the distribution. A typical workflow in this approach is as follows:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Specify a probabilistic model that captures the problem well&lt;/li&gt;
+  &lt;li&gt;Convert it to an error/energy function&lt;/li&gt;
+  &lt;li&gt;Optimize the error function&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Throughout this post we use the following notation&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;\(A \in \mathbb{R}^{kxn}\)&lt;/li&gt;
+    &lt;li&gt;\(A_{i:}\) is \(i\)th row of \(A\)&lt;/li&gt;
+    &lt;li&gt;\(A_{:i}\) is \(i\)th column of \(A\)&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;model&quot;&gt;Model&lt;/h1&gt;
+
+&lt;p&gt;For our problem, we will follow the above-mentioned steps as well. In fact, we are going to skip the first step and directly specify a convex error function and optimize it using projected gradient descent. In our case, the observed variables are the RGB values of the pixels and the hidden variables are the cartoonified RGB values of the pixels. Typically, error functions consist of multiple terms enforcing different characteristics for the hidden variables. For this problem, we will use two terms, a &lt;strong&gt;data term&lt;/strong&gt; and a &lt;strong&gt;regularizer term&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E =  E_{Data} + E_{Reg}&lt;/script&gt;
+
+&lt;h4 id=&quot;data-term&quot;&gt;Data Term&lt;/h4&gt;
+
+&lt;p&gt;This term usually measures a dissimilarity between the input/observed-variables and the output/hidden-variables, thus enforcing a similarity between. In our case, it implies that &lt;em&gt;the cartoonified image should to look similar to the input image&lt;/em&gt;. We define it as the following:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+E_{Data} &amp;=  tr(U^T F) \\
+         &amp;=  u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;\(tr(.)\) is trace operator&lt;/li&gt;
+    &lt;li&gt;\(U \in \mathbb{R}^{k x n}\)&lt;/li&gt;
+    &lt;li&gt;\(F \in \mathbb{R}^{k x n}\)&lt;/li&gt;
+    &lt;li&gt;\(n\) is the number of pixels in input image&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What do \(U\), \(F\) and \(k\) represent?&lt;/p&gt;
+
+&lt;p&gt;According to our formulation, every pixel in the cartoonified image is one of \(k\) colors. Here \(k\) is a rather small number (e.g. 5) because in general cartoon images contain only a handful of colors. Let \(C\) be set of cartoon colors. What colors are reasonable to have in \(U\)? There is no absolute way to answer this, though it makes sense to put some &lt;em&gt;dominant colors from the input image&lt;/em&gt;. We will get back to this later.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;\(F\) Matrix&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Once we decide on \(C\), we can construct the matrix \(F\) where \(F_{ij}\) measures dissimilarity between the color of the \(j\)th pixel and the \(i\)th color in \(C\). For a demonstration let’s say we picked \(C = \{red, green, blue, white, black\}\)  and constructed \(F\) accordingly. The first row of \(F\) will be a measure of distance of the original image from the color red, the second row of \(F\) for green, so on and so forth. See the following figure for a visualization of each row of \(F\) for this situation.&lt;/p&gt;
+
+&lt;center&gt;
+  &lt;div style=&quot;margin-top:20px;margin-bottom:10px;&quot;&gt;
+
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img display=&quot;block&quot; width=&quot;186.66666666666666px&quot; src=&quot;/assets/image-cartooning/red.svg&quot; /&gt;    
+      &lt;figcaption&gt;&lt;i&gt;Distances to Red&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img width=&quot;186.66666666666666px&quot; src=&quot;/assets/image-cartooning/green.svg&quot; /&gt;
+      &lt;figcaption&gt;&lt;i&gt;Distances to Green&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img width=&quot;186.66666666666666px&quot; src=&quot;/assets/image-cartooning/blue.svg&quot; /&gt;
+      &lt;figcaption&gt;&lt;i&gt;Distances to Blue&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img width=&quot;186.66666666666666px&quot; src=&quot;/assets/image-cartooning/white.svg&quot; /&gt;
+      &lt;figcaption&gt;&lt;i&gt;Distances to White&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img width=&quot;186.66666666666666px&quot; src=&quot;/assets/image-cartooning/black.svg&quot; /&gt;
+      &lt;figcaption&gt;&lt;i&gt;Distances to Black&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+  &lt;/div&gt;  
+&lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;\(U\) Matrix&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In our problem, \(U\) matrix is the hidden variables we are going to optimize for. It is not a cartoon image though, but a voting table. In our formulation, every pixel will vote for colors in \(C\) to be converted to. For instance, if \(C\) contains 3 colors and pixel 1 votes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;20% for \(c_1\) (color 1 in \(C\))&lt;/li&gt;
+  &lt;li&gt;70% for \(c_2\) (color 2 in \(C\))&lt;/li&gt;
+  &lt;li&gt;10% for \(c_3\) (color 3 in \(C\))&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;then we pick \(C_2\) to be the color for pixel 1 in the cartoonified image. Therefore, once we decide on \(U\), we construct the cartoonified image with the “elected” colors for each pixel. Note that we have the following constraints for \(U\):&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;\(0 \leq U_{ij} \leq 1\),  for \(1 \leq i \leq k\) and \(1 \leq j \leq n\)&lt;/li&gt;
+    &lt;li&gt;\( || U_{:i} ||_1 = 1\),  for \(1 \leq i \leq n\)&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;p&gt;Where \(||.||\) is the L1-norm and \( U_{:i} \) is the \(i\)th column of \(U\).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;regularizing-term&quot;&gt;Regularizing Term&lt;/h4&gt;
+
+&lt;p&gt;This term usually measures the variance or extremity of output/hidden-variables, thus enforcing a smoothness. In our case, it implies that &lt;em&gt;the cartoonified image should consist of large intact regions&lt;/em&gt;. We define it as the following:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{Reg} =  \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2&lt;/script&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;\(||.||\) is the L2-norm operator&lt;/li&gt;
+    &lt;li&gt;\(D \in \mathbb{R}^{2n x n}\) is a gradient computing matrix both in x-direction and y-direction&lt;/li&gt;
+    &lt;li&gt;\(\alpha\) is a hyper-parameter adjusting the relative importance of smoothness&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Construction of matrix D is beyond the scope of this post, therefore, we will assume that it is available to us.&lt;/p&gt;
+
+&lt;h1 id=&quot;approach&quot;&gt;Approach&lt;/h1&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E = tr(U^T F) + \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2_2&lt;/script&gt;
+
+&lt;p&gt;We will optimize the error function using gradient descent. The catch here is that we do not want to violate the constraints laid out for columns of \(U\). They must stay in the set of \(k\)-dimensional &lt;a href=&quot;https://en.wikipedia.org/wiki/Simplex&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;simplex&lt;/strong&gt;&lt;/a&gt;. Therefore after update step, we use a sub-procedure described in [1] to project each row back to \(k\)-dimensional simplex. The details of this algorithm are again beyond the intention of this post.&lt;/p&gt;
+
+&lt;h4 id=&quot;gradient-calculation&quot;&gt;Gradient Calculation&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Data term:&lt;/strong&gt; The gradient due to this term is very straightforward:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{Data} = u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\frac{dE_{Data}}{dU} = \begin{bmatrix} 
+                          \frac{\partial E_{Data}}{\partial u_{11}} &amp; \frac{\partial E_{Data}}{\partial u_{12}} &amp; \dots \\
+                          \vdots &amp; \ddots &amp; \\
+                          \frac{\partial E_{Data}}{\partial u_{k1}} &amp;   &amp; \frac{\partial E_{Data}}{\partial u_{kn}}
+                        \end{bmatrix}
+
+                      = \begin{bmatrix} 
+                          f_{11} &amp; f_{12} &amp; \dots \\
+                          \vdots &amp; \ddots &amp; \\
+                          f_{k1} &amp;   &amp; f_{kn}
+                        \end{bmatrix}
+
+                      = F %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Regularizer term:&lt;/strong&gt; Before computing this, let’s declare two well known derivating rules when we deal with vectors and matrices.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Variable&lt;/th&gt;
+      &lt;th&gt;Gradient&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\(x \in \mathbb{R}^{n}\)&lt;/td&gt;
+      &lt;td&gt;\(\frac{d (||x||)}{d x} = \frac{x^T}{||x||}  \)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;\(x \in \mathbb{R}^{n}\), \(A \in \mathbb{R}^{kxn}\)&lt;/td&gt;
+      &lt;td&gt;\(\frac{d Ax}{d x} = A  \)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Let’s unfold the summation in the regularizer term:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;E_{Reg} = \frac{\alpha}{2} [\|DU_{:1}\|^2 + \|DU_{:2}\|^2 + ... + \|DU_{:k}\|^2]&lt;/script&gt;
+
+&lt;p&gt;We know that \(\frac{d E_{Reg}}{d U} \in \mathbb{R}^{kxn} \). Consider the first term in this series and notice that it is contributing only to the first row of \(\frac{d E_{Reg}}{d U}\). The same is true for other terms, every term is contributing only to their correspondent row. Therefore we can compute each row independently, for example, consider the gradient of the first term.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+D \in \mathbb{R}^{2nxn} \text{ and } U_{:i} \in \mathbb{R}^{n} \\
+
+\begin{align}
+\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &amp;=  \alpha \|DU_{:1}\| \frac{d(\|DU_{:1}|\|)}{U_{:1}} \\
+
+\frac{d(\|DU_{:1}|\|)}{U_{:1}} &amp;= \frac{d (\|DU_{:1}\|)}{d (DU_{:1})}  \frac{d (DU_{:1})}{d U_{:1}} \textit{ (chain rule)} \\
+
+                               &amp;= \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \textit{ (plug-in)} \\
+
+\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &amp;=  \alpha \|DU_{:1}\| \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \\
+                                                   &amp;= \alpha U_{:1}^T D^T D  
+
+ 
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Applying same operations to the other terms, we get the following equality:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{dE_{Reg}}{dU} = \alpha \begin{bmatrix} 
+                                U_{1:}^T D^T D\\
+                                U_{2:}^T D^T D\\
+                                \vdots\\
+                                U_{k:}^T D^T D\\
+                               \end{bmatrix}&lt;/script&gt;
+
+&lt;p&gt;Combining the gradient of the data-term and the of regularizer term, we get the complete gradient.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{dE}{dU} = F + \alpha \begin{bmatrix} 
+    U_{1:}^T D^T D\\
+    U_{2:}^T D^T D\\
+    \vdots\\
+    U_{k:}^T D^T D\\
+ \end{bmatrix}&lt;/script&gt;
+
+&lt;p&gt;The following code computes the gradient as described:&lt;/p&gt;
+
+&lt;div class=&quot;language-matlab highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grad&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;compute_gradient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;grad1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    
+    &lt;span class=&quot;n&quot;&gt;grad2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Du&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,:)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;        
+        &lt;span class=&quot;n&quot;&gt;grad2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,:)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Du&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;    
+    &lt;span class=&quot;n&quot;&gt;grad&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grad1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;alpha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grad2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
+
+&lt;p&gt;There is one thing that we did not elaborate on: selection of color set. How do we decide which colors to use in the cartoon image?
+Again there is no single answer to this. Some approaches could be:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Hand-pick \(C\)&lt;/li&gt;
+  &lt;li&gt;Cluster the colors in the image and pick \(k\) of them&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In my implementation, I picked \(C\) as the cluster centers resulting from the output of \(k\)-means algorithm on image colors. The colors are as following when \(k = 5\)&lt;/p&gt;
+
+&lt;center&gt;
+  &lt;div style=&quot;margin-top:20px;margin-bottom:10px;&quot;&gt;
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img display=&quot;block&quot; width=&quot;560px&quot; src=&quot;/assets/image-cartooning/colors.png&quot; /&gt;    
+    &lt;/figure&gt;
+  &lt;/div&gt;  
+&lt;/center&gt;
+
+&lt;p&gt;The MATLAB script to perform projected gradient descent is as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-matlab highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;% input&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;I&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;imread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;img_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;% init derivators&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Dx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_derivator_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Dy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_derivator_y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;% parameters&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;alpha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;eta&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;% step size&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tolerance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1e-5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
+&lt;span class=&quot;n&quot;&gt;max_iter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;% init problem&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random_init_u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;% update until convergence&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_iter&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;U_prev&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    
+    &lt;span class=&quot;n&quot;&gt;grad&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;compute_gradient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eta&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;project_to_simplex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            
+    &lt;span class=&quot;nb&quot;&gt;diff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(:)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U_prev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(:)))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;    
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;diff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tolerance&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;  
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;% build image from U&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Ic&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;See an example evolution of the dog image starting from a random initialization:&lt;/p&gt;
+
+&lt;center&gt;
+  &lt;div style=&quot;margin-top:20px;margin-bottom:10px;&quot;&gt;
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img display=&quot;block&quot; width=&quot;280px&quot; src=&quot;/assets/image-cartooning/anim.gif&quot; /&gt;    
+    &lt;/figure&gt;    
+  &lt;/div&gt;  
+&lt;/center&gt;
+
+&lt;p&gt;Results of some experiments with different selections of hyper-parameters:&lt;/p&gt;
+
+&lt;center&gt;
+  &lt;div style=&quot;margin-top:20px;margin-bottom:30px;&quot;&gt;
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img display=&quot;block&quot; width=&quot;233.33333333333334px&quot; src=&quot;/assets/image-cartooning/a-0.0-k-05.png&quot; /&gt;    
+      &lt;figcaption&gt;&lt;i&gt;Alpha: 0.0, k: 5&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+    
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img display=&quot;block&quot; width=&quot;233.33333333333334px&quot; src=&quot;/assets/image-cartooning/a-1.0-k-05.png&quot; /&gt;    
+      &lt;figcaption&gt;&lt;i&gt;Alpha: 1.0, k: 5&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+      &lt;img display=&quot;block&quot; width=&quot;233.33333333333334px&quot; src=&quot;/assets/image-cartooning/a-0.5-k-10.png&quot; /&gt;    
+      &lt;figcaption&gt;&lt;i&gt;Alpha: 0.5, k: 10&lt;/i&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;  
+  &lt;/div&gt;  
+&lt;/center&gt;
+
+&lt;h1 id=&quot;references&quot;&gt;References&lt;/h1&gt;
+
+&lt;p&gt;[1] Chen, Yunmei, and Xiaojing Ye. “Projection onto a simplex.” arXiv preprint arXiv:1101.6081 (2011).&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">In this post, I will demonstrate a simple application of variational methods in computer vision. We receive an RGB image of any size as input and want to give it a cartoonish looking style.</summary></entry><entry><title type="html">Intuition Behind Dijkstra’s SPA</title><link href="http://localhost:4000/dijkstra-intuition" rel="alternate" type="text/html" title="Intuition Behind Dijkstra's SPA" /><published>2018-05-09T00:00:00+02:00</published><updated>2018-05-09T00:00:00+02:00</updated><id>http://localhost:4000/dijkstra-intuitive</id><content type="html" xml:base="http://localhost:4000/dijkstra-intuition">&lt;p&gt;&lt;strong&gt;Prerequisite:&lt;/strong&gt; Familiarity with graph data structure and recursion/dynamic programming.&lt;/p&gt;
+
+&lt;h1 id=&quot;motivation&quot;&gt;Motivation&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Dijkstra’s Shortest Path Algorithm&lt;/strong&gt;&lt;/a&gt; is one of the fundamental algorithms on graph data structures. It has many application areas thus used very frequently. There are numerous resources (textbooks, lectures etc.) from which one can learn how it works. The problem with those resources is that the following classic recipe is used to explain this algorithm:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;List the instructions in pseudocode&lt;/li&gt;
+  &lt;li&gt;Elaborate on the idea of each instruction&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In general, this is a nice strategy to teach algorithms but in the case of Dijkstra’s algorithm, it does not work well. When I was an undergrad student I learned it this way as well, but the algorithm faded in my mind in a relatively short time when I did not go over it. I think the main reason is it was not possible to state the idea of Dijkstra’s algorithm in simple terms.&lt;/p&gt;
+
+&lt;p&gt;It turns out that there is a more intuitive and simpler explanation for this algorithm. It is unraveled when the solution to the problem is formulated recursively. The Dijkstra’s algorithm essentially:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Solves the recursive formulation through tabulation&lt;/li&gt;
+  &lt;li&gt;Includes some implementation tricks to reduce the runtime&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For the better understanding of what exactly Dijkstra’s SPA does, in this post, we will elaborate on the recursive formulation to solve this problem.&lt;/p&gt;
+
+&lt;h1 id=&quot;idea&quot;&gt;Idea&lt;/h1&gt;
+
+&lt;p&gt;&lt;strong&gt;Problem:&lt;/strong&gt; Given a source node \(S\), for each node \(N_i\) in the graph we would like to find a path (a sequence of nodes) from \(S\) to \(N_i\) whose cost is minimal. The cost of a path is the sum of the weights of the edges observed in the path. This problem is known as &lt;em&gt;single-source shortest path problem&lt;/em&gt; (SSSP). Let us only consider the graphs with non-negative edge weights.&lt;/p&gt;
+
+&lt;p&gt;To show the recursive relation, as always, we assume that we already have the solution to a smaller version of the problem. In this case:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Let \(K\) denote the set of nodes in which we know the shortest paths to and the costs associated with them.
+    &lt;ul&gt;
+      &lt;li&gt;Includes \(S\) too.&lt;/li&gt;
+      &lt;li&gt;None of the paths follow a node that is not in \(K\).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Let \(T\) be the set of nodes that have an immediate connection to \(K\).
+    &lt;ul&gt;
+      &lt;li&gt;In other words, the nodes that have an edge to at least one of the nodes in \(K\).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Furthermore, let \(L\) be the set of nodes that are not in \(K\) or \(T\).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Let’s demonstrate these 3 sets with a figure. Consider only the nodes in the graph in Figure 1 where:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;span style=&quot;color:#9673A6&quot;&gt;Purple&lt;/span&gt; \(S\) node:&lt;/strong&gt; the source node&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Nodes in &lt;span style=&quot;color:#FF6666&quot;&gt;red area&lt;/span&gt;:&lt;/strong&gt; the set \(K\)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;span style=&quot;color:#D79B00&quot;&gt;Orange&lt;/span&gt; nodes:&lt;/strong&gt; the set \(T\)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;span style=&quot;color:#6C8EBF&quot;&gt;Pale blue&lt;/span&gt; nodes:&lt;/strong&gt; the set \(L\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;&lt;img width=&quot;480px&quot; src=&quot;/assets/dijsktra-intuitive/dijkstra.svg&quot; style=&quot;margin-top:20px;margin-bottom:30px;&quot; /&gt;&lt;/center&gt;
+&lt;center&gt;&lt;b&gt;Figure 1:&lt;/b&gt; &lt;i&gt;An example graph with node sets K, T, L and the candidate paths for node C&lt;/i&gt;&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;To concretize better we have put 3 nodes in \(T\), namely \(A\), \(B\), and \(C\). Let’s say you consider all possible paths going from \(S\) to \(C\). There are 3 different &lt;em&gt;groups of paths&lt;/em&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;1st group:&lt;/strong&gt; the paths that go to \(C\) without visiting \(A\) or B&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;2nd group:&lt;/strong&gt; the paths that go to \(C\) by visiting \(A\)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;3rd group:&lt;/strong&gt; the paths that go to \(C\) by visiting \(B\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Although 2nd and 3rd group are not disjoint, this is not a problem for us. Keep in mind that union of these 3 groups cover all paths going from \(S\) to \(C\).&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;We will use the following notation in the remaining parts of this post:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;\(w(U,V)\) denoting the weight of the edge between the nodes \(U\) and \(V\).&lt;/li&gt;
+    &lt;li&gt;\(sp(U,V)\) denoting the cost of the shortest path from the node \(U\) to the node \(V\).&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Furthermore, let \(M_C\) be the node in \(K\) that \(C\) is connected to and the following sum  is minimal: \(sp(S,M_C) + w(M_C,C)\)&lt;br /&gt;
+Let us call this sum &lt;strong&gt;d&lt;/strong&gt;irect &lt;strong&gt;s&lt;/strong&gt;hortest &lt;strong&gt;p&lt;/strong&gt;ath to \(C\), denoted with \(dsp(S,C)\).&lt;/p&gt;
+
+&lt;p&gt;Note that \(dsp(S,.)\) is not only defined for \(C\) but also for the other nodes in \(T\).&lt;/p&gt;
+
+&lt;p&gt;For the node \(C\), We see that &lt;strong&gt;the shortest path in each group&lt;/strong&gt; (let’s call it candidate path) would have the following costs:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1st candidate cost: &lt;span style=&quot;color:#009900&quot;&gt;\(dsp(S,C)\)&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;2nd candidate cost: &lt;span style=&quot;color:#004C99&quot;&gt;\(dsp(S,A)\)&lt;/span&gt; \(+\) &lt;span style=&quot;color:#007FFF&quot;&gt;\(sp(A,C)\)&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;3rd candidate cost: &lt;span style=&quot;color:#CC0000&quot;&gt;\(dsp(S,B)\)&lt;/span&gt; \(+\) &lt;span style=&quot;color:#FF0000;&quot;&gt;\(sp(B,C)\)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here the \(sp\) terms are unknown to us, we only know that they are non-negative. Other terms are available. Each term is color-coded and their correspondent paths are shown in Figure 1 with arrows.&lt;/p&gt;
+
+&lt;p&gt;Just like the node \(C\), we can define the same groups for \(A\) and \(B\) as well. And the costs of the candidate paths in those groups would be as following.&lt;/p&gt;
+
+&lt;p&gt;For \(A\):&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;1st candidate cost: \(dsp(S,A)\)&lt;/li&gt;
+  &lt;li&gt;2nd candidate cost: \(dsp(S,B) + sp(B,A)\)&lt;/li&gt;
+  &lt;li&gt;3rd candidate cost: \(dsp(S,C) + sp(C,A)\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For \(B\):&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;1st candidate cost: \(dsp(S,B)\)&lt;/li&gt;
+  &lt;li&gt;2nd candidate cost: \(dsp(S,A) + sp(A,B)\)&lt;/li&gt;
+  &lt;li&gt;3rd candidate cost: \(dsp(S,C) + sp(C,B)\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;key-observation&quot;&gt;Key Observation&lt;/h4&gt;
+
+&lt;p&gt;So, for each of \(A\), \(B\), \(C\) there are 3 candidate shortest paths. Without loss of generality, lets say \(dsp(S,C) \leq dsp(S,A) \leq dsp(S,B)\). This comparison enables us to give a guarantee.&lt;/p&gt;
+
+&lt;p&gt;As soon as we know this inequality &lt;strong&gt;we can guarantee that the 1st candidate path of \(C\) has smaller (or equal) cost than other two candidate paths of \(C\)!&lt;/strong&gt; This works only given the fact that no term (e.g. \(w\), \(dsp\), \(sp\)) is negative. Which essentially means no edges with negative weights. For other two nodes \(A\) and \(B\) we cannot give guarantees. That is not a problem though, we have just discovered a new shortest path from \(S\) which goes to \(C\). We now include \(C\) in the set \(K\), repeat the same procedure with the enlarged set \(K\). As for the base case, we would have only one node in \(K\) that is the source node \(S\).&lt;/p&gt;
+
+&lt;p&gt;In plain English, the guarantee we found says that:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Among the paths that go from \(S\) to the nodes in the immediate neighbourhood of set \(K\) using only the nodes in \(K\), the one with the smallest cost is the shortest path from \(S\) to the node where the path ends.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Notice that we did not mention if the edges are directed or undirected. That is because it does not matter, undirected edges can be represented with directed edges. The recurrence relation takes only 2 things into consideration: given a node what other nodes are reachable are and at what cost is. Directed weighted edges contain this information.&lt;/p&gt;
+
+&lt;h1 id=&quot;procedure-and-optimization&quot;&gt;Procedure and Optimization&lt;/h1&gt;
+
+&lt;p&gt;This recursive relation is easiest implemented by tabulation. Starting from the base case we grow the set \(K\) one node at a time. The following is the inefficient pseudocode describing the procedure.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Input:  N, number of nodes
+	E, set of edges with weights
+	s, source node
+Output: cost, shortest path cost to each node
+
+procedure dijkstraSSSP
+  // base case
+  cost[s] = 0
+  K = {s}
+
+  // tabulate N-1 times
+  for i = 2 ... N
+    T = getImmediateNodes(K)    
+    shortestNode = -1
+    shortestCost = Inf
+    for each node in T
+      for each (source,node,weight) in E
+        if cost[source] + weight &amp;lt; shortestCost
+          shortestCost = cost[source] + weight
+          shortestNode = node
+        end
+      end
+    end
+
+    cost[shortestNode] = shortestCost
+    K.add(shortestNode)
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Optimization Idea:&lt;/strong&gt; Essentially we have a set of costs (of paths that go to nodes in \(T\) from \(S\)) in which sometimes we add and remove elements (caused by moving node from set \(T\) to \(K\)). We are interested in the minimum element in this set. This is the perfect scenario for &lt;a href=&quot;https://en.wikipedia.org/wiki/Heap_(data_structure)&quot;&gt;heaps&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;remarks&quot;&gt;Remarks&lt;/h1&gt;
+
+&lt;p&gt;Once one notices the above-mentioned guarantee, the idea is very simple to implement. What makes the regular explanation of Dijkstra’s algorithm hard is:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;No explanation for the guarantee/observation&lt;/li&gt;
+  &lt;li&gt;Optimized code with implementation details&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Onur Eken</name></author><summary type="html">Prerequisite: Familiarity with graph data structure and recursion/dynamic programming.</summary></entry><entry><title type="html">Stock trading using at most T transactions</title><link href="http://localhost:4000/stock-trading" rel="alternate" type="text/html" title="Stock trading using at most T transactions" /><published>2018-05-02T00:00:00+02:00</published><updated>2018-05-02T00:00:00+02:00</updated><id>http://localhost:4000/stock-trading</id><content type="html" xml:base="http://localhost:4000/stock-trading">&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt;: This explanation assumes that you are familiar with the concept of &lt;a href=&quot;https://en.wikipedia.org/wiki/Dynamic_programming&quot; target=&quot;_blank&quot;&gt;dynamic programming&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Say that we are a bunch of smart people who want to make money by stock trading. We cannot predict the future, but at least we would like to know how much money we could have made maximally if we knew the stock prices in future days. In the minimalistic world we live in, there is only one company offered to the public. We are given an array of integers &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; representing the stock prices of the company every day. In addition, we are given a number &lt;code class=&quot;highlighter-rouge&quot;&gt;T&lt;/code&gt; representing the maximum number of transactions we could perform. A transaction is buying a stock and selling it later. Let us assume one more rule: we cannot do transactions concurrently. I.e. if we bought a stock on a day we have to sell it before we would like to buy another one. Imagine as if only a single stock exists. But also we are not concerned that whether this single stock is unavailable or not when we do not possess it. It is reserved for the interaction of ours only.&lt;/p&gt;
+
+&lt;p&gt;Let’s see some example cases to get a better grasp of what we are dealing with.&lt;/p&gt;
+
+&lt;h4 id=&quot;example-case-1&quot;&gt;Example Case 1&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;: \( [3,3,5,0,0,3,1,4] \)&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;T&lt;/code&gt;: \(2\)&lt;/p&gt;
+
+&lt;p&gt;In this particular instance of this problem, the optimal strategy would be:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Buy on day 4&lt;/li&gt;
+  &lt;li&gt;Sell on day 6 (profit: 3)&lt;/li&gt;
+  &lt;li&gt;Buy on day 7&lt;/li&gt;
+  &lt;li&gt;Sell on day 8 (profit: 3)
+Thus the total profit would be 6.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;example-case-2&quot;&gt;Example Case 2&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;: \( [7,6,4,3,1] \)&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;T&lt;/code&gt;: \(2\)&lt;/p&gt;
+
+&lt;p&gt;In this instance, there is no way to make a profit by performing a transaction. So we rather do not bother at all and the total profit would be 0. Recall that we are &lt;strong&gt;not&lt;/strong&gt; obliged to use &lt;code class=&quot;highlighter-rouge&quot;&gt;T&lt;/code&gt; transactions. Rather, we could use at most &lt;code class=&quot;highlighter-rouge&quot;&gt;T&lt;/code&gt; transactions.&lt;/p&gt;
+
+&lt;h1 id=&quot;approach&quot;&gt;Approach&lt;/h1&gt;
+
+&lt;p&gt;We want to come up with a computer program that figures out the optimal strategy for us. For simplicity reasons our program is going to output only the &lt;em&gt;maximum profit&lt;/em&gt; rather than the history of transactions. We follow a dynamic programming approach. Let’s begin by defining the Bellman equation:&lt;/p&gt;
+
+&lt;p&gt;Let \(f[i][t]\) be the maximal profit that can be made using the first \(i\) items of the array by using at most \(t\) transactions.&lt;/p&gt;
+
+&lt;p&gt;According to this definition we observe that the base case is:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;\(f[i][0] = 0\), for any \(i \geq 0\)&lt;/li&gt;
+  &lt;li&gt;\(f[0][t] = 0\), for any \(t \geq 0\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Assume that array \(A\) is 0-based and size of \(N\). We define the recursive case as the following:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+f[i][t] = max
+\left \{
+\begin{align} 	
+	&amp;f[i-1][t],\\ 
+	&amp;f[i-1][t-1] + (A[i-1] - A[i-2]),\\
+	&amp;f[i-2][t-1] + (A[i-1] - A[i-3]),\\
+	&amp;f[i-3][t-1] + (A[i-1] - A[i-4]),\\
+	&amp;.\\
+	&amp;.\\
+	&amp;f[1][t-1] + (A[i-1] - A[0])\\
+\end{align}
+\right \} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Explanation&lt;/strong&gt;: Consider the problem \(f[i][t]\), that is when we are taking first \(i\) stock prices into account and there are \(t\) transactions available to us. For this problem there exists an optimal list of transactions which maximizes profit. Consider the very last transaction in this optimal list:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;It takes place after all others in the list.&lt;/li&gt;
+  &lt;li&gt;We would like to figure out when this last transaction takes place (time it’s bought and time it’s sold), but it is not obvious.&lt;/li&gt;
+  &lt;li&gt;If we make a guess for when it takes place (e.g. bought at \((i-3)\) and sold at \((i-1)\)) then by solving a smaller version of this problem (a sub-problem) we can give an answer to the current problem.
+    &lt;ul&gt;
+      &lt;li&gt;In that sub-problem, we would have 1 less transaction available, and would consider the array of prices that come before the purchase we guessed.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Assume that we already have the answers to the sub-problems.&lt;/li&gt;
+  &lt;li&gt;So the idea is to consider all such guesses and take the one that yields the maximum profit.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To concretize let us explain what each line in the equation above means. Recall, we are considering the problem \(f[i][t]\).&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;\(f[i-1][t]\), no action at time \(i-1\)&lt;/li&gt;
+  &lt;li&gt;\(f[i-1][t-1] + (A[i-1] - A[i-2])\), sell your stock at time \(i-1\) and guess that it was bought at time \(i-2\)&lt;/li&gt;
+  &lt;li&gt;\(f[i-2][t-1] + (A[i-1] - A[i-3])\), sell your stock at time \(i-1\) and guess that it was bought at time \(i-3\)&lt;/li&gt;
+  &lt;li&gt;\(f[i-3][t-1] + (A[i-1] - A[i-4])\), sell your stock at time \(i-1\) and guess that it was bought at time \(i-4\)&lt;/li&gt;
+  &lt;li&gt;So on until to the last possibility…&lt;/li&gt;
+  &lt;li&gt;\(f[1][t-1] + (A[i-1] - A[0])\), sell your stock at time \(i-1\) and guess that it was bought at time \(0\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Notice that with this recursive definition (thanks to the first equation i.e. \(f[i-1][t]\)) we do not need to search for selling time of the last stock. Algorithm intrinsically considers all &lt;em&gt;selling time choices&lt;/em&gt; by being able to skip a timestep.&lt;/p&gt;
+
+&lt;p&gt;See the image below which demonstrates the dynamic programming table and the dependencies originating from our recursive definition.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;The purple box is the current problem \(f[i][t]\).&lt;/li&gt;
+  &lt;li&gt;Blue boxes are its dependencies.
+    &lt;ul&gt;
+      &lt;li&gt;Boxes with red spots are the sub-problems when we consider selling at time \(i-1\).&lt;/li&gt;
+      &lt;li&gt;The one with the green spot is the sub-problem when &lt;em&gt;no-action&lt;/em&gt; is considered.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;&lt;img width=&quot;500px&quot; style=&quot;margin-top:20px;margin-bottom:30px;&quot; src=&quot;/assets/stock-trading/dp-table.svg&quot; /&gt;&lt;/center&gt;
+
+&lt;h1 id=&quot;implementation-trick&quot;&gt;Implementation Trick&lt;/h1&gt;
+
+&lt;p&gt;It looks all good except for one fatal failure. Dynamic programming is useful only when constructing a solution to a problem from the solutions of sub-problems is easy/efficient. In the recursive definition we gave above, for each cell of the table we need to iterate over solutions to many other sub-problems, rendering this approach \(O(N^2 T)\) in terms of time and \(O(N T)\) in terms of space. Where \(N\) is the size of the array and \(T\) is the number of transactions allowed.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Observation&lt;/strong&gt;: Luckily with an implementation trick we can reduce the time complexity to \(O(N T)\). Below, compare what is needed to compute \(f[i][t]\) and \(f[i+1][t]\) and see if we can simplify computation of \(f[i+1][t]\).&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\scriptsize
+f[i][t] = max
+\left \{
+\begin{matrix} 	
+f[i-1][t],\\ 
+f[i-1][t-1] + (A[i-1] - A[i-2]),\\
+f[i-2][t-1] + (A[i-1] - A[i-3]),\\
+f[i-3][t-1] + (A[i-1] - A[i-4]),\\
+.\\
+.\\
+f[1][t-1] + (A[i-1] - A[0])\\
+\end{matrix}
+\right \}
+\hspace{5mm}
+
+f[i+1][t] = max
+\left \{
+\begin{matrix} 	
+f[i][t],\\ 
+f[i][t-1] + (A[i] - A[i-1]),\\
+f[i-1][t-1] + (A[i] - A[i-2]),\\
+f[i-2][t-1] + (A[i] - A[i-3]),\\
+.\\
+.\\
+f[1][t-1] + (A[i] - A[0])\\
+\end{matrix}
+\right \}&lt;/script&gt;
+
+&lt;p&gt;Noticed a pattern?&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\scriptsize
+max
+\left \{
+\begin{matrix} 	
+f[i-1][t-1] + (A[i-1] - A[i-2]),\\
+f[i-2][t-1] + (A[i-1] - A[i-3]),\\
+f[i-3][t-1] + (A[i-1] - A[i-4]),\\
+.\\
+.\\
+f[1][t-1] + (A[i-1] - A[0])\\
+\end{matrix}
+\right \}
+
++(A[i]-A[i-1])
+
+= 
+
+\left \{
+\begin{matrix}
+f[i-1][t-1] + (A[i] - A[i-2]),\\
+f[i-2][t-1] + (A[i] - A[i-3]),\\
+f[i-3][t-1] + (A[i] - A[i-4]),\\
+.\\
+.\\
+f[1][t-1] + (A[i] - A[0])\\
+\end{matrix}
+\right \}&lt;/script&gt;
+
+&lt;p&gt;From the expression above we can draw the following observation:&lt;br /&gt;
+If we keep track of maximum of last \(i-1\) elements used in the computation of \(f[i][t]\) (let us call it &lt;code class=&quot;highlighter-rouge&quot;&gt;runningMax&lt;/code&gt;) then we can construct an answer to \(f[i+1][t]\) in \(O(1)\) by:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Converting &lt;code class=&quot;highlighter-rouge&quot;&gt;runningMax&lt;/code&gt; by adding &lt;code class=&quot;highlighter-rouge&quot;&gt;(A[i]-A[i-1])&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Computing &lt;code class=&quot;highlighter-rouge&quot;&gt;max(runningMax, f[i][t], f[i][t-1] + (A[i]-A[i-1]))&lt;/code&gt; as the answer
+    &lt;ul&gt;
+      &lt;li&gt;The latter two are the first two dependencies needed for the computation of \(f[i+1][t]\)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For the computation of following problems (e.g. \(f[i+2][t]\), \(f[i+3][t]\), …) we also need to keep &lt;code class=&quot;highlighter-rouge&quot;&gt;runningMax&lt;/code&gt; updated by doing the following:&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;runningMax = max(runningMax, f[i][t-1] + (A[i]-A[i-1]))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
+
+&lt;p&gt;Below is the implementation in C++.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vvint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxProfit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vvint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runningMax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+	    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;change&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;runningMax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// convert running max
+&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;runningMax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runningMax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// update running max
+&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runningMax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// the answer
+&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;remarks&quot;&gt;Remarks&lt;/h1&gt;
+
+&lt;p&gt;This is one of the not very obvious dynamic programming problems and in this particular formulation the implementation trick plays a very important part since otherwise time complexity is simply too expensive.&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">Prerequisite: This explanation assumes that you are familiar with the concept of dynamic programming.</summary></entry><entry><title type="html">Code Jam 2018: Cubic UFO</title><link href="http://localhost:4000/cubic-ufo" rel="alternate" type="text/html" title="Code Jam 2018: Cubic UFO" /><published>2018-04-11T00:00:00+02:00</published><updated>2018-04-11T00:00:00+02:00</updated><id>http://localhost:4000/cubic-ufo</id><content type="html" xml:base="http://localhost:4000/cubic-ufo">&lt;p class=&quot;info&quot;&gt;Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.&lt;/p&gt;
+
+&lt;p&gt;I have checked the problems and proposed some solutions to those.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: Proposed ideas and implementations are not official, ideal, nor coded optimally. Instead, this is only one way to tackle the problem. Feel free to contact me to feedback possible optimizations!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt;: This explanation assumes that you are familiar with the terms, variables and the problem itself as defined on the official Code Jam &lt;a href=&quot;https://codejam.withgoogle.com/2018/&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;page&lt;/strong&gt;&lt;/a&gt;. If you have not read the problem description, please take your time and go through all of it.&lt;/p&gt;
+
+&lt;h1 id=&quot;observations&quot;&gt;Observations&lt;/h1&gt;
+
+&lt;p&gt;Let say that we represent the rotation of the cube using normal vectors of it’s 3 orthogonal faces: \(\vec{u}, \vec{v}, \vec{w}\). That are initially:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;\(\vec{u} = \begin{bmatrix}1 &amp;amp; 0 &amp;amp; 0\end{bmatrix}\)&lt;/li&gt;
+  &lt;li&gt;\(\vec{v} = \begin{bmatrix}0 &amp;amp; 1 &amp;amp; 0\end{bmatrix}\)&lt;/li&gt;
+  &lt;li&gt;\(\vec{w} = \begin{bmatrix}0 &amp;amp; 0 &amp;amp; 1\end{bmatrix}\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Rotating the cube is equivalent of applying a rotation to these vectors. Luckily the cube is centered at \((0,0,0)\), this simplifies the rotation procedure. To rotate any of \(\vec{u}, \vec{v}, \vec{w}\), we only need to multiply the vector with a rotation matrix.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Info:&lt;/strong&gt; &lt;em&gt;If the cube was not centered at (0,0,0), we would need to shift it back to origin, apply rotation then shift it back its original center. Rotation matrices rotate with respect to origin of the coordinate system.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Furthermore, let:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;\(\theta_x\) denote angle of rotation of the cube about the x-axis&lt;/li&gt;
+  &lt;li&gt;\(\theta_y\) denote angle of rotation of the cube about the y-axis&lt;/li&gt;
+  &lt;li&gt;\(\theta_z\) denote angle of rotation of the cube about the z-axis&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We notice that \(\theta_y\) is ineffective on the final value that we want to compute, the area of the shadow, let’s name it \(A\). That is because the normal of the plane we want to project to and y-axis are aligned. Thus, we only need to search for 2 values, \(\theta_x, \theta_z\).&lt;/p&gt;
+
+&lt;p&gt;Next questions is, given \(\theta_x, \theta_z\) how do we compute area \(A\)?&lt;/p&gt;
+
+&lt;p&gt;The projection is captured with dot product operation in Euclidian spaces. Let \(\vec{n}\) be the normal vector of the plane \(y = -3\) (our target plane in the problem), then area of the shadow/projection is given by \(A = |\vec{n} * \vec{u}| + |\vec{n} * \vec{v}| + |\vec{n} * \vec{w}|\) where \(*\) represents dot product and \(|.|\) represents absolute value operation.&lt;/p&gt;
+
+&lt;p&gt;We use the following notation to denote the &lt;strong&gt;rotated version of vector \(\vec{v}\)&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;Let \(\theta\) represent the parameter pair, \( \theta = \begin{bmatrix}\theta_x &amp;amp; \theta_z \end{bmatrix} \)&lt;br /&gt;
+Let \( \vec{v_\theta} = rot_{\theta_{xy}}(\vec{v}) = rot_x(\theta_x, rot_z(\theta_z, \vec{v})) \), where:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;\( rot_z(\theta_z, \vec{v}) \) rotates a vector \(\vec{v}\) by \(\theta_z\) degrees about the z-axis.&lt;/li&gt;
+  &lt;li&gt;\( rot_x(\theta_x, \vec{v}) \) rotates a vector \(\vec{v}\) by \(\theta_x\) degrees about the x-axis.&lt;/li&gt;
+  &lt;li&gt;\(\vec{v_\theta}\), is the resulting vector when \(\vec{v}\) is first rotated \(\theta_z\) degrees about z-axis and &lt;strong&gt;then&lt;/strong&gt; rotated \(\theta_x\) degrees about x-axis.&lt;/li&gt;
+  &lt;li&gt;Note that order of rotation matrices applied matters. Applying the the rotation about x-axis first, z-axis second does not necessarily yield the same output vector. You can notice this asymmetry in the definition of rotation matrices.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Next we calculated what \(\vec{v_\theta}\) is equivalent of analytically. It essential is a small series of matrix-matrix-vector multiplication.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\vec{v_\theta} = 
+
+ \begin{bmatrix} &amp; x*cos\theta_z - y*sin\theta_z \\ 
+ 				 &amp; x*cos\theta_x*sin\theta_z + y*cos\theta_x*cos\theta_z - z*sin\theta_x \\
+ 				 &amp; x*sin\theta_x*sin\theta_z + y*sin\theta_x*cos\theta_z + z*cos\theta_x \\
+ \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where \(\vec{v} = \begin{bmatrix}x &amp;amp; y &amp;amp; z\end{bmatrix}^T\)&lt;/p&gt;
+
+&lt;p&gt;Let’s say now we managed to rotate a normal vector of a face of the cube. To compute the area that this face generates on the plane, we will calculate dot product of it with the vector \((0,1,0)\) which is the normal vector of the plane. This is simply selecting the &lt;strong&gt;2nd component&lt;/strong&gt; of the &lt;em&gt;rotated vector:&lt;/em&gt;&lt;br /&gt;
+\( x * cos\theta_x * sin\theta_z + y * cos\theta_x * cos\theta_z - z * sin\theta_x \)&lt;/p&gt;
+
+&lt;p&gt;We need to do this for normals of all three faces of the cube: \((1,0,0)\), \((0,1,0)\) and \((0,0,1)\). This effectively means that:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Set \(x = 1, y = 0, z = 0\) in the equation and compute area due to this face of the cube.&lt;/li&gt;
+  &lt;li&gt;Set \(x = 0, y = 1, z = 0\) in the equation and compute area due to this face of the cube.&lt;/li&gt;
+  &lt;li&gt;Set \(x = 0, y = 0, z = 1\) in the equation and compute area due to this face of the cube.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We calculate areas due to each the of the 3 faces of the cube and add them together. We get the following equation that gives us the total area \(A_\theta\) after a rotation \(\theta\) applied to the cube:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;A_\theta = |cos\theta_x*sin\theta_z| + |cos\theta_x*cos\theta_z| + |-sin\theta_x|&lt;/script&gt;
+
+&lt;p&gt;Let’s plot a heatmap of this function with respect to \(\theta_x\) and \(\theta_z\):&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/cubic-ufo/cubic-ufo-heatmap.svg&quot; /&gt;&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;approach&quot;&gt;Approach&lt;/h1&gt;
+
+&lt;p&gt;We would ideally like to find an analytical solution which would run in \(O(1)\), but notice that if we fix \(A\) and leave \(\theta_x\) and \(\theta_z\) variable, we have an &lt;em&gt;underdetermined problem&lt;/em&gt;. One equation and two variables. One can also notice the same phenomenon in the heatmap shown above: there are multiple (in fact infinitely many) locations with the same color.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;One global minimimum is located at \(\theta_x = 0\) and \(\theta_z = 0\)&lt;/li&gt;
+  &lt;li&gt;The global maximum is observed when \(\theta_z = 45\) and for some value of \(\theta_x\)&lt;/li&gt;
+  &lt;li&gt;Notice that the heatmap is not symmetric with respect to both variables.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A path going from a global minimum to the global maximum observes all possible values along the way. The path in this case path would imply an extra constraint, which makes this problem determined. For analytical ease, we would like a follow two simple paths, as shown on on the heatmap with two arrows: horizontal and the vertical.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In general, the idea is:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;When we are asked an \(A\) that is less than the value at the end of horizontal arrow:
+    &lt;ul&gt;
+      &lt;li&gt;Fix \(\theta_x\) to 0 degrees and solve analytically for \(\theta_z\).&lt;/li&gt;
+      &lt;li&gt;We calculated the analytical solution for this case as following:&lt;/li&gt;
+      &lt;li&gt;\(\theta_z = \frac{sin^{-1}(A^2-1)}{2}\)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Similarly, when we are asked an \(A\) that is greater than or equal to the value at the end of horizontal arrow:
+    &lt;ul&gt;
+      &lt;li&gt;Fix \(\theta_z\) to 45 degrees and solve analytically for \(\theta_x\).&lt;/li&gt;
+      &lt;li&gt;We calculated the analytical solution for this case as following:&lt;/li&gt;
+      &lt;li&gt;\(\theta_x = 2*tan^{-1} \left( \frac{\sqrt{3-A^2}+1}{A+\sqrt{2}} \right)\)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
+
+&lt;p&gt;The following is a C++ implementation of the approach mentioned.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
+ * Ans is a wrapper class to store answers
+ * Case is a wrapper class to store cases
+ */&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solveCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;		&lt;span class=&quot;c1&quot;&gt;// theta_x (in radians)
+&lt;/span&gt;    &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;		&lt;span class=&quot;c1&quot;&gt;// theta_z (in radians)
+&lt;/span&gt;    &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thres&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;area&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;// threshold area
+&lt;/span&gt;    
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thres&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    	&lt;span class=&quot;c1&quot;&gt;// analytic soln for the points along horizontal arrow
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;asin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;c1&quot;&gt;// analytic soln for the points along vertical arrow
+&lt;/span&gt;        &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;denom&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;atan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;denom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angleX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rad2deg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;angleZ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rad2deg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;    
+
+    &lt;span class=&quot;c1&quot;&gt;// initialize face vectors
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;Point&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Point&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Point&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// rotate face vectors
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And the helper functions are defined as following:&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;area&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Point&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Point&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Point&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;remarks&quot;&gt;Remarks&lt;/h1&gt;
+
+&lt;p&gt;Math/geometry based problems are often encountered in programming contests. For this particular instance, we sought an analytical solution that comes with the benefit of the short implementation and runtime. The drawback of this approach is that we had to know/find the mathematical equalities and further notice the simplifying characteristics of those in order to hash out the final closed form equation on paper.&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</summary></entry><entry><title type="html">Code Jam 2018: Go Gopher</title><link href="http://localhost:4000/go-gopher" rel="alternate" type="text/html" title="Code Jam 2018: Go Gopher" /><published>2018-04-10T00:00:00+02:00</published><updated>2018-04-10T00:00:00+02:00</updated><id>http://localhost:4000/go-gopher</id><content type="html" xml:base="http://localhost:4000/go-gopher">&lt;p class=&quot;info&quot;&gt;Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.&lt;/p&gt;
+
+&lt;p&gt;I have checked the problems and proposed some solutions to those.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: Proposed ideas and implementations are not official, ideal, nor coded optimally. Instead, this is only one way to tackle the problem. Feel free to contact me to feedback possible optimizations!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt;: This explanation assumes that you are familiar with the terms, variables and the problem itself as defined on the official Code Jam &lt;a href=&quot;https://codejam.withgoogle.com/2018/&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;page&lt;/strong&gt;&lt;/a&gt;. If you have not read the problem description, please take your time and go through all of it.&lt;/p&gt;
+
+&lt;h1 id=&quot;observations&quot;&gt;Observations&lt;/h1&gt;
+
+&lt;p&gt;This is an interactive problem. I.e. submitted program exchanges information with judge server more than 1 time for each test case.&lt;/p&gt;
+
+&lt;p&gt;In this particular problem, what conditions would cause a submission to fail?&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;When Gopher is deployed 1000 times, yet a solution is not found.&lt;/li&gt;
+  &lt;li&gt;It takes more than 20 seconds to deploy the Gopher 1000 times.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Therefore, our &lt;em&gt;hypothetical ideal approach&lt;/em&gt; should:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Not need to deploy Gopher more than 1000 times to construct the rectangle.&lt;/li&gt;
+  &lt;li&gt;Have a &lt;em&gt;fast&lt;/em&gt; procedure to decide where to deploy the Gopher.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The first condition depends on &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;, the size of the rectangle to construct. For instance when &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; \(&amp;gt;1000\), it is not possible to construct the rectangle at all. Since the process is stochastic, probability of successfully constructing a rectangle of size &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; raises as &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; gets smaller.&lt;/p&gt;
+
+&lt;p&gt;Luckily, &lt;code class=&quot;highlighter-rouge&quot;&gt;A = 20&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;A = 200&lt;/code&gt; in the visible and hidden test sets respectively. Not too demanding and tolerating for &lt;em&gt;algorithms that follow non-optimal strategies&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;approach&quot;&gt;Approach&lt;/h1&gt;
+
+&lt;p&gt;Although there are many possible strategies to tackle this problem, for simplicity and the ease of imlementation, let’s consider an approach where we:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Choose to construct a rectangle of size \(RxC\), whose top left cell is located at \((1,1)\) and \(RxC \geq A \)&lt;/li&gt;
+  &lt;li&gt;\(R\) denoting the number of rows&lt;/li&gt;
+  &lt;li&gt;\(C\) denoting the number of columns&lt;/li&gt;
+  &lt;li&gt;Define &lt;em&gt;inner&lt;/em&gt; cell as the non-border cells of our rectangle.&lt;/li&gt;
+  &lt;li&gt;Deploy the Gopher &lt;strong&gt;only&lt;/strong&gt; in the &lt;em&gt;inner&lt;/em&gt; cells. In other words, do not risk to prepare any cell landing outside of our rectangle.
+    &lt;ul&gt;
+      &lt;li&gt;In this case, we do not need to worry about bulges.&lt;/li&gt;
+      &lt;li&gt;Downside of this is, it gets more likely to prepare a cell that is already prepared. Which means a &lt;em&gt;wasted deployment&lt;/em&gt;. Recall that we have only 1000 of them.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;To mitigate the problem of &lt;em&gt;wasted deployment&lt;/em&gt;, we would like to deploy the Gopher to a cell, where the neighbourhood of the cell (surrounding 9 cells) has the largest number of &lt;em&gt;unprepared cells&lt;/em&gt;. Increasing the chance of preparing an &lt;em&gt;unprepared&lt;/em&gt; cell.&lt;/li&gt;
+  &lt;li&gt;In addition, we would like the size of our rectangle \(RxC\) as close as possible to &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt;. Otherwise Gopher would be doing extra &lt;em&gt;unnecessary work&lt;/em&gt;, that would require more deployments.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Notice that with this approach we need to store:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Which of the cells are prepared&lt;/li&gt;
+  &lt;li&gt;Number of unprepared cells in the neighbourhood of each &lt;em&gt;inner&lt;/em&gt; cell&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;When it is time to deploy the Gopher, simply search through the &lt;em&gt;inner&lt;/em&gt; cells, and find the best candidate. One might notice another optimization here to decrease search time (this is about the 2nd constraint mentioned in &lt;strong&gt;Observations&lt;/strong&gt;). We could decrease search time by reducing the number of inner cells to search through.&lt;/p&gt;
+
+&lt;p&gt;Is there a way to minimize the number of &lt;em&gt;inner&lt;/em&gt; cells?&lt;br /&gt;
+&lt;strong&gt;Yes&lt;/strong&gt;. Given three positive real numbers \(x,y,z\) and the equality \(xy=z\), \( x+y \) is minimal when \(x=1\) and \(y=z\) or vice versa.&lt;/p&gt;
+
+&lt;p&gt;In our case, \(R\) (or \(C\)) can not be smaller than 3. Therefore, fix \(R = 3\) and let \(C = \lceil \frac{A}{3} \rceil  \). One benefit of this choice is that the number of &lt;em&gt;unnecessary&lt;/em&gt; cells in our rectangle could be at most 2.&lt;/p&gt;
+
+&lt;p&gt;So basically, our rectangle will be an horizontal strip. One more thing to consider is:&lt;br /&gt;
+Will this strip fit in the 1000x1000 garden?&lt;br /&gt;
+We are lucky about this. If &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; would exceed 3000 then the strip would be too long, but that is not that case in any of the test sets.&lt;/p&gt;
+
+&lt;p&gt;See below, the illustration of this approach. Green is the target rectangle and the dots represent &lt;em&gt;inner cells&lt;/em&gt; to deploy the Gopher to. We will have \(C-2\) of them  according to our approach.&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/go-gopher/go-gopher-approach.svg&quot; style=&quot;margin-right:80px&quot; /&gt;&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;On the high level, the method works as the following:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;R = 3
+C = ceil(A/3)
+unprepared = 2d array of size [R,C], with values 1
+unpreparedCount = array of size [C-2], with values 9
+outputCell(unpreparedCount)
+answerCell = receiveAnswer()
+while(rectangle not completed AND answerCell is not fail){
+    update(unprepared, unpreparedCount, answerCell)
+    outputCell(unpreparedCount)
+    answerCell = receiveAnswer()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
+
+&lt;p&gt;The following is a C++ implementation of the approach mentioned.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vvint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solveCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cols&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vvint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;free&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// pos we send
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// pos we receive
+&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;receive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;legit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;updateFree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;free&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;receive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The functionality of &lt;code class=&quot;highlighter-rouge&quot;&gt;getNext()&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;updateFree()&lt;/code&gt; could be also implemented using a heap equipped with a custom comparator and a custom &lt;code class=&quot;highlighter-rouge&quot;&gt;decreaseKey()&lt;/code&gt; operation, but again, under the given constraints, it makes sense to go with this easier to implement but slower, pair of functions.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getNext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxFree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;maxFree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;maxFree&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;maxI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxI&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;When implementing the following function some of the things to pay attention are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Update arrays only if prepared a previously &lt;em&gt;unprepared cell&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;Neighbourhoods will share some of it’s cells with other neighbourhoods
+    &lt;ul&gt;
+      &lt;li&gt;Decrement counts taking this into consideration&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;updateFree&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vvint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;free&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;free&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;free&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// not free anymore
+&lt;/span&gt;        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onMidOf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onRightOf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onMidOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onLeftOf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onMidOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onMidOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onMidOf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onMidOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onRightOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onRightOf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onRightOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onLeftOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onLeftOf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;freeCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onLeftOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The class used to represent a position (a.k.a. cell) is implemented as follows:&lt;/p&gt;
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flush&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Pos&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;legit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;remarks&quot;&gt;Remarks&lt;/h1&gt;
+
+&lt;p&gt;This is an interesting and an unconventional problem in this kind of contests. We had to be able to compute rough expectations under a stochastic process and minimize it. In addition, we had to find a way to generate an answer in each turn in a reasonable time which is an implementation-wise concern. The code we provided is not very concise but rather modular and intuitive.&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</summary></entry><entry><title type="html">Code Jam 2018: Trouble Sort</title><link href="http://localhost:4000/trouble-sort" rel="alternate" type="text/html" title="Code Jam 2018: Trouble Sort" /><published>2018-04-09T00:00:00+02:00</published><updated>2018-04-09T00:00:00+02:00</updated><id>http://localhost:4000/trouble-sort</id><content type="html" xml:base="http://localhost:4000/trouble-sort">&lt;p class=&quot;info&quot;&gt;Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.&lt;/p&gt;
+
+&lt;p&gt;I have checked the problems and proposed some solutions to those.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: Proposed ideas and implementations are not official, ideal, nor coded optimally. Instead, this is only one way to tackle the problem. Feel free to contact me to feedback possible optimizations!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt;: This explanation assumes that you are familiar with the terms, variables and the problem itself as defined on the official Code Jam &lt;a href=&quot;https://codejam.withgoogle.com/2018/&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;page&lt;/strong&gt;&lt;/a&gt;. If you have not read the problem description, please take your time and go through all of it.&lt;/p&gt;
+
+&lt;h1 id=&quot;rudimentary-approach&quot;&gt;Rudimentary Approach&lt;/h1&gt;
+
+&lt;p&gt;Before highlighting any observations, the most rudimentary approach looks tempting:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Run the trouble sort&lt;/li&gt;
+  &lt;li&gt;Pass over the array to detect an &lt;em&gt;anomaly&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;If there is no &lt;em&gt;anomaly&lt;/em&gt; then output &lt;code class=&quot;highlighter-rouge&quot;&gt;OK&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Otherwise, output index of &lt;em&gt;anomaly&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What deters one from doing this is the &lt;strong&gt;constraint&lt;/strong&gt; on the &lt;em&gt;Hidden Test Set&lt;/em&gt;: \(3 \leq N \leq 10^5\). We know that the average and the worst-case performance of bubble sort is \(O(n^2)\). See some assumptions, and deductions below:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Assume 1 B instructions on a &lt;em&gt;regular machine&lt;/em&gt; run in 1 second&lt;/li&gt;
+  &lt;li&gt;Assume that the computation power allocated for a submission on Google Code Jam judge server is in the order of a &lt;em&gt;regular machine&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;Assume trouble sort has the same average and worst-case complexity as bubble sort.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Then trouble sort requires \(10^{10}\) operations to execute, which would take ~10 seconds on Google Code Jam judge server (for a single large test case). If, we have more than a few such large test cases, it is nearly certain that this approach will not pass &lt;em&gt;Hidden Test Set&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;observations&quot;&gt;Observations&lt;/h1&gt;
+
+&lt;p&gt;The crucial detail in trouble sort is that:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It compares and sorts the values at &lt;em&gt;even&lt;/em&gt; indices among themselves.&lt;/li&gt;
+  &lt;li&gt;It compares and sorts the values at &lt;em&gt;odd&lt;/em&gt; indices among themselves.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Thus, even though trouble sort works on a single array, it sorts two different parts of the array &lt;em&gt;independently&lt;/em&gt;. It is possible that when these two arrays are interleaved they may not form a sorted array.&lt;/p&gt;
+
+&lt;h1 id=&quot;approach&quot;&gt;Approach&lt;/h1&gt;
+
+&lt;p&gt;We know we could perform sorting in \(O(n \log{n})\). Therefore, the idea is:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Extract the &lt;em&gt;even&lt;/em&gt; array from the original array and sort it in \(O(n \log{n})\).&lt;/li&gt;
+  &lt;li&gt;Extract the &lt;em&gt;odd&lt;/em&gt; array from the original array and sort it in \(O(n \log{n})\).&lt;/li&gt;
+  &lt;li&gt;Make a pass through both arrays in an alternating manner and detect if there is an &lt;em&gt;anomaly&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
+
+&lt;p&gt;The following is a C++ implementation of the approach mentioned.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
+ * Ans is a wrapper class to store answers
+ * Case is a wrapper class to store cases
+ */&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solveCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// -1 indicates 'no anomaly', assume initially
+&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;extract&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// the alternating pass
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]){&lt;/span&gt;            
+            &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Notice that the odd array could be 1 element shorter then the even array. When they are of equal length, we have an irregularity in the comparison pattern. See the following figure, for the demonstration of what the for loop does in this code.&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/trouble-sort/trouble-sort-arrays.svg&quot; /&gt;&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The last piece of this implementation is the following straightforward function to extract the &lt;em&gt;even&lt;/em&gt; and &lt;em&gt;odd&lt;/em&gt; arrays.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extract&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;even&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;odd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;remarks-and-improvements&quot;&gt;Remarks and Improvements&lt;/h1&gt;
+
+&lt;p&gt;With this implementation, we require auxiliary space and a tedious alternating pass to detect an anomaly. A more elegant way of performing this would be:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Instead of extracting &lt;em&gt;even&lt;/em&gt; and &lt;em&gt;odd&lt;/em&gt; arrays, use two custom iterators on the original array that visits &lt;em&gt;even&lt;/em&gt; and &lt;em&gt;odd&lt;/em&gt; indices respectively to sort.&lt;/li&gt;
+  &lt;li&gt;By doing so, we require no auxiliary space and the anomaly detection would be a simpler procedure.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Onur Eken</name></author><summary type="html">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</summary></entry><entry><title type="html">Code Jam 2018: Saving the Universe Again</title><link href="http://localhost:4000/saving-the-universe-again" rel="alternate" type="text/html" title="Code Jam 2018: Saving the Universe Again" /><published>2018-04-08T00:00:00+02:00</published><updated>2018-04-08T00:00:00+02:00</updated><id>http://localhost:4000/saving-the-universe-again</id><content type="html" xml:base="http://localhost:4000/saving-the-universe-again">&lt;p class=&quot;info&quot;&gt;Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.&lt;/p&gt;
+
+&lt;p&gt;I have checked the problems and proposed some solutions to those.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: Proposed ideas and implementations are not official, ideal, nor coded optimally. Instead, this is only one way to tackle the problem. Feel free to contact me to feedback possible optimizations!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt;: This explanation assumes that you are familiar with the terms, variables and the problem itself as defined on the official Code Jam &lt;a href=&quot;https://codejam.withgoogle.com/2018/&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;page&lt;/strong&gt;&lt;/a&gt;. If you have not read the problem description, please take your time and go through all of it.&lt;/p&gt;
+
+&lt;h1 id=&quot;observations&quot;&gt;Observations&lt;/h1&gt;
+
+&lt;p&gt;Naming things got pretty easy in recent years. Another title of the form:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;verb&amp;gt;ing the &amp;lt;object&amp;gt; great[optional] again!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Important observations about this problem are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;An exchange of adjacent letters that are both &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; is useless, since it does not reduce the total damage dealt to earth.&lt;/li&gt;
+  &lt;li&gt;Given infinite number of &lt;em&gt;hacks&lt;/em&gt; (a.k.a. exchange), it is always possible move all &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; to the very beginning (left hand-side) of the sequence.&lt;/li&gt;
+  &lt;li&gt;Given a sequence, the damage dealt to earth would be minimal when all &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; are stacked to the very beginning of sequence. Giving damage of total number of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; to earth.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;approach&quot;&gt;Approach&lt;/h1&gt;
+
+&lt;p&gt;Now we know what to do to check if it is possible or &lt;code class=&quot;highlighter-rouge&quot;&gt;IMPOSSIBLE&lt;/code&gt; to protect earth given an attack sequence:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;If number of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; is less than or equal to &lt;code class=&quot;highlighter-rouge&quot;&gt;D&lt;/code&gt; then &lt;em&gt;possible&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;Otherwise &lt;code class=&quot;highlighter-rouge&quot;&gt;IMPOSSIBLE&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Then… what should we do if it’s &lt;em&gt;possible&lt;/em&gt; to protect the earth? How do we find the minimal number of hacks?&lt;/p&gt;
+
+&lt;p&gt;We notice that a greedy algorithm could be used for finding it. Say, that the current damage dealt in the current state of the sequence is &lt;code class=&quot;highlighter-rouge&quot;&gt;V&lt;/code&gt;, then we would like to reduce this attack damage by &lt;code class=&quot;highlighter-rouge&quot;&gt;GAP = V - D&lt;/code&gt; in order to protect earth. If we shift the &lt;strong&gt;right-most&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; in the sequence, we are making progress at the greatest rate. Making progress at the greatest rate implies minimal number of &lt;em&gt;hacks&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;What if the right-most &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; is preceded by another &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;Then doing a &lt;em&gt;hack&lt;/em&gt; there would be useless. In that case we would like to find the &lt;strong&gt;right-most&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; &lt;strong&gt;that is preceded by a&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;C&lt;/code&gt; and &lt;em&gt;hack&lt;/em&gt; that one. Notice that each attack in a contiguous sequence of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; deal same damage to earth.&lt;/p&gt;
+
+&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
+
+&lt;p&gt;The idea looks simple enough, here is an implementation of this approach in C++&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
+ * Ans is a wrapper class to store answers
+ * Case is a wrapper class to store cases
+ */&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solveCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// -1 indicates IMPOSSIBLE
+&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// make a pass in sequence
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// stores positions of S
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shootVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// stores damages of S
+&lt;/span&gt;    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// damage at the current position
+&lt;/span&gt;    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// stores total damage of sequence
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'S'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// we have an S at this position
+&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;shootVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// we have a C at this position
+&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// check if possible to protect earth
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; 
+        &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;countHacks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shootVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The following function is the critical one for this problem. It is possible to implement this in various ways.
+A sub-procedure of this function is to find the &lt;strong&gt;best fit&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; in the given the set of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; with two properties &lt;code class=&quot;highlighter-rouge&quot;&gt;Position&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Damage&lt;/code&gt;. In such scenarios, one typically uses an Heap with custom comparator. Here instead, we chose to search it linearly, as the constraints were relaxed and implementation was simpler.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;countHacks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// search linearly to find hack index
+&lt;/span&gt;        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// found
+&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// hack it
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 	&lt;span class=&quot;c1&quot;&gt;// shift it to left
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 	&lt;span class=&quot;c1&quot;&gt;// halve the damage
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; 	&lt;span class=&quot;c1&quot;&gt;// update gap
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 		&lt;span class=&quot;c1&quot;&gt;// increment hack count
+&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;remarks&quot;&gt;Remarks&lt;/h1&gt;
+
+&lt;p&gt;Saving the Universe Again is a relatively simple problem. Once one sees the critical observations, the solution path is clear. Nevertheless, in this particular problem there are various ways to perform sub-tasks and thus implementation details are an important factor on the runtime.&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</summary></entry></feed>
