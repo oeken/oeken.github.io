@@ -1,4 +1,2 @@
----
----
 User-agent: *
-Sitemap: {{ site.url }}/sitemap.xml
+Sitemap: https://oeken.github.io/sitemap.xml
