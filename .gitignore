@@ -42,4 +42,7 @@ Temporary Items
 # IDEA
 .idea
 
+# custom
+_cache
+
 # End of https://www.gitignore.io/api/macos
