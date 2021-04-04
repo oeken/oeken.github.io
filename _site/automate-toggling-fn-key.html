@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Automate toggling function keys in macOS | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Automate toggling function keys in macOS" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn how to swiftly switch between standard and system function keys." />
+<meta property="og:description" content="Learn how to swiftly switch between standard and system function keys." />
+<link rel="canonical" href="https://oeken.github.io/automate-toggling-fn-key" />
+<meta property="og:url" content="https://oeken.github.io/automate-toggling-fn-key" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-04T00:00:00+02:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-04-04T00:00:00+02:00","headline":"Automate toggling function keys in macOS","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/automate-toggling-fn-key"},"url":"https://oeken.github.io/automate-toggling-fn-key","author":{"@type":"Person","name":"Onur Eken"},"description":"Learn how to swiftly switch between standard and system function keys.","@type":"BlogPosting","dateModified":"2021-04-04T00:00:00+02:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Automate toggling function keys in macOS</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-04-04T00:00:00+02:00" itemprop="datePublished">Apr, 2021
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This one is not a coding problem but a productivity tip. I mostly use JetBrain IDEs for programming on macOS. I need frequent access to function keys (<code class="highlighter-rouge">F7</code>, <code class="highlighter-rouge">F8</code>, <code class="highlighter-rouge">F9</code>, etc. ) when I debug some code. Not only those, but also I need access to system function keys very often, to adjust brightness, volume, and to get an overview of open applications, etc.</p>
+
+<p>In this case, being able to quickly toggle the mode of the function keys would be very useful:</p>
+<ul>
+  <li>Standard function keys (<code class="highlighter-rouge">F1</code>, <code class="highlighter-rouge">F2</code>, etc.)</li>
+  <li>System function keys (Adjust brightness, volume etc.)</li>
+</ul>
+
+<p>It is possible to do this in System Preferences –&gt; Keyboard, however, it is very slow having to go through these panels.</p>
+
+<p style="text-align: center;"><img src="/assets/automate-toggling-fn-key/keyboard-preferences-annotated.png" alt="Keyboard Preferences" /></p>
+
+<p>Using <strong>Automator</strong> and <strong>BetterTouchTool</strong> programs we can do much better and faster. In Automator, one can write custom scripts in <strong>AppleScript</strong> language to control the system. For example, the following snippet toggles a checkbox in the <strong>Keyboard Preferences</strong> on macOS Big Sur (11.2.2), coincidentally… exactly the one we need.</p>
+
+<script src="https://gist.github.com/oeken/86e1dd95b7f8e8cdc95f41d74bc9e092.js"></script>
+
+<p>Next, create a <strong>macOS workflow</strong> with this script and save it where appropriate.</p>
+
+<p style="text-align: center;"><img src="/assets/automate-toggling-fn-key/automator-annotated.png" alt="Keyboard Preferences" /></p>
+<blockquote>
+  <p>Automator –&gt; File –&gt; New –&gt; Worfklow –&gt; Run AppleScript.</p>
+</blockquote>
+
+<p>Verify that workflow does toggle the function keys by executing the workflow. Next, bind this workflow to a keyboard shortcut using BetterTouchTool.</p>
+
+<p style="text-align: center;"><img src="/assets/automate-toggling-fn-key/better-touch-tool-annotated.png" alt="Keyboard Preferences" /></p>
+
+<p>In my case, instead of a key combination, I chose to bind it to a key sequence: <em>Fn button pressed twice consecutively</em>.</p>
+
+<p>And voilà!</p>
+
+<p>Now, when programming I can switch to standard mode to use keys <code class="highlighter-rouge">F7</code>, <code class="highlighter-rouge">F8</code>, <code class="highlighter-rouge">F9</code> and when I want to control my computer I can switch back to system function keys.</p>
+
+<center>
+    <figure style="display:inline-block;">
+        <img width="80%" src="/assets/automate-toggling-fn-key/clion.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px" />
+    </figure>
+</center>
+
+  </div><a class="u-url" href="/automate-toggling-fn-key" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>
