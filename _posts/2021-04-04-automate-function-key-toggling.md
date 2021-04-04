@@ -9,6 +9,12 @@ permalink: automate-toggling-fn-key
 
 This one is not a coding problem but a productivity tip. I mostly use JetBrain IDEs for programming on macOS. I need frequent access to function keys (`F7`, `F8`, `F9`, etc. ) when I debug some code. Not only those, but also I need access to system function keys very often, to adjust brightness, volume, and to get an overview of open applications, etc.
 
+<center>
+    <figure style="display:inline-block;">
+        <img width="60%" src="/assets/automate-toggling-fn-key/clion.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px">
+    </figure>
+</center>
+
 In this case, being able to quickly toggle the mode of the function keys would be very useful:
 * Standard function keys (`F1`, `F2`, etc.)
 * System function keys (Adjust brightness, volume etc.)
@@ -41,9 +47,3 @@ In my case, instead of a key combination, I chose to bind it to a key sequence: 
 And voilà!
 
 Now, when programming I can switch to standard mode to use keys `F7`, `F8`, `F9` and when I want to control my computer I can switch back to system function keys.
-
-<center>
-    <figure style="display:inline-block;">
-        <img width="80%" src="/assets/automate-toggling-fn-key/clion.png" style="margin-top:20px;margin-bottom:30px;margin-right:10px">
-    </figure>
-</center>
