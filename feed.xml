@@ -1,4 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.3">Jekyll</generator><link href="https://oeken.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://oeken.github.io/" rel="alternate" type="text/html" /><updated>2021-01-31T17:38:27+01:00</updated><id>https://oeken.github.io/feed.xml</id><title type="html">Onur Eken</title><author><name>Onur Eken</name></author><entry><title type="html">Sum to any number using Fibonacci numbers</title><link href="https://oeken.github.io/sum-using-fibonacci-numbers" rel="alternate" type="text/html" title="Sum to any number using Fibonacci numbers" /><published>2021-01-31T00:00:00+01:00</published><updated>2021-01-31T00:00:00+01:00</updated><id>https://oeken.github.io/sum-using-fibonacci-numbers</id><content type="html" xml:base="https://oeken.github.io/sum-using-fibonacci-numbers">&lt;div class=&quot;jekyll-linkpreview-wrapper&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.3">Jekyll</generator><link href="https://oeken.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://oeken.github.io/" rel="alternate" type="text/html" /><updated>2021-04-04T16:19:08+02:00</updated><id>https://oeken.github.io/feed.xml</id><title type="html">Onur Eken</title><author><name>Onur Eken</name></author><entry><title type="html">Automate toggling function keys in macOS</title><link href="https://oeken.github.io/automate-toggling-fn-key" rel="alternate" type="text/html" title="Automate toggling function keys in macOS" /><published>2021-04-04T00:00:00+02:00</published><updated>2021-04-04T00:00:00+02:00</updated><id>https://oeken.github.io/automate-function-key-toggling</id><content type="html" xml:base="https://oeken.github.io/automate-toggling-fn-key">&lt;p&gt;This one is not a coding problem but a productivity tip. I mostly use JetBrain IDEs for programming on macOS. I need frequent access to function keys (&lt;code class=&quot;highlighter-rouge&quot;&gt;F7&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F8&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F9&lt;/code&gt;, etc. ) when I debug some code. Not only those, but also I need access to system function keys very often, to adjust brightness, volume, and to get an overview of open applications, etc.&lt;/p&gt;
+
+&lt;p&gt;In this case, being able to quickly toggle the mode of the function keys would be very useful:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Standard function keys (&lt;code class=&quot;highlighter-rouge&quot;&gt;F1&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F2&lt;/code&gt;, etc.)&lt;/li&gt;
+  &lt;li&gt;System function keys (Adjust brightness, volume etc.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It is possible to do this in System Preferences –&amp;gt; Keyboard, however, it is very slow having to go through these panels.&lt;/p&gt;
+
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/assets/automate-toggling-fn-key/keyboard-preferences-annotated.png&quot; alt=&quot;Keyboard Preferences&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Using &lt;strong&gt;Automator&lt;/strong&gt; and &lt;strong&gt;BetterTouchTool&lt;/strong&gt; programs we can do much better and faster. In Automator, one can write custom scripts in &lt;strong&gt;AppleScript&lt;/strong&gt; language to control the system. For example, the following snippet toggles a checkbox in the &lt;strong&gt;Keyboard Preferences&lt;/strong&gt; on macOS Big Sur (11.2.2), coincidentally… exactly the one we need.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/oeken/86e1dd95b7f8e8cdc95f41d74bc9e092.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;Next, create a &lt;strong&gt;macOS workflow&lt;/strong&gt; with this script and save it where appropriate.&lt;/p&gt;
+
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/assets/automate-toggling-fn-key/automator-annotated.png&quot; alt=&quot;Keyboard Preferences&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Automator –&amp;gt; File –&amp;gt; New –&amp;gt; Worfklow –&amp;gt; Run AppleScript.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Verify that workflow does toggle the function keys by executing the workflow. Next, bind this workflow to a keyboard shortcut using BetterTouchTool.&lt;/p&gt;
+
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;/assets/automate-toggling-fn-key/better-touch-tool-annotated.png&quot; alt=&quot;Keyboard Preferences&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In my case, instead of a key combination, I chose to bind it to a key sequence: &lt;em&gt;Fn button pressed twice consecutively&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;And voilà!&lt;/p&gt;
+
+&lt;p&gt;Now, when programming I can switch to standard mode to use keys &lt;code class=&quot;highlighter-rouge&quot;&gt;F7&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F8&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F9&lt;/code&gt; and when I want to control my computer I can switch back to system function keys.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+        &lt;img width=&quot;80%&quot; src=&quot;/assets/automate-toggling-fn-key/clion.png&quot; style=&quot;margin-top:20px;margin-bottom:30px;margin-right:10px&quot; /&gt;
+    &lt;/figure&gt;
+&lt;/center&gt;</content><author><name>Onur Eken</name></author><summary type="html">This one is not a coding problem but a productivity tip. I mostly use JetBrain IDEs for programming on macOS. I need frequent access to function keys (F7, F8, F9, etc. ) when I debug some code. Not only those, but also I need access to system function keys very often, to adjust brightness, volume, and to get an overview of open applications, etc.</summary></entry><entry><title type="html">Sum to any number using Fibonacci numbers</title><link href="https://oeken.github.io/sum-using-fibonacci-numbers" rel="alternate" type="text/html" title="Sum to any number using Fibonacci numbers" /><published>2021-01-31T00:00:00+01:00</published><updated>2021-01-31T00:00:00+01:00</updated><id>https://oeken.github.io/sum-using-fibonacci-numbers</id><content type="html" xml:base="https://oeken.github.io/sum-using-fibonacci-numbers">&lt;div class=&quot;jekyll-linkpreview-wrapper&quot;&gt;
     &lt;div class=&quot;jekyll-linkpreview-wrapper-inner&quot;&gt;
         &lt;div class=&quot;jekyll-linkpreview-content&quot;&gt;
             &lt;div class=&quot;jekyll-linkpreview-image&quot;&gt;
