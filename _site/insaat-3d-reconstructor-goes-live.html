@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Insaat 3D Reconstructor goes live | Onur Eken</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Insaat 3D Reconstructor goes live" />
+<meta name="author" content="Onur Eken" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A cloud native application that can reconstruct 3D models from images." />
+<meta property="og:description" content="A cloud native application that can reconstruct 3D models from images." />
+<link rel="canonical" href="https://oeken.github.io/insaat-3d-reconstructor-goes-live" />
+<meta property="og:url" content="https://oeken.github.io/insaat-3d-reconstructor-goes-live" />
+<meta property="og:site_name" content="Onur Eken" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-10T00:00:00+01:00" />
+<script type="application/ld+json">
+{"url":"https://oeken.github.io/insaat-3d-reconstructor-goes-live","headline":"Insaat 3D Reconstructor goes live","dateModified":"2022-03-10T00:00:00+01:00","datePublished":"2022-03-10T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/insaat-3d-reconstructor-goes-live"},"author":{"@type":"Person","name":"Onur Eken"},"description":"A cloud native application that can reconstruct 3D models from images.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper header-wrapper"><!-- this is the title -->
+    <a class="site-title" rel="author" href="/">Onur Eken</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a><a class="page-link" href="/about">About</a><a class="page-link" href="/contact">Contact</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div id="bg-image"></div>
+      <div class="wrapper">
+        <script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h2 class="post-title p-name" itemprop="name headline">Insaat 3D Reconstructor goes live</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-03-10T00:00:00+01:00" itemprop="datePublished">Mar, 2022
+      </time>
+      <!--</p> -->
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Last several months, I have been working on a side project where I combine 3D computer vision techniques with cloud application development. The result is <a href="https://insaat3d.com" target="_blank"><strong>Insaat 3D Reconstructor</strong></a>, a cloud-native application that makes it easy to reconstruct 3D mesh models from images. This process is also known as photogrammetry.</p>
+
+<div class="jekyll-linkpreview-wrapper">
+    <div class="jekyll-linkpreview-wrapper-inner">
+        <div class="jekyll-linkpreview-content">
+            <div class="jekyll-linkpreview-image">
+                <a href="https://www.wikiwand.com/en/Photogrammetry" target="_blank">
+                    <img src="/assets/link.png" />
+                </a>
+            </div>
+            <div class="jekyll-linkpreview-body">
+                <h4 class="jekyll-linkpreview-title">
+                    <a href="https://www.wikiwand.com/en/Photogrammetry" target="_blank"> Photogrammetry | Wikiwand</a>
+                </h4>
+                <div class="jekyll-linkpreview-description"> Photogrammetry is the science and technology of obtaining reliable information about physical objects and the environment through the process of recording, measuring and interpreting photographic images and patterns of electromagnetic radiant imagery and other phenomena.[1]</div>
+            </div>
+        </div>
+        <div class="jekyll-linkpreview-footer">
+            <a href="http://www.wikiwand.com" target="_blank"> www.wikiwand.com</a>
+        </div>
+    </div>
+</div>
+
+<p>There are already several software solutions available for this purpose. However, apart from being free, Insaat also offers convenience for the user. In a nutshell, the benefits are:</p>
+
+<ul>
+  <li>You don’t overwhelm your computer with CPU-intensive computations.</li>
+  <li>You don’t go through a complex photogrammetry software installation process.</li>
+  <li>You don’t need to explore the reconstruction parameter space to fine-tune your reconstruction quality.</li>
+</ul>
+
+<p>The user only uploads the images in JPEG format. When the result is available, Insaat notifies via email, and the 3D model can be viewed in the browser. Because Insaat is not a commercial project, it lacks the powerful hardware to accelerate the computations. Therefore it is targeted more towards 3D model hobbyists rather than industry professionals.</p>
+
+<p>I see it as more of a fun tool. For example, you can create a toy 3D model of your car and 3D print this model to decorate your desk. Or let’s say if you are a landlord in Berlin, you can create a 3D model of your flat interior and share it with prospective tenants.</p>
+
+<h1 id="technical-overview">Technical Overview</h1>
+
+<p>Insaat follows a microservices-style architecture consisting of 3 stateless components: <code class="highlighter-rouge">webapp</code>, <code class="highlighter-rouge">backend</code>, <code class="highlighter-rouge">compute</code>.</p>
+
+<center>
+    <figure style="display:inline-block;">
+        <img width="100%" src="/assets/insaat-goes-live/insaat-architecture.jpg" style="margin-top:20px;margin-right:10px" />
+    </figure>
+    <i>Application architecture.</i>
+    
+</center>
+<p><br /></p>
+
+<p>The <code class="highlighter-rouge">webapp</code> delivers a single-page application (SPA) written in Angular. This browser client talks to the <code class="highlighter-rouge">backend</code> to perform authentication, fetch data, and create new reconstruction requests. These requests reach <code class="highlighter-rouge">compute</code> via the message broker, and as the name implies, <code class="highlighter-rouge">compute</code> does the heavy lifting by using the OpenMVG complete photogrammetry pipeline. Then, <code class="highlighter-rouge">compute</code> publishes the result at the message broker. Throughout the process, binary large objects such as images and models are stored in and served from an AWS S3 bucket.</p>
+
+<h1 id="challenges">Challenges</h1>
+
+<h4 id="1-local-development">1. Local Development</h4>
+
+<p>Right off the bat, I had issues building OpenMVG binaries on my ARM-based computer (M1 Apple Macbook Air). Because many computer vision algorithms lend themselves to parallelization, library authors take advantage of SIMD instructions where possible. However, they seemingly considered SIMD instructions only for AMD 64 architecture CPUs, e.g. SSE, AVX. These are not available in ARM instruction set architecture. Therefore I skimmed through the codebase and disabled parts which use SIMD instructions. I built and published the arm64-based Docker images for <a href="https://hub.docker.com/repository/docker/oeken/openmvg" target="_blank">OpenMVG</a> and <a href="https://hub.docker.com/repository/docker/oeken/openmvs" target="_blank">OpenMVS</a> in my Docker account.</p>
+
+<h4 id="2-building-for-cloud-servers">2. Building for Cloud Servers</h4>
+
+<p>Another similar issue I encountered during the development of Insaat was due to the environment difference between the CI/CD server and the cloud servers. Initially, I built the OpenMVG binaries on the CI/CD machine. Even though the target OS and the architecture (<code class="highlighter-rouge">Linux - amd64</code>) matched with the cloud server machine, running the binaries in the cloud would result in a segmentation fault. After some debugging, I found out that the processor in the CI/CD machine included some of the extended SIMD instructions (e.g. AVX-512) which the cloud server did not support. Therefore running those binaries in the cloud server failed since the instructions were not found. I resolved this problem by building the binaries on the cloud server itself.</p>
+
+<h4 id="3-graceful-compute-service-deployments">3. Graceful Compute Service Deployments</h4>
+
+<p>I use Kubernetes’ Deployment resource to roll out new versions of the applications. However, during my tests, I noticed that a roll-out of a new <code class="highlighter-rouge">compute</code> service would result in lost reconstruction tasks if they were in progress. Which makes a lot of sense because when a <code class="highlighter-rouge">SIGINT</code> signal is sent to the containers in the terminating pods, <code class="highlighter-rouge">compute</code> service only aborts the child processes and gracefully shuts down. However, it did not have any logic to persist the reconstruction tasks. In the next iteration, I implemented an improved graceful shutdown where the <code class="highlighter-rouge">compute</code> service publishes the incomplete reconstruction tasks back to the message queue so that they can be later picked up by the next <code class="highlighter-rouge">compute</code> service that will go love and connect to the message queue. It works smoothly in practice.</p>
+
+<h4 id="4-going-low-on-memory">4. Going Low on Memory</h4>
+
+<p>After I got everything working well on my computer I was excited… So with high hopes, I went ahead and did my first reconstruction test on the cloud server. The result? <code class="highlighter-rouge">compute</code> pod is killed due to out of memory. Well… after some investigation, I figured out that it never happened on my computer since it uses <strong>swap memory</strong>. Kubernetes pods? Not really. Allowing swap memory is a feature that is recently introduced in <code class="highlighter-rouge">kubelet</code>. While enabling swap could be a solution, I preferred a simpler one. Two ideas to reduce memory consumption:</p>
+
+<ul>
+  <li>Limit the number of concurrent reconstruction tasks</li>
+  <li>Resize too large images (also speeds up reconstruction tasks)</li>
+</ul>
+
+<p>After these changes, the peak memory usage never goes beyond 60%, and the reconstructions speed up by a factor of 4. Concretely, a particular reconstruction task that used to take ~5 minutes now takes 1 minute.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>I find developing compute-intensive applications in the cloud exciting because there lurk challenges that are not prevalent in typical CRUD applications. Most likely, I am yet to discover more.</p>
+
+  </div><a class="u-url" href="/insaat-3d-reconstructor-goes-live" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper footer-wrapper">
+    <p class="trademark">© Onur Eken</p><!-- <ul class="social-media-list"> --><a href="https://github.com/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'github');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> 
+
+    </a><a href="https://www.linkedin.com/in/oeken" target="_blank" onclick="ga('send', 'event', 'link-click', 'linkedin');"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a><!-- </ul> -->
+</div>
+
+</footer>
+</body>
+
+</html>
