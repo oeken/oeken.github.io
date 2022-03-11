@@ -1,4 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.3">Jekyll</generator><link href="https://oeken.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://oeken.github.io/" rel="alternate" type="text/html" /><updated>2021-04-04T18:24:03+02:00</updated><id>https://oeken.github.io/feed.xml</id><title type="html">Onur Eken</title><author><name>Onur Eken</name></author><entry><title type="html">Automate toggling function keys in macOS</title><link href="https://oeken.github.io/automate-toggling-fn-key" rel="alternate" type="text/html" title="Automate toggling function keys in macOS" /><published>2021-04-04T00:00:00+02:00</published><updated>2021-04-04T00:00:00+02:00</updated><id>https://oeken.github.io/automate-function-key-toggling</id><content type="html" xml:base="https://oeken.github.io/automate-toggling-fn-key">&lt;p&gt;This one is not a coding problem but a productivity tip. I mostly use JetBrain IDEs for programming on macOS. I need frequent access to function keys (&lt;code class=&quot;highlighter-rouge&quot;&gt;F7&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F8&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F9&lt;/code&gt;, etc. ) when I debug some code. Not only those, but also I need access to system function keys very often, to adjust brightness, volume, and to get an overview of open applications, etc.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.3">Jekyll</generator><link href="https://oeken.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://oeken.github.io/" rel="alternate" type="text/html" /><updated>2022-03-11T17:50:05+01:00</updated><id>https://oeken.github.io/feed.xml</id><title type="html">Onur Eken</title><author><name>Onur Eken</name></author><entry><title type="html">Insaat 3D Reconstructor goes live</title><link href="https://oeken.github.io/insaat-3d-reconstructor-goes-live" rel="alternate" type="text/html" title="Insaat 3D Reconstructor goes live" /><published>2022-03-10T00:00:00+01:00</published><updated>2022-03-10T00:00:00+01:00</updated><id>https://oeken.github.io/insaat-3d-reconstructor-goes-live</id><content type="html" xml:base="https://oeken.github.io/insaat-3d-reconstructor-goes-live">&lt;p&gt;Last several months, I have been working on a side project where I combine 3D computer vision techniques with cloud application development. The result is &lt;a href=&quot;https://insaat3d.com&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Insaat 3D Reconstructor&lt;/strong&gt;&lt;/a&gt;, a cloud-native application that makes it easy to reconstruct 3D mesh models from images. This process is also known as photogrammetry.&lt;/p&gt;
+
+&lt;div class=&quot;jekyll-linkpreview-wrapper&quot;&gt;
+    &lt;div class=&quot;jekyll-linkpreview-wrapper-inner&quot;&gt;
+        &lt;div class=&quot;jekyll-linkpreview-content&quot;&gt;
+            &lt;div class=&quot;jekyll-linkpreview-image&quot;&gt;
+                &lt;a href=&quot;https://www.wikiwand.com/en/Photogrammetry&quot; target=&quot;_blank&quot;&gt;
+                    &lt;img src=&quot;/assets/link.png&quot; /&gt;
+                &lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;jekyll-linkpreview-body&quot;&gt;
+                &lt;h4 class=&quot;jekyll-linkpreview-title&quot;&gt;
+                    &lt;a href=&quot;https://www.wikiwand.com/en/Photogrammetry&quot; target=&quot;_blank&quot;&gt; Photogrammetry | Wikiwand&lt;/a&gt;
+                &lt;/h4&gt;
+                &lt;div class=&quot;jekyll-linkpreview-description&quot;&gt; Photogrammetry is the science and technology of obtaining reliable information about physical objects and the environment through the process of recording, measuring and interpreting photographic images and patterns of electromagnetic radiant imagery and other phenomena.[1]&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;jekyll-linkpreview-footer&quot;&gt;
+            &lt;a href=&quot;http://www.wikiwand.com&quot; target=&quot;_blank&quot;&gt; www.wikiwand.com&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There are already several software solutions available for this purpose. However, apart from being free, Insaat also offers convenience for the user. In a nutshell, the benefits are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You don’t overwhelm your computer with CPU-intensive computations.&lt;/li&gt;
+  &lt;li&gt;You don’t go through a complex photogrammetry software installation process.&lt;/li&gt;
+  &lt;li&gt;You don’t need to explore the reconstruction parameter space to fine-tune your reconstruction quality.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The user only uploads the images in JPEG format. When the result is available, Insaat notifies via email, and the 3D model can be viewed in the browser. Because Insaat is not a commercial project, it lacks the powerful hardware to accelerate the computations. Therefore it is targeted more towards 3D model hobbyists rather than industry professionals.&lt;/p&gt;
+
+&lt;p&gt;I see it as more of a fun tool. For example, you can create a toy 3D model of your car and 3D print this model to decorate your desk. Or let’s say if you are a landlord in Berlin, you can create a 3D model of your flat interior and share it with prospective tenants.&lt;/p&gt;
+
+&lt;h1 id=&quot;technical-overview&quot;&gt;Technical Overview&lt;/h1&gt;
+
+&lt;p&gt;Insaat follows a microservices-style architecture consisting of 3 stateless components: &lt;code class=&quot;highlighter-rouge&quot;&gt;webapp&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;backend&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt;.&lt;/p&gt;
+
+&lt;center&gt;
+    &lt;figure style=&quot;display:inline-block;&quot;&gt;
+        &lt;img width=&quot;100%&quot; src=&quot;/assets/insaat-goes-live/insaat-architecture.jpg&quot; style=&quot;margin-top:20px;margin-right:10px&quot; /&gt;
+    &lt;/figure&gt;
+    &lt;i&gt;Application architecture.&lt;/i&gt;
+    
+&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;webapp&lt;/code&gt; delivers a single-page application (SPA) written in Angular. This browser client talks to the &lt;code class=&quot;highlighter-rouge&quot;&gt;backend&lt;/code&gt; to perform authentication, fetch data, and create new reconstruction requests. These requests reach &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; via the message broker, and as the name implies, &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; does the heavy lifting by using the OpenMVG complete photogrammetry pipeline. Then, &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; publishes the result at the message broker. Throughout the process, binary large objects such as images and models are stored in and served from an AWS S3 bucket.&lt;/p&gt;
+
+&lt;h1 id=&quot;challenges&quot;&gt;Challenges&lt;/h1&gt;
+
+&lt;h4 id=&quot;1-local-development&quot;&gt;1. Local Development&lt;/h4&gt;
+
+&lt;p&gt;Right off the bat, I had issues building OpenMVG binaries on my ARM-based computer (M1 Apple Macbook Air). Because many computer vision algorithms lend themselves to parallelization, library authors take advantage of SIMD instructions where possible. However, they seemingly considered SIMD instructions only for AMD 64 architecture CPUs, e.g. SSE, AVX. These are not available in ARM instruction set architecture. Therefore I skimmed through the codebase and disabled parts which use SIMD instructions. I built and published the arm64-based Docker images for &lt;a href=&quot;https://hub.docker.com/repository/docker/oeken/openmvg&quot; target=&quot;_blank&quot;&gt;OpenMVG&lt;/a&gt; and &lt;a href=&quot;https://hub.docker.com/repository/docker/oeken/openmvs&quot; target=&quot;_blank&quot;&gt;OpenMVS&lt;/a&gt; in my Docker account.&lt;/p&gt;
+
+&lt;h4 id=&quot;2-building-for-cloud-servers&quot;&gt;2. Building for Cloud Servers&lt;/h4&gt;
+
+&lt;p&gt;Another similar issue I encountered during the development of Insaat was due to the environment difference between the CI/CD server and the cloud servers. Initially, I built the OpenMVG binaries on the CI/CD machine. Even though the target OS and the architecture (&lt;code class=&quot;highlighter-rouge&quot;&gt;Linux - amd64&lt;/code&gt;) matched with the cloud server machine, running the binaries in the cloud would result in a segmentation fault. After some debugging, I found out that the processor in the CI/CD machine included some of the extended SIMD instructions (e.g. AVX-512) which the cloud server did not support. Therefore running those binaries in the cloud server failed since the instructions were not found. I resolved this problem by building the binaries on the cloud server itself.&lt;/p&gt;
+
+&lt;h4 id=&quot;3-graceful-compute-service-deployments&quot;&gt;3. Graceful Compute Service Deployments&lt;/h4&gt;
+
+&lt;p&gt;I use Kubernetes’ Deployment resource to roll out new versions of the applications. However, during my tests, I noticed that a roll-out of a new &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; service would result in lost reconstruction tasks if they were in progress. Which makes a lot of sense because when a &lt;code class=&quot;highlighter-rouge&quot;&gt;SIGINT&lt;/code&gt; signal is sent to the containers in the terminating pods, &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; service only aborts the child processes and gracefully shuts down. However, it did not have any logic to persist the reconstruction tasks. In the next iteration, I implemented an improved graceful shutdown where the &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; service publishes the incomplete reconstruction tasks back to the message queue so that they can be later picked up by the next &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; service that will go love and connect to the message queue. It works smoothly in practice.&lt;/p&gt;
+
+&lt;h4 id=&quot;4-going-low-on-memory&quot;&gt;4. Going Low on Memory&lt;/h4&gt;
+
+&lt;p&gt;After I got everything working well on my computer I was excited… So with high hopes, I went ahead and did my first reconstruction test on the cloud server. The result? &lt;code class=&quot;highlighter-rouge&quot;&gt;compute&lt;/code&gt; pod is killed due to out of memory. Well… after some investigation, I figured out that it never happened on my computer since it uses &lt;strong&gt;swap memory&lt;/strong&gt;. Kubernetes pods? Not really. Allowing swap memory is a feature that is recently introduced in &lt;code class=&quot;highlighter-rouge&quot;&gt;kubelet&lt;/code&gt;. While enabling swap could be a solution, I preferred a simpler one. Two ideas to reduce memory consumption:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Limit the number of concurrent reconstruction tasks&lt;/li&gt;
+  &lt;li&gt;Resize too large images (also speeds up reconstruction tasks)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After these changes, the peak memory usage never goes beyond 60%, and the reconstructions speed up by a factor of 4. Concretely, a particular reconstruction task that used to take ~5 minutes now takes 1 minute.&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;I find developing compute-intensive applications in the cloud exciting because there lurk challenges that are not prevalent in typical CRUD applications. Most likely, I am yet to discover more.&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">Last several months, I have been working on a side project where I combine 3D computer vision techniques with cloud application development. The result is Insaat 3D Reconstructor, a cloud-native application that makes it easy to reconstruct 3D mesh models from images. This process is also known as photogrammetry.</summary></entry><entry><title type="html">Automate toggling function keys in macOS</title><link href="https://oeken.github.io/automate-toggling-fn-key" rel="alternate" type="text/html" title="Automate toggling function keys in macOS" /><published>2021-04-04T00:00:00+02:00</published><updated>2021-04-04T00:00:00+02:00</updated><id>https://oeken.github.io/automate-function-key-toggling</id><content type="html" xml:base="https://oeken.github.io/automate-toggling-fn-key">&lt;p&gt;This one is not a coding problem but a productivity tip. I mostly use JetBrain IDEs for programming on macOS. I need frequent access to function keys (&lt;code class=&quot;highlighter-rouge&quot;&gt;F7&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F8&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;F9&lt;/code&gt;, etc. ) when I debug some code. Not only those, but also I need access to system function keys very often, to adjust brightness, volume, and to get an overview of open applications, etc.&lt;/p&gt;
 
 &lt;center&gt;
     &lt;figure style=&quot;display:inline-block;&quot;&gt;
@@ -1401,106 +1478,4 @@ while(rectangle not completed AND answerCell is not fail){
 &lt;ul&gt;
   &lt;li&gt;Instead of extracting &lt;em&gt;even&lt;/em&gt; and &lt;em&gt;odd&lt;/em&gt; arrays, use two custom iterators on the original array that visits &lt;em&gt;even&lt;/em&gt; and &lt;em&gt;odd&lt;/em&gt; indices respectively to sort.&lt;/li&gt;
   &lt;li&gt;By doing so, we require no auxiliary space and the anomaly detection would be a simpler procedure.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Onur Eken</name></author><summary type="html">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</summary></entry><entry><title type="html">Code Jam 2018: Saving the Universe Again</title><link href="https://oeken.github.io/saving-the-universe-again" rel="alternate" type="text/html" title="Code Jam 2018: Saving the Universe Again" /><published>2018-04-08T00:00:00+02:00</published><updated>2018-04-08T00:00:00+02:00</updated><id>https://oeken.github.io/saving-the-universe-again</id><content type="html" xml:base="https://oeken.github.io/saving-the-universe-again">&lt;p class=&quot;info&quot;&gt;Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.&lt;/p&gt;
-
-&lt;p&gt;I have checked the problems and proposed some solutions to those.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: Proposed ideas and implementations are not official, ideal, nor coded optimally. Instead, this is only one way to tackle the problem. Feel free to contact me to feedback possible optimizations!&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt;: This explanation assumes that you are familiar with the terms, variables and the problem itself as defined on the official Code Jam &lt;a href=&quot;https://codejam.withgoogle.com/2018/&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;page&lt;/strong&gt;&lt;/a&gt;. If you have not read the problem description, please take your time and go through all of it.&lt;/p&gt;
-
-&lt;h1 id=&quot;observations&quot;&gt;Observations&lt;/h1&gt;
-
-&lt;p&gt;Naming things got pretty easy in recent years. Another title of the form:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;verb&amp;gt;ing the &amp;lt;object&amp;gt; great[optional] again!&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Important observations about this problem are:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;An exchange of adjacent letters that are both &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; is useless, since it does not reduce the total damage dealt to earth.&lt;/li&gt;
-  &lt;li&gt;Given infinite number of &lt;em&gt;hacks&lt;/em&gt; (a.k.a. exchange), it is always possible move all &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; to the very beginning (left hand-side) of the sequence.&lt;/li&gt;
-  &lt;li&gt;Given a sequence, the damage dealt to earth would be minimal when all &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; are stacked to the very beginning of sequence. Giving damage of total number of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; to earth.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;approach&quot;&gt;Approach&lt;/h1&gt;
-
-&lt;p&gt;Now we know what to do to check if it is possible or &lt;code class=&quot;highlighter-rouge&quot;&gt;IMPOSSIBLE&lt;/code&gt; to protect earth given an attack sequence:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;If number of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; is less than or equal to &lt;code class=&quot;highlighter-rouge&quot;&gt;D&lt;/code&gt; then &lt;em&gt;possible&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;Otherwise &lt;code class=&quot;highlighter-rouge&quot;&gt;IMPOSSIBLE&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Then… what should we do if it’s &lt;em&gt;possible&lt;/em&gt; to protect the earth? How do we find the minimal number of hacks?&lt;/p&gt;
-
-&lt;p&gt;We notice that a greedy algorithm could be used for finding it. Say, that the current damage dealt in the current state of the sequence is &lt;code class=&quot;highlighter-rouge&quot;&gt;V&lt;/code&gt;, then we would like to reduce this attack damage by &lt;code class=&quot;highlighter-rouge&quot;&gt;GAP = V - D&lt;/code&gt; in order to protect earth. If we shift the &lt;strong&gt;right-most&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; in the sequence, we are making progress at the greatest rate. Making progress at the greatest rate implies minimal number of &lt;em&gt;hacks&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;What if the right-most &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; is preceded by another &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt;?&lt;/p&gt;
-
-&lt;p&gt;Then doing a &lt;em&gt;hack&lt;/em&gt; there would be useless. In that case we would like to find the &lt;strong&gt;right-most&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; &lt;strong&gt;that is preceded by a&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;C&lt;/code&gt; and &lt;em&gt;hack&lt;/em&gt; that one. Notice that each attack in a contiguous sequence of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; deal same damage to earth.&lt;/p&gt;
-
-&lt;h1 id=&quot;implementation&quot;&gt;Implementation&lt;/h1&gt;
-
-&lt;p&gt;The idea looks simple enough, here is an implementation of this approach in C++&lt;/p&gt;
-
-&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
- * Ans is a wrapper class to store answers
- * Case is a wrapper class to store cases
- */&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solveCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Ans&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// -1 indicates IMPOSSIBLE
-&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// make a pass in sequence
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// stores positions of S
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shootVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// stores damages of S
-&lt;/span&gt;    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// damage at the current position
-&lt;/span&gt;    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// stores total damage of sequence
-&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'S'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// we have an S at this position
-&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;shootVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// we have a C at this position
-&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// check if possible to protect earth
-&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; 
-        &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;countHacks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shootPos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shootVal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The following function is the critical one for this problem. It is possible to implement this in various ways.
-A sub-procedure of this function is to find the &lt;strong&gt;best fit&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; in the given the set of &lt;code class=&quot;highlighter-rouge&quot;&gt;S&lt;/code&gt; with two properties &lt;code class=&quot;highlighter-rouge&quot;&gt;Position&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Damage&lt;/code&gt;. In such scenarios, one typically uses an Heap with custom comparator. Here instead, we chose to search it linearly, as the constraints were relaxed and implementation was simpler.&lt;/p&gt;
-
-&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;countHacks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vint&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vlong&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// search linearly to find hack index
-&lt;/span&gt;        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// found
-&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// hack it
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;pos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 	&lt;span class=&quot;c1&quot;&gt;// shift it to left
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 	&lt;span class=&quot;c1&quot;&gt;// halve the damage
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;gap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hackIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; 	&lt;span class=&quot;c1&quot;&gt;// update gap
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; 		&lt;span class=&quot;c1&quot;&gt;// increment hack count
-&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;remarks&quot;&gt;Remarks&lt;/h1&gt;
-
-&lt;p&gt;Saving the Universe Again is a relatively simple problem. Once one sees the critical observations, the solution path is clear. Nevertheless, in this particular problem there are various ways to perform sub-tasks and thus implementation details are an important factor on the runtime.&lt;/p&gt;</content><author><name>Onur Eken</name></author><summary type="html">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Onur Eken</name></author><summary type="html">Google Code Jam is an annual, international programming competition. Similar to ACM/ICPC but less restrictive since anyone who registers online can compete. Also the contest is not team based. It consists of several stages until its final onsite round. The very first stage qualification round recently took place.</summary></entry></feed>
