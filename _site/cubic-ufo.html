@@ -2,23 +2,25 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Code Jam 2018: Cubic UFO | Onur Eken</title>
-<meta name="generator" content="Jekyll v3.6.3" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Code Jam 2018: Cubic UFO" />
 <meta name="author" content="Onur Eken" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Geometric problem from qualification round. Playing with rotation matrices." />
 <meta property="og:description" content="Geometric problem from qualification round. Playing with rotation matrices." />
-<link rel="canonical" href="https://oeken.github.io/cubic-ufo" />
-<meta property="og:url" content="https://oeken.github.io/cubic-ufo" />
+<link rel="canonical" href="http://localhost:4000/cubic-ufo" />
+<meta property="og:url" content="http://localhost:4000/cubic-ufo" />
 <meta property="og:site_name" content="Onur Eken" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-04-11T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Code Jam 2018: Cubic UFO" />
 <script type="application/ld+json">
-{"url":"https://oeken.github.io/cubic-ufo","headline":"Code Jam 2018: Cubic UFO","dateModified":"2018-04-11T00:00:00+02:00","datePublished":"2018-04-11T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/cubic-ufo"},"author":{"@type":"Person","name":"Onur Eken"},"description":"Geometric problem from qualification round. Playing with rotation matrices.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Onur Eken"},"dateModified":"2018-04-11T00:00:00+02:00","datePublished":"2018-04-11T00:00:00+02:00","description":"Geometric problem from qualification round. Playing with rotation matrices.","headline":"Code Jam 2018: Cubic UFO","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/cubic-ufo"},"url":"http://localhost:4000/cubic-ufo"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper header-wrapper"><!-- this is the title -->
@@ -106,13 +108,12 @@ Let \( \vec{v_\theta} = rot_{\theta_{xy}}(\vec{v}) = rot_x(\theta_x, rot_z(\thet
 
 <p>Next we calculated what \(\vec{v_\theta}\) is equivalent of analytically. It essential is a small series of matrix-matrix-vector multiplication.</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\vec{v_\theta} = 
+\[\vec{v_\theta} = 
 
- \begin{bmatrix} & x*cos\theta_z - y*sin\theta_z \\ 
- 				 & x*cos\theta_x*sin\theta_z + y*cos\theta_x*cos\theta_z - z*sin\theta_x \\
- 				 & x*sin\theta_x*sin\theta_z + y*sin\theta_x*cos\theta_z + z*cos\theta_x \\
- \end{bmatrix} %]]></script>
+ \begin{bmatrix} &amp; x*cos\theta_z - y*sin\theta_z \\ 
+ 				 &amp; x*cos\theta_x*sin\theta_z + y*cos\theta_x*cos\theta_z - z*sin\theta_x \\
+ 				 &amp; x*sin\theta_x*sin\theta_z + y*sin\theta_x*cos\theta_z + z*cos\theta_x \\
+ \end{bmatrix}\]
 
 <p>where \(\vec{v} = \begin{bmatrix}x &amp; y &amp; z\end{bmatrix}^T\)</p>
 
@@ -128,7 +129,7 @@ Let \( \vec{v_\theta} = rot_{\theta_{xy}}(\vec{v}) = rot_x(\theta_x, rot_z(\thet
 
 <p>We calculate areas due to each the of the 3 faces of the cube and add them together. We get the following equation that gives us the total area \(A_\theta\) after a rotation \(\theta\) applied to the cube:</p>
 
-<script type="math/tex; mode=display">A_\theta = |cos\theta_x*sin\theta_z| + |cos\theta_x*cos\theta_z| + |-sin\theta_x|</script>
+\[A_\theta = |cos\theta_x*sin\theta_z| + |cos\theta_x*cos\theta_z| + |-sin\theta_x|\]
 
 <p>Let’s plot a heatmap of this function with respect to \(\theta_x\) and \(\theta_z\):</p>
 
@@ -174,19 +175,19 @@ Let \( \vec{v_\theta} = rot_{\theta_{xy}}(\vec{v}) = rot_x(\theta_x, rot_z(\thet
  * Case is a wrapper class to store cases
  */</span>
 
-<span class="n">Ans</span> <span class="n">solveCase</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">){</span>
+<span class="n">Ans</span> <span class="nf">solveCase</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">){</span>
     <span class="n">Ans</span> <span class="n">ans</span><span class="p">;</span>
 
-    <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>		<span class="c1">// theta_x (in radians)
-</span>    <span class="kt">double</span> <span class="n">z</span> <span class="o">=</span> <span class="n">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">;</span>		<span class="c1">// theta_z (in radians)
-</span>    <span class="kt">double</span> <span class="n">thres</span> <span class="o">=</span> <span class="n">area</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span>	<span class="c1">// threshold area
-</span>    
+    <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>		<span class="c1">// theta_x (in radians)</span>
+    <span class="kt">double</span> <span class="n">z</span> <span class="o">=</span> <span class="n">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">;</span>		<span class="c1">// theta_z (in radians)</span>
+    <span class="kt">double</span> <span class="n">thres</span> <span class="o">=</span> <span class="n">area</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span>	<span class="c1">// threshold area</span>
+    
     <span class="k">if</span><span class="p">(</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span> <span class="o">&lt;</span> <span class="n">thres</span><span class="p">){</span>
-    	<span class="c1">// analytic soln for the points along horizontal arrow
-</span>        <span class="n">z</span> <span class="o">=</span> <span class="n">asin</span><span class="p">(</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="o">*</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span> 
+    	<span class="c1">// analytic soln for the points along horizontal arrow</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">asin</span><span class="p">(</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="o">*</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span> 
     <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-    	<span class="c1">// analytic soln for the points along vertical arrow
-</span>        <span class="kt">double</span> <span class="n">num</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="o">-</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="o">*</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    	<span class="c1">// analytic soln for the points along vertical arrow</span>
+        <span class="kt">double</span> <span class="n">num</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="o">-</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="o">*</span><span class="n">cs</span><span class="p">.</span><span class="n">A</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
         <span class="kt">double</span> <span class="n">denom</span> <span class="o">=</span> <span class="n">cs</span><span class="p">.</span><span class="n">A</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
         <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">atan</span><span class="p">(</span><span class="n">num</span><span class="o">/</span><span class="n">denom</span><span class="p">);</span>
     <span class="p">}</span>
@@ -194,13 +195,13 @@ Let \( \vec{v_\theta} = rot_{\theta_{xy}}(\vec{v}) = rot_x(\theta_x, rot_z(\thet
     <span class="kt">double</span> <span class="n">angleX</span> <span class="o">=</span> <span class="n">rad2deg</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
     <span class="kt">double</span> <span class="n">angleZ</span> <span class="o">=</span> <span class="n">rad2deg</span><span class="p">(</span><span class="n">z</span><span class="p">);</span>    
 
-    <span class="c1">// initialize face vectors
-</span>    <span class="n">Point</span> <span class="n">p1</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">);</span>
-    <span class="n">Point</span> <span class="n">p2</span><span class="p">(</span>  <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>   <span class="mi">0</span><span class="p">);</span>
-    <span class="n">Point</span> <span class="n">p3</span><span class="p">(</span>  <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+    <span class="c1">// initialize face vectors</span>
+    <span class="n">Point</span> <span class="nf">p1</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">);</span>
+    <span class="n">Point</span> <span class="nf">p2</span><span class="p">(</span>  <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>   <span class="mi">0</span><span class="p">);</span>
+    <span class="n">Point</span> <span class="nf">p3</span><span class="p">(</span>  <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
 
-    <span class="c1">// rotate face vectors
-</span>    <span class="n">ans</span><span class="p">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">p1</span><span class="p">);</span> 
+    <span class="c1">// rotate face vectors</span>
+    <span class="n">ans</span><span class="p">.</span><span class="n">p1</span> <span class="o">=</span> <span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">p1</span><span class="p">);</span> 
     <span class="n">ans</span><span class="p">.</span><span class="n">p2</span> <span class="o">=</span> <span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">p2</span><span class="p">);</span>
     <span class="n">ans</span><span class="p">.</span><span class="n">p3</span> <span class="o">=</span> <span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">p3</span><span class="p">);</span>
 
@@ -210,11 +211,11 @@ Let \( \vec{v_\theta} = rot_{\theta_{xy}}(\vec{v}) = rot_x(\theta_x, rot_z(\thet
 
 <p>And the helper functions are defined as following:</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">area</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="n">z</span><span class="p">){</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="nf">area</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="n">z</span><span class="p">){</span>
     <span class="k">return</span> <span class="n">abs</span><span class="p">(</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">+</span> <span class="n">abs</span><span class="p">(</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">+</span> <span class="n">abs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="n">Point</span> <span class="n">rotate</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="n">z</span><span class="p">,</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">p</span><span class="p">){</span>
+<span class="n">Point</span> <span class="nf">rotate</span><span class="p">(</span><span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="n">z</span><span class="p">,</span> <span class="n">Point</span><span class="o">&amp;</span> <span class="n">p</span><span class="p">){</span>
     <span class="n">Point</span> <span class="n">pr</span><span class="p">;</span>
     <span class="n">pr</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">z</span><span class="p">);</span>
     <span class="n">pr</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="n">p</span><span class="p">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>

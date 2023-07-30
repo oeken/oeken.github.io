@@ -2,23 +2,25 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Code Jam 2018: Saving the Universe Again | Onur Eken</title>
-<meta name="generator" content="Jekyll v3.6.3" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Code Jam 2018: Saving the Universe Again" />
 <meta name="author" content="Onur Eken" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A greedy approach to protect earth from aliens." />
 <meta property="og:description" content="A greedy approach to protect earth from aliens." />
-<link rel="canonical" href="https://oeken.github.io/saving-the-universe-again" />
-<meta property="og:url" content="https://oeken.github.io/saving-the-universe-again" />
+<link rel="canonical" href="http://localhost:4000/saving-the-universe-again" />
+<meta property="og:url" content="http://localhost:4000/saving-the-universe-again" />
 <meta property="og:site_name" content="Onur Eken" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-04-08T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Code Jam 2018: Saving the Universe Again" />
 <script type="application/ld+json">
-{"url":"https://oeken.github.io/saving-the-universe-again","headline":"Code Jam 2018: Saving the Universe Again","dateModified":"2018-04-08T00:00:00+02:00","datePublished":"2018-04-08T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/saving-the-universe-again"},"author":{"@type":"Person","name":"Onur Eken"},"description":"A greedy approach to protect earth from aliens.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Onur Eken"},"dateModified":"2018-04-08T00:00:00+02:00","datePublished":"2018-04-08T00:00:00+02:00","description":"A greedy approach to protect earth from aliens.","headline":"Code Jam 2018: Saving the Universe Again","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/saving-the-universe-again"},"url":"http://localhost:4000/saving-the-universe-again"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper header-wrapper"><!-- this is the title -->
@@ -69,31 +71,31 @@
 
 <p>Naming things got pretty easy in recent years. Another title of the form:</p>
 
-<p><code class="highlighter-rouge">&lt;verb&gt;ing the &lt;object&gt; great[optional] again!</code></p>
+<p><code class="language-plaintext highlighter-rouge">&lt;verb&gt;ing the &lt;object&gt; great[optional] again!</code></p>
 
 <p>Important observations about this problem are:</p>
 <ul>
-  <li>An exchange of adjacent letters that are both <code class="highlighter-rouge">S</code> is useless, since it does not reduce the total damage dealt to earth.</li>
-  <li>Given infinite number of <em>hacks</em> (a.k.a. exchange), it is always possible move all <code class="highlighter-rouge">S</code> to the very beginning (left hand-side) of the sequence.</li>
-  <li>Given a sequence, the damage dealt to earth would be minimal when all <code class="highlighter-rouge">S</code> are stacked to the very beginning of sequence. Giving damage of total number of <code class="highlighter-rouge">S</code> to earth.</li>
+  <li>An exchange of adjacent letters that are both <code class="language-plaintext highlighter-rouge">S</code> is useless, since it does not reduce the total damage dealt to earth.</li>
+  <li>Given infinite number of <em>hacks</em> (a.k.a. exchange), it is always possible move all <code class="language-plaintext highlighter-rouge">S</code> to the very beginning (left hand-side) of the sequence.</li>
+  <li>Given a sequence, the damage dealt to earth would be minimal when all <code class="language-plaintext highlighter-rouge">S</code> are stacked to the very beginning of sequence. Giving damage of total number of <code class="language-plaintext highlighter-rouge">S</code> to earth.</li>
 </ul>
 
 <h1 id="approach">Approach</h1>
 
-<p>Now we know what to do to check if it is possible or <code class="highlighter-rouge">IMPOSSIBLE</code> to protect earth given an attack sequence:</p>
+<p>Now we know what to do to check if it is possible or <code class="language-plaintext highlighter-rouge">IMPOSSIBLE</code> to protect earth given an attack sequence:</p>
 
 <ul>
-  <li>If number of <code class="highlighter-rouge">S</code> is less than or equal to <code class="highlighter-rouge">D</code> then <em>possible</em></li>
-  <li>Otherwise <code class="highlighter-rouge">IMPOSSIBLE</code></li>
+  <li>If number of <code class="language-plaintext highlighter-rouge">S</code> is less than or equal to <code class="language-plaintext highlighter-rouge">D</code> then <em>possible</em></li>
+  <li>Otherwise <code class="language-plaintext highlighter-rouge">IMPOSSIBLE</code></li>
 </ul>
 
 <p>Then… what should we do if it’s <em>possible</em> to protect the earth? How do we find the minimal number of hacks?</p>
 
-<p>We notice that a greedy algorithm could be used for finding it. Say, that the current damage dealt in the current state of the sequence is <code class="highlighter-rouge">V</code>, then we would like to reduce this attack damage by <code class="highlighter-rouge">GAP = V - D</code> in order to protect earth. If we shift the <strong>right-most</strong> <code class="highlighter-rouge">S</code> in the sequence, we are making progress at the greatest rate. Making progress at the greatest rate implies minimal number of <em>hacks</em>.</p>
+<p>We notice that a greedy algorithm could be used for finding it. Say, that the current damage dealt in the current state of the sequence is <code class="language-plaintext highlighter-rouge">V</code>, then we would like to reduce this attack damage by <code class="language-plaintext highlighter-rouge">GAP = V - D</code> in order to protect earth. If we shift the <strong>right-most</strong> <code class="language-plaintext highlighter-rouge">S</code> in the sequence, we are making progress at the greatest rate. Making progress at the greatest rate implies minimal number of <em>hacks</em>.</p>
 
-<p>What if the right-most <code class="highlighter-rouge">S</code> is preceded by another <code class="highlighter-rouge">S</code>?</p>
+<p>What if the right-most <code class="language-plaintext highlighter-rouge">S</code> is preceded by another <code class="language-plaintext highlighter-rouge">S</code>?</p>
 
-<p>Then doing a <em>hack</em> there would be useless. In that case we would like to find the <strong>right-most</strong> <code class="highlighter-rouge">S</code> <strong>that is preceded by a</strong> <code class="highlighter-rouge">C</code> and <em>hack</em> that one. Notice that each attack in a contiguous sequence of <code class="highlighter-rouge">S</code> deal same damage to earth.</p>
+<p>Then doing a <em>hack</em> there would be useless. In that case we would like to find the <strong>right-most</strong> <code class="language-plaintext highlighter-rouge">S</code> <strong>that is preceded by a</strong> <code class="language-plaintext highlighter-rouge">C</code> and <em>hack</em> that one. Notice that each attack in a contiguous sequence of <code class="language-plaintext highlighter-rouge">S</code> deal same damage to earth.</p>
 
 <h1 id="implementation">Implementation</h1>
 
@@ -107,26 +109,26 @@
 <span class="k">using</span> <span class="n">vint</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="k">using</span> <span class="n">vlong</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="n">Ans</span> <span class="n">solveCase</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">){</span>
+<span class="n">Ans</span> <span class="nf">solveCase</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">){</span>
     <span class="n">Ans</span> <span class="n">ans</span><span class="p">;</span> 
-    <span class="n">ans</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// -1 indicates IMPOSSIBLE
-</span>    <span class="c1">// make a pass in sequence
-</span>    <span class="n">vint</span> <span class="n">shootPos</span><span class="p">;</span>  <span class="c1">// stores positions of S
-</span>    <span class="n">vlong</span> <span class="n">shootVal</span><span class="p">;</span> <span class="c1">// stores damages of S
-</span>    <span class="kt">long</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>   <span class="c1">// damage at the current position
-</span>    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// stores total damage of sequence
-</span>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">cs</span><span class="p">.</span><span class="n">P</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">cs</span><span class="p">.</span><span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">'S'</span><span class="p">){</span> <span class="c1">// we have an S at this position
-</span>            <span class="n">shootPos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">ans</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// -1 indicates IMPOSSIBLE</span>
+    <span class="c1">// make a pass in sequence</span>
+    <span class="n">vint</span> <span class="n">shootPos</span><span class="p">;</span>  <span class="c1">// stores positions of S</span>
+    <span class="n">vlong</span> <span class="n">shootVal</span><span class="p">;</span> <span class="c1">// stores damages of S</span>
+    <span class="kt">long</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>   <span class="c1">// damage at the current position</span>
+    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// stores total damage of sequence</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">cs</span><span class="p">.</span><span class="n">P</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">cs</span><span class="p">.</span><span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">'S'</span><span class="p">){</span> <span class="c1">// we have an S at this position</span>
+            <span class="n">shootPos</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
             <span class="n">shootVal</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
             <span class="n">total</span> <span class="o">+=</span> <span class="n">val</span><span class="p">;</span>
-        <span class="p">}</span><span class="k">else</span><span class="p">{</span> <span class="c1">// we have a C at this position
-</span>            <span class="n">val</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span><span class="k">else</span><span class="p">{</span> <span class="c1">// we have a C at this position</span>
+            <span class="n">val</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="c1">// check if possible to protect earth
-</span>    <span class="k">if</span><span class="p">(</span><span class="n">shootPos</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">cs</span><span class="p">.</span><span class="n">D</span><span class="p">){</span> 
+    <span class="c1">// check if possible to protect earth</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">shootPos</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">cs</span><span class="p">.</span><span class="n">D</span><span class="p">){</span> 
         <span class="n">ans</span><span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">countHacks</span><span class="p">(</span><span class="n">shootPos</span><span class="p">,</span> <span class="n">shootVal</span><span class="p">,</span> <span class="n">total</span><span class="o">-</span><span class="n">cs</span><span class="p">.</span><span class="n">D</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
@@ -134,25 +136,25 @@
 </code></pre></div></div>
 
 <p>The following function is the critical one for this problem. It is possible to implement this in various ways.
-A sub-procedure of this function is to find the <strong>best fit</strong> <code class="highlighter-rouge">S</code> in the given the set of <code class="highlighter-rouge">S</code> with two properties <code class="highlighter-rouge">Position</code> and <code class="highlighter-rouge">Damage</code>. In such scenarios, one typically uses an Heap with custom comparator. Here instead, we chose to search it linearly, as the constraints were relaxed and implementation was simpler.</p>
+A sub-procedure of this function is to find the <strong>best fit</strong> <code class="language-plaintext highlighter-rouge">S</code> in the given the set of <code class="language-plaintext highlighter-rouge">S</code> with two properties <code class="language-plaintext highlighter-rouge">Position</code> and <code class="language-plaintext highlighter-rouge">Damage</code>. In such scenarios, one typically uses an Heap with custom comparator. Here instead, we chose to search it linearly, as the constraints were relaxed and implementation was simpler.</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">countHacks</span><span class="p">(</span><span class="n">vint</span> <span class="o">&amp;</span><span class="n">pos</span><span class="p">,</span> <span class="n">vlong</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">,</span> <span class="kt">long</span> <span class="n">gap</span><span class="p">){</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">countHacks</span><span class="p">(</span><span class="n">vint</span> <span class="o">&amp;</span><span class="n">pos</span><span class="p">,</span> <span class="n">vlong</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">,</span> <span class="kt">long</span> <span class="n">gap</span><span class="p">){</span>
     <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">while</span><span class="p">(</span><span class="n">gap</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span>
-        <span class="c1">// search linearly to find hack index
-</span>        <span class="kt">int</span> <span class="n">hackIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="c1">// search linearly to find hack index</span>
+        <span class="kt">int</span> <span class="n">hackIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
         <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">val</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">){</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">){</span> <span class="c1">// found
-</span>                <span class="n">hackIndex</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">){</span> <span class="c1">// found</span>
+                <span class="n">hackIndex</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
                 <span class="k">break</span><span class="p">;</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        <span class="c1">// hack it
-</span>        <span class="n">pos</span><span class="p">[</span><span class="n">hackIndex</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span> 	<span class="c1">// shift it to left
-</span>        <span class="n">val</span><span class="p">[</span><span class="n">hackIndex</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span> 	<span class="c1">// halve the damage
-</span>        <span class="n">gap</span> <span class="o">-=</span> <span class="n">val</span><span class="p">[</span><span class="n">hackIndex</span><span class="p">];</span> 	<span class="c1">// update gap
-</span>        <span class="n">count</span><span class="o">++</span><span class="p">;</span> 		<span class="c1">// increment hack count
-</span>    <span class="p">}</span>
+        <span class="c1">// hack it</span>
+        <span class="n">pos</span><span class="p">[</span><span class="n">hackIndex</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span> 	<span class="c1">// shift it to left</span>
+        <span class="n">val</span><span class="p">[</span><span class="n">hackIndex</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span> 	<span class="c1">// halve the damage</span>
+        <span class="n">gap</span> <span class="o">-=</span> <span class="n">val</span><span class="p">[</span><span class="n">hackIndex</span><span class="p">];</span> 	<span class="c1">// update gap</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span> 		<span class="c1">// increment hack count</span>
+    <span class="p">}</span>
     <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
