@@ -2,23 +2,25 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Intuition Behind Dijkstra’s SPA | Onur Eken</title>
-<meta name="generator" content="Jekyll v3.6.3" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Intuition Behind Dijkstra’s SPA" />
 <meta name="author" content="Onur Eken" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Examining a recursive formulation to solve single-source shortest path problems." />
 <meta property="og:description" content="Examining a recursive formulation to solve single-source shortest path problems." />
-<link rel="canonical" href="https://oeken.github.io/dijkstra-intuition" />
-<meta property="og:url" content="https://oeken.github.io/dijkstra-intuition" />
+<link rel="canonical" href="http://localhost:4000/dijkstra-intuition" />
+<meta property="og:url" content="http://localhost:4000/dijkstra-intuition" />
 <meta property="og:site_name" content="Onur Eken" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-05-09T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Intuition Behind Dijkstra’s SPA" />
 <script type="application/ld+json">
-{"url":"https://oeken.github.io/dijkstra-intuition","headline":"Intuition Behind Dijkstra’s SPA","dateModified":"2018-05-09T00:00:00+02:00","datePublished":"2018-05-09T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/dijkstra-intuition"},"author":{"@type":"Person","name":"Onur Eken"},"description":"Examining a recursive formulation to solve single-source shortest path problems.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Onur Eken"},"dateModified":"2018-05-09T00:00:00+02:00","datePublished":"2018-05-09T00:00:00+02:00","description":"Examining a recursive formulation to solve single-source shortest path problems.","headline":"Intuition Behind Dijkstra’s SPA","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/dijkstra-intuition"},"url":"http://localhost:4000/dijkstra-intuition"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper header-wrapper"><!-- this is the title -->
@@ -176,7 +178,7 @@ Let us call this sum <strong>d</strong>irect <strong>s</strong>hortest <strong>p
 
 <p>This recursive relation is easiest implemented by tabulation. Starting from the base case we grow the set \(K\) one node at a time. The following is the inefficient pseudocode describing the procedure.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input:  N, number of nodes
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input:  N, number of nodes
 	E, set of edges with weights
 	s, source node
 Output: cost, shortest path cost to each node

@@ -2,23 +2,25 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Cartooning Images | Onur Eken</title>
-<meta name="generator" content="Jekyll v3.6.3" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Cartooning Images" />
 <meta name="author" content="Onur Eken" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A variational approach to cartoonify RGB images." />
 <meta property="og:description" content="A variational approach to cartoonify RGB images." />
-<link rel="canonical" href="https://oeken.github.io/image-cartooning" />
-<meta property="og:url" content="https://oeken.github.io/image-cartooning" />
+<link rel="canonical" href="http://localhost:4000/image-cartooning" />
+<meta property="og:url" content="http://localhost:4000/image-cartooning" />
 <meta property="og:site_name" content="Onur Eken" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-05-20T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Cartooning Images" />
 <script type="application/ld+json">
-{"url":"https://oeken.github.io/image-cartooning","headline":"Cartooning Images","dateModified":"2018-05-20T00:00:00+02:00","datePublished":"2018-05-20T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/image-cartooning"},"author":{"@type":"Person","name":"Onur Eken"},"description":"A variational approach to cartoonify RGB images.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Onur Eken"},"dateModified":"2018-05-20T00:00:00+02:00","datePublished":"2018-05-20T00:00:00+02:00","description":"A variational approach to cartoonify RGB images.","headline":"Cartooning Images","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/image-cartooning"},"url":"http://localhost:4000/image-cartooning"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper header-wrapper"><!-- this is the title -->
@@ -91,17 +93,16 @@
 
 <p>For our problem, we will follow the above-mentioned steps as well. In fact, we are going to skip the first step and directly specify a convex error function and optimize it using projected gradient descent. In our case, the observed variables are the RGB values of the pixels and the hidden variables are the cartoonified RGB values of the pixels. Typically, error functions consist of multiple terms enforcing different characteristics for the hidden variables. For this problem, we will use two terms, a <strong>data term</strong> and a <strong>regularizer term</strong>.</p>
 
-<script type="math/tex; mode=display">E =  E_{Data} + E_{Reg}</script>
+\[E =  E_{Data} + E_{Reg}\]
 
 <h4 id="data-term">Data Term</h4>
 
 <p>This term usually measures a dissimilarity between the input/observed-variables and the output/hidden-variables, thus enforcing a similarity between. In our case, it implies that <em>the cartoonified image should to look similar to the input image</em>. We define it as the following:</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{align}
-E_{Data} &=  tr(U^T F) \\
-         &=  u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}
-\end{align} %]]></script>
+\[\begin{align}
+E_{Data} &amp;=  tr(U^T F) \\
+         &amp;=  u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}
+\end{align}\]
 
 <blockquote>
   <ul>
@@ -175,7 +176,7 @@ E_{Data} &=  tr(U^T F) \\
 
 <p>This term usually measures the variance or extremity of output/hidden-variables, thus enforcing a smoothness. In our case, it implies that <em>the cartoonified image should consist of large intact regions</em>. We define it as the following:</p>
 
-<script type="math/tex; mode=display">E_{Reg} =  \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2</script>
+\[E_{Reg} =  \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2\]
 
 <blockquote>
   <ul>
@@ -189,7 +190,7 @@ E_{Data} &=  tr(U^T F) \\
 
 <h1 id="approach">Approach</h1>
 
-<script type="math/tex; mode=display">E = tr(U^T F) + \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2_2</script>
+\[E = tr(U^T F) + \frac{\alpha}{2} \sum_{i=1}^{k} \| DU_{i:} \|^2_2\]
 
 <p>We will optimize the error function using gradient descent. The catch here is that we do not want to violate the constraints laid out for columns of \(U\). They must stay in the set of \(k\)-dimensional <a href="https://en.wikipedia.org/wiki/Simplex" target="_blank"><strong>simplex</strong></a>. Therefore after update step, we use a sub-procedure described in [1] to project each row back to \(k\)-dimensional simplex. The details of this algorithm are again beyond the intention of this post.</p>
 
@@ -197,22 +198,21 @@ E_{Data} &=  tr(U^T F) \\
 
 <p><strong>Data term:</strong> The gradient due to this term is very straightforward:</p>
 
-<script type="math/tex; mode=display">E_{Data} = u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}</script>
+\[E_{Data} = u_{11}f_{11} + u_{12}f_{12} + ... + u_{kn}f_{kn}\]
 
-<script type="math/tex; mode=display">% <![CDATA[
-\frac{dE_{Data}}{dU} = \begin{bmatrix} 
-                          \frac{\partial E_{Data}}{\partial u_{11}} & \frac{\partial E_{Data}}{\partial u_{12}} & \dots \\
-                          \vdots & \ddots & \\
-                          \frac{\partial E_{Data}}{\partial u_{k1}} &   & \frac{\partial E_{Data}}{\partial u_{kn}}
+\[\frac{dE_{Data}}{dU} = \begin{bmatrix} 
+                          \frac{\partial E_{Data}}{\partial u_{11}} &amp; \frac{\partial E_{Data}}{\partial u_{12}} &amp; \dots \\
+                          \vdots &amp; \ddots &amp; \\
+                          \frac{\partial E_{Data}}{\partial u_{k1}} &amp;   &amp; \frac{\partial E_{Data}}{\partial u_{kn}}
                         \end{bmatrix}
 
                       = \begin{bmatrix} 
-                          f_{11} & f_{12} & \dots \\
-                          \vdots & \ddots & \\
-                          f_{k1} &   & f_{kn}
+                          f_{11} &amp; f_{12} &amp; \dots \\
+                          \vdots &amp; \ddots &amp; \\
+                          f_{k1} &amp;   &amp; f_{kn}
                         \end{bmatrix}
 
-                      = F %]]></script>
+                      = F\]
 
 <p><strong>Regularizer term:</strong> Before computing this, let’s declare two well known derivating rules when we deal with vectors and matrices.</p>
 
@@ -237,52 +237,51 @@ E_{Data} &=  tr(U^T F) \\
 
 <p>Let’s unfold the summation in the regularizer term:</p>
 
-<script type="math/tex; mode=display">E_{Reg} = \frac{\alpha}{2} [\|DU_{:1}\|^2 + \|DU_{:2}\|^2 + ... + \|DU_{:k}\|^2]</script>
+\[E_{Reg} = \frac{\alpha}{2} [\|DU_{:1}\|^2 + \|DU_{:2}\|^2 + ... + \|DU_{:k}\|^2]\]
 
 <p>We know that \(\frac{d E_{Reg}}{d U} \in \mathbb{R}^{kxn} \). Consider the first term in this series and notice that it is contributing only to the first row of \(\frac{d E_{Reg}}{d U}\). The same is true for other terms, every term is contributing only to their correspondent row. Therefore we can compute each row independently, for example, consider the gradient of the first term.</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-D \in \mathbb{R}^{2nxn} \text{ and } U_{:i} \in \mathbb{R}^{n} \\
+\[D \in \mathbb{R}^{2nxn} \text{ and } U_{:i} \in \mathbb{R}^{n} \\
 
 \begin{align}
-\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &=  \alpha \|DU_{:1}\| \frac{d(\|DU_{:1}|\|)}{U_{:1}} \\
+\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &amp;=  \alpha \|DU_{:1}\| \frac{d(\|DU_{:1}|\|)}{U_{:1}} \\
 
-\frac{d(\|DU_{:1}|\|)}{U_{:1}} &= \frac{d (\|DU_{:1}\|)}{d (DU_{:1})}  \frac{d (DU_{:1})}{d U_{:1}} \textit{ (chain rule)} \\
+\frac{d(\|DU_{:1}|\|)}{U_{:1}} &amp;= \frac{d (\|DU_{:1}\|)}{d (DU_{:1})}  \frac{d (DU_{:1})}{d U_{:1}} \textit{ (chain rule)} \\
 
-                               &= \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \textit{ (plug-in)} \\
+                               &amp;= \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \textit{ (plug-in)} \\
 
-\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &=  \alpha \|DU_{:1}\| \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \\
-                                                   &= \alpha U_{:1}^T D^T D  
+\frac{d (\frac{\alpha}{2} \|DU_{:1}\|^2)}{dU_{:1}} &amp;=  \alpha \|DU_{:1}\| \frac{ (DU_{:1})^T }{\|DU_{:1}\|}  D \\
+                                                   &amp;= \alpha U_{:1}^T D^T D  
 
  
-\end{align} %]]></script>
+\end{align}\]
 
 <p>Applying same operations to the other terms, we get the following equality:</p>
 
-<script type="math/tex; mode=display">\frac{dE_{Reg}}{dU} = \alpha \begin{bmatrix} 
+\[\frac{dE_{Reg}}{dU} = \alpha \begin{bmatrix} 
                                 U_{1:}^T D^T D\\
                                 U_{2:}^T D^T D\\
                                 \vdots\\
                                 U_{k:}^T D^T D\\
-                               \end{bmatrix}</script>
+                               \end{bmatrix}\]
 
 <p>Combining the gradient of the data-term and the of regularizer term, we get the complete gradient.</p>
 
-<script type="math/tex; mode=display">\frac{dE}{dU} = F + \alpha \begin{bmatrix} 
+\[\frac{dE}{dU} = F + \alpha \begin{bmatrix} 
     U_{1:}^T D^T D\\
     U_{2:}^T D^T D\\
     \vdots\\
     U_{k:}^T D^T D\\
- \end{bmatrix}</script>
+ \end{bmatrix}\]
 
 <p>The following code computes the gradient as described:</p>
 
 <div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">grad</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="nb">alpha</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
     <span class="n">grad1</span> <span class="o">=</span> <span class="n">F</span><span class="p">;</span>    
     <span class="n">grad2</span> <span class="o">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
-    <span class="k">for</span> <span class="nb">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span>
-        <span class="n">Du</span> <span class="o">=</span> <span class="n">D</span><span class="o">*</span><span class="n">U</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span><span class="o">'</span><span class="p">;</span>        
-        <span class="n">grad2</span><span class="p">(</span><span class="nb">i</span><span class="p">,:)</span> <span class="o">=</span> <span class="n">Du</span><span class="o">'</span> <span class="o">*</span> <span class="n">D</span><span class="p">;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span>
+        <span class="n">Du</span> <span class="o">=</span> <span class="n">D</span><span class="o">*</span><span class="n">U</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span><span class="o">'</span><span class="p">;</span>        
+        <span class="n">grad2</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span> <span class="o">=</span> <span class="n">Du</span><span class="o">'</span> <span class="o">*</span> <span class="n">D</span><span class="p">;</span>
     <span class="k">end</span>    
     <span class="n">grad</span> <span class="o">=</span> <span class="n">grad1</span> <span class="o">+</span> <span class="nb">alpha</span> <span class="o">*</span> <span class="n">grad2</span><span class="p">;</span>
 <span class="k">end</span>
@@ -330,7 +329,7 @@ Again there is no single answer to this. Some approaches could be:</p>
 <span class="n">U</span> <span class="o">=</span> <span class="n">random_init_u</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
 
 <span class="c1">% update until convergence</span>
-<span class="k">for</span> <span class="nb">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">max_iter</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">max_iter</span>
     <span class="n">U_prev</span> <span class="o">=</span> <span class="n">U</span><span class="p">;</span>    
     <span class="n">grad</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="nb">alpha</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>
     <span class="n">U</span> <span class="o">=</span> <span class="n">U</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">;</span>

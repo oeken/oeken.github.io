@@ -2,23 +2,25 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Code Jam 2018: Trouble Sort | Onur Eken</title>
-<meta name="generator" content="Jekyll v3.6.3" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Code Jam 2018: Trouble Sort" />
 <meta name="author" content="Onur Eken" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Bubble sort: done wrong." />
 <meta property="og:description" content="Bubble sort: done wrong." />
-<link rel="canonical" href="https://oeken.github.io/trouble-sort" />
-<meta property="og:url" content="https://oeken.github.io/trouble-sort" />
+<link rel="canonical" href="http://localhost:4000/trouble-sort" />
+<meta property="og:url" content="http://localhost:4000/trouble-sort" />
 <meta property="og:site_name" content="Onur Eken" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-04-09T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Code Jam 2018: Trouble Sort" />
 <script type="application/ld+json">
-{"url":"https://oeken.github.io/trouble-sort","headline":"Code Jam 2018: Trouble Sort","dateModified":"2018-04-09T00:00:00+02:00","datePublished":"2018-04-09T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/trouble-sort"},"author":{"@type":"Person","name":"Onur Eken"},"description":"Bubble sort: done wrong.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Onur Eken"},"dateModified":"2018-04-09T00:00:00+02:00","datePublished":"2018-04-09T00:00:00+02:00","description":"Bubble sort: done wrong.","headline":"Code Jam 2018: Trouble Sort","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/trouble-sort"},"url":"http://localhost:4000/trouble-sort"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper header-wrapper"><!-- this is the title -->
@@ -72,7 +74,7 @@
 <ul>
   <li>Run the trouble sort</li>
   <li>Pass over the array to detect an <em>anomaly</em></li>
-  <li>If there is no <em>anomaly</em> then output <code class="highlighter-rouge">OK</code></li>
+  <li>If there is no <em>anomaly</em> then output <code class="language-plaintext highlighter-rouge">OK</code></li>
   <li>Otherwise, output index of <em>anomaly</em></li>
 </ul>
 
@@ -117,19 +119,19 @@
 
 <span class="k">using</span> <span class="n">vlong</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="n">Ans</span> <span class="n">solveCase</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">){</span>
+<span class="n">Ans</span> <span class="nf">solveCase</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">){</span>
     <span class="n">Ans</span> <span class="n">ans</span><span class="p">;</span>
-    <span class="n">ans</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// -1 indicates 'no anomaly', assume initially
-</span>
+    <span class="n">ans</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// -1 indicates 'no anomaly', assume initially</span>
+
     <span class="n">vlong</span> <span class="n">even</span><span class="p">;</span>
     <span class="n">vlong</span> <span class="n">odd</span><span class="p">;</span>
     <span class="n">extract</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">even</span><span class="p">,</span> <span class="n">odd</span><span class="p">);</span>
 
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">odd</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span> <span class="c1">// the alternating pass
-</span>        <span class="k">if</span><span class="p">(</span><span class="n">odd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;</span><span class="n">even</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">odd</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span> <span class="c1">// the alternating pass</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">odd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;</span><span class="n">even</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
             <span class="n">ans</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
             <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">even</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">even</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">odd</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>            
+        <span class="p">}</span><span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">even</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">even</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">odd</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>            
             <span class="n">ans</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
             <span class="k">break</span><span class="p">;</span>
         <span class="p">}</span>
@@ -146,7 +148,7 @@
 
 <p>The last piece of this implementation is the following straightforward function to extract the <em>even</em> and <em>odd</em> arrays.</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">extract</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">,</span> <span class="n">vlong</span><span class="o">&amp;</span> <span class="n">even</span><span class="p">,</span> <span class="n">vlong</span><span class="o">&amp;</span> <span class="n">odd</span><span class="p">){</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">extract</span><span class="p">(</span><span class="n">Case</span> <span class="o">&amp;</span><span class="n">cs</span><span class="p">,</span> <span class="n">vlong</span><span class="o">&amp;</span> <span class="n">even</span><span class="p">,</span> <span class="n">vlong</span><span class="o">&amp;</span> <span class="n">odd</span><span class="p">){</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cs</span><span class="p">.</span><span class="n">V</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="mi">2</span><span class="p">){</span>
             <span class="n">odd</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">cs</span><span class="p">.</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
