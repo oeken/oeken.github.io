@@ -2,23 +2,25 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Insaat 3D Reconstructor goes live | Onur Eken</title>
-<meta name="generator" content="Jekyll v3.6.3" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Insaat 3D Reconstructor goes live" />
 <meta name="author" content="Onur Eken" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A cloud native application that can reconstruct 3D models from images." />
 <meta property="og:description" content="A cloud native application that can reconstruct 3D models from images." />
-<link rel="canonical" href="https://oeken.github.io/insaat-3d-reconstructor-goes-live" />
-<meta property="og:url" content="https://oeken.github.io/insaat-3d-reconstructor-goes-live" />
+<link rel="canonical" href="http://localhost:4000/insaat-3d-reconstructor-goes-live" />
+<meta property="og:url" content="http://localhost:4000/insaat-3d-reconstructor-goes-live" />
 <meta property="og:site_name" content="Onur Eken" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-03-10T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Insaat 3D Reconstructor goes live" />
 <script type="application/ld+json">
-{"url":"https://oeken.github.io/insaat-3d-reconstructor-goes-live","headline":"Insaat 3D Reconstructor goes live","dateModified":"2022-03-10T00:00:00+01:00","datePublished":"2022-03-10T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/insaat-3d-reconstructor-goes-live"},"author":{"@type":"Person","name":"Onur Eken"},"description":"A cloud native application that can reconstruct 3D models from images.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Onur Eken"},"dateModified":"2022-03-10T00:00:00+01:00","datePublished":"2022-03-10T00:00:00+01:00","description":"A cloud native application that can reconstruct 3D models from images.","headline":"Insaat 3D Reconstructor goes live","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/insaat-3d-reconstructor-goes-live"},"url":"http://localhost:4000/insaat-3d-reconstructor-goes-live"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper header-wrapper"><!-- this is the title -->
@@ -94,7 +96,7 @@
 
 <h1 id="technical-overview">Technical Overview</h1>
 
-<p>Insaat follows a microservices-style architecture consisting of 3 stateless components: <code class="highlighter-rouge">webapp</code>, <code class="highlighter-rouge">backend</code>, <code class="highlighter-rouge">compute</code>.</p>
+<p>Insaat follows a microservices-style architecture consisting of 3 stateless components: <code class="language-plaintext highlighter-rouge">webapp</code>, <code class="language-plaintext highlighter-rouge">backend</code>, <code class="language-plaintext highlighter-rouge">compute</code>.</p>
 
 <center>
     <figure style="display:inline-block;">
@@ -105,7 +107,7 @@
 </center>
 <p><br /></p>
 
-<p>The <code class="highlighter-rouge">webapp</code> delivers a single-page application (SPA) written in Angular. This browser client talks to the <code class="highlighter-rouge">backend</code> to perform authentication, fetch data, and create new reconstruction requests. These requests reach <code class="highlighter-rouge">compute</code> via the message broker, and as the name implies, <code class="highlighter-rouge">compute</code> does the heavy lifting by using the OpenMVG complete photogrammetry pipeline. Then, <code class="highlighter-rouge">compute</code> publishes the result at the message broker. Throughout the process, binary large objects such as images and models are stored in and served from an AWS S3 bucket.</p>
+<p>The <code class="language-plaintext highlighter-rouge">webapp</code> delivers a single-page application (SPA) written in Angular. This browser client talks to the <code class="language-plaintext highlighter-rouge">backend</code> to perform authentication, fetch data, and create new reconstruction requests. These requests reach <code class="language-plaintext highlighter-rouge">compute</code> via the message broker, and as the name implies, <code class="language-plaintext highlighter-rouge">compute</code> does the heavy lifting by using the OpenMVG complete photogrammetry pipeline. Then, <code class="language-plaintext highlighter-rouge">compute</code> publishes the result at the message broker. Throughout the process, binary large objects such as images and models are stored in and served from an AWS S3 bucket.</p>
 
 <h1 id="challenges">Challenges</h1>
 
@@ -115,15 +117,15 @@
 
 <h4 id="2-building-for-cloud-servers">2. Building for Cloud Servers</h4>
 
-<p>Another similar issue I encountered during the development of Insaat was due to the environment difference between the CI/CD server and the cloud servers. Initially, I built the OpenMVG binaries on the CI/CD machine. Even though the target OS and the architecture (<code class="highlighter-rouge">Linux - amd64</code>) matched with the cloud server machine, running the binaries in the cloud would result in a segmentation fault. After some debugging, I found out that the processor in the CI/CD machine included some of the extended SIMD instructions (e.g. AVX-512) which the cloud server did not support. Therefore running those binaries in the cloud server failed since the instructions were not found. I resolved this problem by building the binaries on the cloud server itself.</p>
+<p>Another similar issue I encountered during the development of Insaat was due to the environment difference between the CI/CD server and the cloud servers. Initially, I built the OpenMVG binaries on the CI/CD machine. Even though the target OS and the architecture (<code class="language-plaintext highlighter-rouge">Linux - amd64</code>) matched with the cloud server machine, running the binaries in the cloud would result in a segmentation fault. After some debugging, I found out that the processor in the CI/CD machine included some of the extended SIMD instructions (e.g. AVX-512) which the cloud server did not support. Therefore running those binaries in the cloud server failed since the instructions were not found. I resolved this problem by building the binaries on the cloud server itself.</p>
 
 <h4 id="3-graceful-compute-service-deployments">3. Graceful Compute Service Deployments</h4>
 
-<p>I use Kubernetes’ Deployment resource to roll out new versions of the applications. However, during my tests, I noticed that a roll-out of a new <code class="highlighter-rouge">compute</code> service would result in lost reconstruction tasks if they were in progress. Which makes a lot of sense because when a <code class="highlighter-rouge">SIGINT</code> signal is sent to the containers in the terminating pods, <code class="highlighter-rouge">compute</code> service only aborts the child processes and gracefully shuts down. However, it did not have any logic to persist the reconstruction tasks. In the next iteration, I implemented an improved graceful shutdown where the <code class="highlighter-rouge">compute</code> service publishes the incomplete reconstruction tasks back to the message queue so that they can be later picked up by the next <code class="highlighter-rouge">compute</code> service that will go love and connect to the message queue. It works smoothly in practice.</p>
+<p>I use Kubernetes’ Deployment resource to roll out new versions of the applications. However, during my tests, I noticed that a roll-out of a new <code class="language-plaintext highlighter-rouge">compute</code> service would result in lost reconstruction tasks if they were in progress. Which makes a lot of sense because when a <code class="language-plaintext highlighter-rouge">SIGINT</code> signal is sent to the containers in the terminating pods, <code class="language-plaintext highlighter-rouge">compute</code> service only aborts the child processes and gracefully shuts down. However, it did not have any logic to persist the reconstruction tasks. In the next iteration, I implemented an improved graceful shutdown where the <code class="language-plaintext highlighter-rouge">compute</code> service publishes the incomplete reconstruction tasks back to the message queue so that they can be later picked up by the next <code class="language-plaintext highlighter-rouge">compute</code> service that will go love and connect to the message queue. It works smoothly in practice.</p>
 
 <h4 id="4-going-low-on-memory">4. Going Low on Memory</h4>
 
-<p>After I got everything working well on my computer I was excited… So with high hopes, I went ahead and did my first reconstruction test on the cloud server. The result? <code class="highlighter-rouge">compute</code> pod is killed due to out of memory. Well… after some investigation, I figured out that it never happened on my computer since it uses <strong>swap memory</strong>. Kubernetes pods? Not really. Allowing swap memory is a feature that is recently introduced in <code class="highlighter-rouge">kubelet</code>. While enabling swap could be a solution, I preferred a simpler one. Two ideas to reduce memory consumption:</p>
+<p>After I got everything working well on my computer I was excited… So with high hopes, I went ahead and did my first reconstruction test on the cloud server. The result? <code class="language-plaintext highlighter-rouge">compute</code> pod is killed due to out of memory. Well… after some investigation, I figured out that it never happened on my computer since it uses <strong>swap memory</strong>. Kubernetes pods? Not really. Allowing swap memory is a feature that is recently introduced in <code class="language-plaintext highlighter-rouge">kubelet</code>. While enabling swap could be a solution, I preferred a simpler one. Two ideas to reduce memory consumption:</p>
 
 <ul>
   <li>Limit the number of concurrent reconstruction tasks</li>

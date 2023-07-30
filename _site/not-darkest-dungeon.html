@@ -2,23 +2,25 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Not Darkest Dungeon | Onur Eken</title>
-<meta name="generator" content="Jekyll v3.6.3" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Not Darkest Dungeon" />
 <meta name="author" content="Onur Eken" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Finding the way out for your flawed heroes." />
 <meta property="og:description" content="Finding the way out for your flawed heroes." />
-<link rel="canonical" href="https://oeken.github.io/not-darkest-dungeon" />
-<meta property="og:url" content="https://oeken.github.io/not-darkest-dungeon" />
+<link rel="canonical" href="http://localhost:4000/not-darkest-dungeon" />
+<meta property="og:url" content="http://localhost:4000/not-darkest-dungeon" />
 <meta property="og:site_name" content="Onur Eken" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-04-27T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Not Darkest Dungeon" />
 <script type="application/ld+json">
-{"url":"https://oeken.github.io/not-darkest-dungeon","headline":"Not Darkest Dungeon","dateModified":"2019-04-27T00:00:00+02:00","datePublished":"2019-04-27T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://oeken.github.io/not-darkest-dungeon"},"author":{"@type":"Person","name":"Onur Eken"},"description":"Finding the way out for your flawed heroes.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Onur Eken"},"dateModified":"2019-04-27T00:00:00+02:00","datePublished":"2019-04-27T00:00:00+02:00","description":"Finding the way out for your flawed heroes.","headline":"Not Darkest Dungeon","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/not-darkest-dungeon"},"url":"http://localhost:4000/not-darkest-dungeon"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://oeken.github.io/feed.xml" title="Onur Eken" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Onur Eken" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper header-wrapper"><!-- this is the title -->
@@ -102,12 +104,11 @@ For this reason, in this kind of dungeon campaigns, it is almost always a good i
 
 <p>Let \(f(r, S)\) be the function computing the cost of the optimal path on a given map starting from room \(r\) with the given exploration state \(S\). We can define it recursively as:</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-f(r,S) = 
+\[f(r,S) = 
     \begin{cases} 
-        0 & S = 1 \\
-        \min_{k \in \mathcal{N}(r)} \{ f(k, S_k) \} & otherwise
-    \end{cases} %]]></script>
+        0 &amp; S = 1 \\
+        \min_{k \in \mathcal{N}(r)} \{ f(k, S_k) \} &amp; otherwise
+    \end{cases}\]
 
 <p>And notation clarifications…</p>
 <blockquote>
@@ -155,55 +156,55 @@ f(r,S) =
 <p>Following edges that lead to <strong>red</strong> nodes would always add redundant costs to the solutions (assuming positive costs) to be explored in the recursion tree. Therefore with an implementation trick, we can detect the loop inducing nodes and never visit those. We have a total of \(N * 2^N\) nodes, therefore worst-case time complexity of this approach would be \(O(N * 2^N)\), where \(N\) represents the total number of rooms in the map. Furthermore, the function we defined calculates the optimal cost but not the path itself. To reconstruct the optimal path, a tailored implementation is needed. See below the critical parts from the full implementation to get an overview of the algorithm.</p>
 
 <!-- code -->
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Graph</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>      <span class="c1">// number of nodes
-</span>    <span class="kt">int</span> <span class="n">e</span><span class="p">;</span>      <span class="c1">// number of edges
-</span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">adjList</span><span class="p">;</span>    <span class="c1">// adj list
-</span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">adjMat</span><span class="p">;</span>    <span class="c1">// adj matrix
-</span><span class="p">};</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">Graph</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>      <span class="c1">// number of nodes</span>
+    <span class="kt">int</span> <span class="n">e</span><span class="p">;</span>      <span class="c1">// number of edges</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">adjList</span><span class="p">;</span>    <span class="c1">// adj list</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">adjMat</span><span class="p">;</span>    <span class="c1">// adj matrix</span>
+<span class="p">};</span>
 
-<span class="k">struct</span> <span class="n">DDPath</span> <span class="p">{</span>
+<span class="k">struct</span> <span class="nc">DDPath</span> <span class="p">{</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">seq</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">cost</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DDPath</span> <span class="n">searchDDPath</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">G</span><span class="p">,</span> <span class="kt">int</span> <span class="n">node</span><span class="p">){</span>
-    <span class="c1">// initialize
-</span>    <span class="n">DDPath</span> <span class="n">path</span><span class="p">;</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DDPath</span> <span class="nf">searchDDPath</span><span class="p">(</span><span class="n">Graph</span><span class="o">&amp;</span> <span class="n">G</span><span class="p">,</span> <span class="kt">int</span> <span class="n">node</span><span class="p">){</span>
+    <span class="c1">// initialize</span>
+    <span class="n">DDPath</span> <span class="n">path</span><span class="p">;</span>
     <span class="n">uint</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">setBit</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">node</span><span class="p">);</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">uint</span><span class="o">&gt;&gt;</span> <span class="n">inQuery</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">);</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="n">uint</span><span class="o">&gt;&gt;</span> <span class="n">dpCost</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">);</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">dpNext</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">);</span>
 
-    <span class="c1">// run recursive algorithm
-</span>    <span class="n">searchDDPathUtil</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dpCost</span><span class="p">,</span> <span class="n">dpNext</span><span class="p">,</span> <span class="n">inQuery</span><span class="p">);</span>
+    <span class="c1">// run recursive algorithm</span>
+    <span class="n">searchDDPathUtil</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">dpCost</span><span class="p">,</span> <span class="n">dpNext</span><span class="p">,</span> <span class="n">inQuery</span><span class="p">);</span>
 
-    <span class="c1">// save and return
-</span>    <span class="n">path</span><span class="p">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="n">v</span><span class="p">];</span>
+    <span class="c1">// save and return</span>
+    <span class="n">path</span><span class="p">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="n">v</span><span class="p">];</span>
     <span class="n">path</span><span class="p">.</span><span class="n">seq</span> <span class="o">=</span> <span class="n">reconstructSequence</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">dpNext</span><span class="p">);</span>
     <span class="k">return</span> <span class="n">path</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">searchDDPathUtil</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">uint</span> <span class="n">v</span><span class="p">,</span> <span class="n">Graph</span><span class="o">&amp;</span> <span class="n">G</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="n">uint</span><span class="o">&gt;&gt;&amp;</span> <span class="n">dpCost</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">dpNext</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">uint</span><span class="o">&gt;&gt;&amp;</span> <span class="n">inQuery</span><span class="p">){</span>
-    <span class="c1">// base case
-</span>    <span class="k">if</span><span class="p">(</span><span class="n">isFull</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">)){</span> <span class="c1">// search completed
-</span>        <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span> <span class="c1">// cost of the path
-</span>        <span class="n">dpNext</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span> <span class="c1">// end of the path
-</span>        <span class="k">return</span><span class="p">;</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">searchDDPathUtil</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">uint</span> <span class="n">v</span><span class="p">,</span> <span class="n">Graph</span><span class="o">&amp;</span> <span class="n">G</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="n">uint</span><span class="o">&gt;&gt;&amp;</span> <span class="n">dpCost</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uint</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">dpNext</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">unordered_set</span><span class="o">&lt;</span><span class="n">uint</span><span class="o">&gt;&gt;&amp;</span> <span class="n">inQuery</span><span class="p">){</span>
+    <span class="c1">// base case</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">isFull</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">G</span><span class="p">.</span><span class="n">n</span><span class="p">)){</span> <span class="c1">// search completed</span>
+        <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span> <span class="c1">// cost of the path</span>
+        <span class="n">dpNext</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span> <span class="c1">// end of the path</span>
+        <span class="k">return</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">()){</span> <span class="c1">// loop detected
-</span>        <span class="k">return</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">()){</span> <span class="c1">// loop detected</span>
+        <span class="k">return</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">()){</span> <span class="c1">// already calculated
-</span>        <span class="k">return</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">()){</span> <span class="c1">// already calculated</span>
+        <span class="k">return</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="c1">// recurse
-</span>    <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="c1">// mark this node as in query
-</span>
+    <span class="c1">// recurse</span>
+    <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="c1">// mark this node as in query</span>
+
     <span class="kt">int</span> <span class="n">bestTrg</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">bestTrgCost</span> <span class="o">=</span> <span class="n">INT_MAX</span><span class="p">;</span>
     <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">trg</span><span class="o">:</span> <span class="n">G</span><span class="p">.</span><span class="n">adjList</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
@@ -219,8 +220,8 @@ f(r,S) =
     <span class="n">dpCost</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">cost</span><span class="p">));</span>
     <span class="n">dpNext</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">bestTrg</span><span class="p">));</span>
 
-    <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">erase</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="c1">// unmark this node as in query
-</span><span class="p">}</span>
+    <span class="n">inQuery</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">erase</span><span class="p">(</span><span class="n">v</span><span class="p">);</span> <span class="c1">// unmark this node as in query</span>
+<span class="p">}</span>
 </code></pre></div></div>
 
 <!-- extensions -->
